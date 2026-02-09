@@ -173,6 +173,44 @@ $(document).ready(function () {
         });
         ;
     });
+    $(document).ready(function() {
+        $('#logoutBtn').on('click', function(e) {
+            e.preventDefault();
+            let url = $(this).attr('href');
+            
+            Swal.fire({
+                title: 'Xác nhận đăng xuất?',
+                text: "Bạn có chắc chắn muốn đăng xuất?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đăng xuất',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        success: function(res) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: res.message,
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                window.location.href = res.redirect;
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire('Lỗi!', 'Có lỗi xảy ra khi đăng xuất', 'error');
+                        }
+                    });
+                }
+            });
+        });
+    });
 
 
 });

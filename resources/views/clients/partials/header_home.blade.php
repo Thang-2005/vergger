@@ -166,8 +166,11 @@
                                     <li>
                                         <a href="#"><i class="icon-user"></i></a>
                                         <ul>
-                                            <li><a href="login.html">Đăng nhập</a></li>
-                                            <li><a href="register.html">Đăng kí</a></li>
+                                            <li><a href="{{route('login')}}">Đăng nhập</a></li>
+                                            <!-- <li><a href="{{route('logout.customer')}}" >Đăng xuất</a></li> -->
+                                            <!-- Trong file blade -->
+                                            <li><a href="{{ route('logout.customer') }}" id="logoutBtn">Đăng xuất</a></li>
+
                                             <li><a href="account.html">Tài khoản</a></li>
                                             <li><a href="wishlist.html">Yêu thích</a></li>
                                         </ul>
