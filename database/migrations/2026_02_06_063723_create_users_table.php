@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('status', ['pending','active', 'banned','deleted'])->default('pending');
-            $table->string('phone_number');
+            $table->string('phone_number')->nullable();
             $table->string('avatar')->nullable();
             $table->string('address')->nullable();
             $table->string('activation_token')->nullable();

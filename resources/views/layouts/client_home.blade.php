@@ -7,6 +7,8 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Place favicon.png in the root directory -->
     <link rel="shortcut icon" href="{{asset('asset/client/img/favicon.png')}}" type="image/x-icon" />
@@ -23,13 +25,13 @@
 <body>
    
     <div class="body-wrapper">
-    @include('clients.partials.header_home')
+    @include('clients.partials.header')
 
     <main>
         @yield('content')
     </main>
 
-    @include('clients.partials.footer_home')
+    @include('clients.partials.footer')
 
         
     </div>
@@ -46,6 +48,10 @@
     <script src="{{asset('asset/client/js/plugins.js')}}"></script>
     <!-- Main JS -->
     <script src="{{asset('asset/client/js/main.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
 
 </body>
 

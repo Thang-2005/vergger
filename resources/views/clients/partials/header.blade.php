@@ -10,7 +10,7 @@
                 <div class="mini-cart-product-area ltn__scrollbar">
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-img">
-                            <a href="#"><img src="img/product/1.png" alt="Image"></a>
+                            <a href="#"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Image"></a>
                             <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
                         </div>
                         <div class="mini-cart-info">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-img">
-                            <a href="#"><img src="img/product/2.png" alt="Image"></a>
+                            <a href="#"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Image"></a>
                             <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
                         </div>
                         <div class="mini-cart-info">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-img">
-                            <a href="#"><img src="img/product/3.png" alt="Image"></a>
+                            <a href="#"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Image"></a>
                             <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
                         </div>
                         <div class="mini-cart-info">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-img">
-                            <a href="#"><img src="img/product/4.png" alt="Image"></a>
+                            <a href="#"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Image"></a>
                             <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
                         </div>
                         <div class="mini-cart-info">
@@ -71,10 +71,10 @@
                         <div class="col-md-7">
                             <div class="ltn__top-bar-menu">
                                 <ul>
-                                    <li><a href="locations.html"><i class="icon-placeholder"></i> Ngu Hanh Son, Da
-                                            Nang</a></li>
-                                    <li><a href="mailto:minhdien.dev@gmail.com?Subject=Contact%20with%20to%20you"><i
-                                                class="icon-mail"></i> minhdien.dev@gmail.com</a></li>
+                                    <li><a href="locations.html"><i class="icon-placeholder"></i> Thien Dinh, Ha Noi
+                                </a></li>
+                                    <li><a href="mailto:nguyenthang2611205@gmail.com?Subject=Contact%20with%20to%20you"><i
+                                                class="icon-mail"></i> nguyenthang2611205@gmail.com</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                         <div class="col">
                             <div class="site-logo-wrap">
                                 <div class="site-logo">
-                                    <a href="index.html"><img src="img/logo.png" alt="Logo"></a>
+                                    <a href="index.html"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Logo"></a>
                                 </div>
                             </div>
                         </div>

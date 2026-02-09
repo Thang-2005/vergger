@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     protected $fillable = [
         'name',
@@ -12,34 +12,49 @@ class User extends Model
         'password',
         'status',
         'phone_number',
-        'avata',
+        'avatar',
         'address',
         'activation_token',
         'role_id',
         'google_id',
-
     ];
-     public function roles()
-        {
-            return $this->belongTo(Permission::class);
-        }
-    public function review(){
+
+    /* ================== RELATIONS ================== */
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
-    public function shippingAdress(){
-        return $this->hasMany(ShippingAdress::class);
+
+    public function shippingAddresses()
+    {
+        return $this->hasMany(ShippingAddress::class);
     }
-    // check status
-    public function isPending(){
+
+    /* ================== STATUS CHECK ================== */
+
+    public function isPending()
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isActive()
+    {
         return $this->status === 'active';
     }
-    public function isActive(){
-        return $this->status === 'active';
+
+    public function isBanned()
+    {
+        return $this->status === 'banned';
     }
-    public function isBanned(){
-        return $this->status === 'active';
-    }
-    public function isDeleted(){
-        return $this->status === 'active';
+
+    public function isDeleted()
+    {
+        return $this->status === 'deleted';
     }
 }
