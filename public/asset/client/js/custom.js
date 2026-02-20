@@ -67,6 +67,9 @@ $(document).ready(function () {
     // 🔥 CHỈ 1 SUBMIT DUY NHẤT
     $('#register_form').on('submit', function (e) {
         e.preventDefault();
+        // xóa lỗi cũ
+        $('.error').text('');
+        $('input').removeClass('is-invalid');
 
         $('input').blur();
         $('#checkbox1').trigger('change');
@@ -84,19 +87,24 @@ $(document).ready(function () {
             type: 'POST',
             data: $(this).serialize(),
             success: function(res){
-            toastr.success(res.message);
+                toastr.success(res.message);
 
-            setTimeout(function () {
-                window.location.href = res.redirect;
-            }, 1500); // đợi toastr hiện xong
+                setTimeout(function () {
+                    window.location.href = res.redirect;
+                }, 1500); // đợi toastr hiện xong
 
             },
             error: function (xhr) {
-                if (xhr.status === 422) {
+                // hiển thị lỗi validation inline + toastr
+                if (xhr.status === 422 && xhr.responseJSON?.errors) {
                     let errors = xhr.responseJSON.errors;
-                    Object.values(errors).forEach(err => {
-                        toastr.error(err[0]);
+                    Object.entries(errors).forEach(([field, msgs]) => {
+                        let input = $('[name="' + field + '"]');
+                        input.addClass('is-invalid');
+                        $('#error_' + field).text(msgs[0]);
+                        toastr.error(msgs[0]);
                     });
+                    return;
                 } else {
                     toastr.error('Có lỗi xảy ra!');
                 }

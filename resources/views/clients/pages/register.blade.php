@@ -26,28 +26,24 @@
                     @csrf
 
                     <input type="text" name="full_name" placeholder="Họ và tên"
-                        value="{{ old('full_name') }}" required>
+                        value="{{ old('full_name') }}">
                     <small class="text-danger error" id="error_full_name"></small>
-
                     <input type="email" name="email" placeholder="Email *"
-                        value="{{ old('email') }}" required>
+                        value="{{ old('email') }}">
                     <small class="text-danger error" id="error_email"></small>
-
-                    <input type="password" name="password" placeholder="Mật khẩu *" required>
+                    <input type="password" name="password" placeholder="Mật khẩu *">
                     <small class="text-danger error" id="error_password"></small>
-
                     <input type="password" name="password_confirmation"
-                        placeholder="Xác nhận mật khẩu *" required>
+                        placeholder="Xác nhận mật khẩu *">
                     <small class="text-danger error" id="error_password_confirmation"></small>
 
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="checkbox1" id="checkbox1" required>
+                        <input type="checkbox" name="checkbox1" id="checkbox1">
                         Tôi đồng ý cho phép cửa hàng xử lý thông tin cá nhân
                     </label>
                     <small class="text-danger error" id="error_checkbox1"></small>
-
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="checkbox2" id="checkbox2" required>
+                        <input type="checkbox" name="checkbox2" id="checkbox2">
                         Tôi đã đọc và đồng ý với chính sách bảo mật
                     </label>
                     <small class="text-danger error" id="error_checkbox2"></small>

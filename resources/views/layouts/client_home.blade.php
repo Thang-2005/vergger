@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    
 
     <!-- Place favicon.png in the root directory -->
     <link rel="shortcut icon" href="{{asset('asset/client/img/favicon.png')}}" type="image/x-icon" />
@@ -48,10 +48,12 @@
     <script src="{{asset('asset/client/js/plugins.js')}}"></script>
     <!-- Main JS -->
     <script src="{{asset('asset/client/js/main.js')}}"></script>
+    <script src="{{asset('asset/client/js/custom.js')}}"></script>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  
 
 </body>
 

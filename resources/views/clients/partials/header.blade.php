@@ -166,11 +166,13 @@
                                     <li>
                                         <a href="#"><i class="icon-user"></i></a>
                                         <ul>
-                                          <li><a href="{{route('login')}}">Đăng nhập</a></li>
-                                            <!-- Trong file blade -->
-                                        <li><a href="{{ route('logout.customer') }}" id="logoutBtn">Đăng xuất</a></li>
-                                            <li><a href="account.html">Tài khoản</a></li>
-                                            <li><a href="wishlist.html">Yêu thích</a></li>
+                                            @if(Auth::check())
+                                                <li><a href="{{ route('account') }}">Tài khoản</a></li>
+                                                <li><a href="wishlist.html">Yêu thích</a></li>
+                                                <li><a href="{{ route('logout.customer') }}" id="logoutBtn">Đăng xuất</a></li>
+                                            @else
+                                                <li><a href="{{route('login')}}">Đăng nhập</a></li>
+                                            @endif
                                         </ul>
                                     </li>
                                 </ul>

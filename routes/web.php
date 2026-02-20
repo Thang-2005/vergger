@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Client\AuthController;
+use App\Http\Controllers\Client\ResetPasswordController;
+use App\Http\Controllers\Client\ForgotPasswordController;
 
 Route::get('/', function () {
     return view('clients.pages.home');
@@ -37,12 +39,16 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/login', [AuthController::class, 'show_login_customer'])->name('login');
 Route::post('/login', [AuthController::class, 'login_customer'])->name('login.customer');
-Route::get('/logout-customer', [AuthController::class, 'logout_customer'])->name('logout.customer');
+Route::post('/logout-customer', [AuthController::class, 'logout_customer'])->name('logout.customer');
 
-Route::get('/resrt-password', [AuthController::class, 'show_resrt_password'])->name('password.reset');
+Route::get('/activate/{token}', [AuthController::class, 'activate'])->name('activate');
 
-Route::get('/account', [AuthController::class, 'show_account'])
-    ->name('account')
-    ->middleware('auth'); // ✅ Laravel tự động redirect về trang này sau khi login
+Route::get('/account', [AuthController::class, 'show_account'])->name('account')->middleware('auth'); 
 
+Route::get('/forgot-password',[ForgotPasswordController::class,'show_forgot_password'])->name('password.request');
 
+Route::post('/forgot-password',[ForgotPasswordController::class,'send_reset_link'])->name('password.email');
+
+Route::get('/reset-password/{token}',[ResetPasswordController::class,'show_reset_form'])->name('password.reset');
+
+Route::post('/reset-password',[ResetPasswordController::class,'reset_password'])->name('password.update');

@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="go-to-btn mt-20 text-right">
-                            <a href="{{ route('password.reset') }}">
+                            <a href="{{ route('password.request') }}">
                                 <small>QUÊN MẬT KHẨU?</small>
                             </a>
                         </div>

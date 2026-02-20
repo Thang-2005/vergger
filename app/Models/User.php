@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
+    use HasFactory;
+    use Notifiable;
+
     protected $fillable = [
         'name',
         'email',
@@ -18,6 +24,7 @@ class User extends Authenticatable
         'role_id',
         'google_id',
     ];
+
 
     /* ================== RELATIONS ================== */
 
@@ -56,5 +63,12 @@ class User extends Authenticatable
     public function isDeleted()
     {
         return $this->status === 'deleted';
+    }
+
+    /* ================== PASSWORD RESET ================== */
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
