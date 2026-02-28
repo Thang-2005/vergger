@@ -25,6 +25,24 @@
             <div class="col-lg-6">
                 <div class="account-login-inner">
 
+                    @if (session('success'))
+                        <x-alert type="success" :message="session('success')" />
+                    @endif
+
+                    @if (session('error'))
+                        <x-alert type="danger" :message="session('error')" />
+                    @endif
+
+                    @if ($errors->any())
+                        <x-alert type="danger" dismissible>
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </x-alert>
+                    @endif
+
                     <form 
                         id="login_form"
                         action="{{ route('login.customer') }}"
@@ -36,7 +54,12 @@
                        <input type="email" name="email" placeholder="Email *">
                         <small class="text-danger" id="error_email"></small>
 
-                        <input type="password" name="password" placeholder="Mật khẩu *">
+                        <div class="password-wrapper">
+                            <input type="password" id="login_password" name="password" placeholder="Mật khẩu *">
+                            <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#login_password')">
+                                <i class="fas fa-eye toggle-password-icon"></i>
+                            </button>
+                        </div>
                         <small class="text-danger" id="error_password"></small>
 
 

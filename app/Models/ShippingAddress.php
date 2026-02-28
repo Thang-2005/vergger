@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class ShippingAddress extends Model
-{
+{   
+    protected $table = 'shipping_address';
     protected $fillable = [
-        'user_id ',
-        'full_name ',
+        'user_id',
+        'full_name',
         'phone',
         'address',
         'city',

@@ -7,7 +7,7 @@
     use Illuminate\Support\Facades\Hash;
     use Illuminate\Support\Facades\Validator; 
     use Illuminate\Support\Str;
-    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Auth;    
     use Illuminate\Support\Facades\Mail;
     use App\Mail\ActivationMail;
 
@@ -136,14 +136,7 @@
     ]);
 }
 
-  public function show_account(){
-    if (!Auth::check()) {
-        return redirect()->route('login.customer')->with('error', 'Vui lòng đăng nhập');
-    }
-    
-    $user = Auth::user();
-    return view('clients.pages.account', compact('user'));
-}
+
 
     public function activate($token)
     {

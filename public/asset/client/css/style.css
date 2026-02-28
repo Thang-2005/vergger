@@ -751,6 +751,8 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="submit"],
+input[type="number"],
+
 textarea {
   background-color: var(--white);
   border: 2px solid;
@@ -12713,5 +12715,7 @@ input.cart-plus-minus-box {
 /* ----------------------------------------------------
     END
 ---------------------------------------------------- */
-
+.ltn__category-item-wrapper {
+    padding: 0 10px;
+}
 /*# sourceMappingURL=style.css.map */

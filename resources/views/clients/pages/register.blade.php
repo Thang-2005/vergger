@@ -31,10 +31,20 @@
                     <input type="email" name="email" placeholder="Email *"
                         value="{{ old('email') }}">
                     <small class="text-danger error" id="error_email"></small>
-                    <input type="password" name="password" placeholder="Mật khẩu *">
+                    <div class="password-wrapper" style="margin-bottom: 16px;">
+                        <input type="password" id="register_password" name="password" placeholder="Mật khẩu *">
+                        <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#register_password')">
+                            <i class="fas fa-eye toggle-password-icon"></i>
+                        </button>
+                    </div>
                     <small class="text-danger error" id="error_password"></small>
-                    <input type="password" name="password_confirmation"
-                        placeholder="Xác nhận mật khẩu *">
+                    <div class="password-wrapper" style="margin-bottom: 16px;">
+                        <input type="password" id="register_password_confirm" name="password_confirmation"
+                            placeholder="Xác nhận mật khẩu *">
+                        <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#register_password_confirm')">
+                            <i class="fas fa-eye toggle-password-icon"></i>
+                        </button>
+                    </div>
                     <small class="text-danger error" id="error_password_confirmation"></small>
 
                     <label class="checkbox-inline">

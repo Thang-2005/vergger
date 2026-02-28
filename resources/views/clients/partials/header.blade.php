@@ -10,7 +10,7 @@
                 <div class="mini-cart-product-area ltn__scrollbar">
                     <div class="mini-cart-item clearfix">
                         <div class="mini-cart-img">
-                            <a href="#"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Image"></a>
+                            <a href="{{ route('home') }}"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Image"></a>
                             <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
                         </div>
                         <div class="mini-cart-info">
@@ -115,7 +115,7 @@
                         <div class="col">
                             <div class="site-logo-wrap">
                                 <div class="site-logo">
-                                    <a href="index.html"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Logo"></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset('asset/client/img/logo.png') }}" alt="Logo"></a>
                                 </div>
                             </div>
                         </div>
@@ -124,19 +124,19 @@
                                 <nav>
                                     <div class="ltn__main-menu">
                                         <ul>
-                                            <li class="menu-icon"><a href="index.html">Trang chủ</a> </li>
+                                            <li class="menu-icon"><a href="{{ route('home') }}">Trang chủ</a> </li>
                                             <li class="menu-icon"><a href="#">Về chúng tôi</a>
                                                 <ul>
-                                                    <li><a href="about.html">Về chúng tôi</a></li>
-                                                    <li><a href="service.html">Dịch vụ</a></li>
-                                                    <li><a href="team.html">Team</a></li>
-                                                    <li><a href="faq.html">FAQ</a></li>
+                                                    <li><a href="{{ route('about') }}">Về chúng tôi</a></li>
+                                                    <li><a href="{{ route('service') }}">Dịch vụ</a></li>
+                                                    <li><a href="{{ route('team') }}">Team</a></li>
+                                                    <li><a href="{{ route('faq') }}">FAQ</a></li>
                                                 </ul>
                                             </li>
-                                            <li class="menu-icon"><a href="{{ route('home') }}">Cửa hàng</a>
+                                            <li class="menu-icon"><a href="{{ route('product') }}">Cửa hàng</a>
                                             </li>
-                                            <li><a href="contact.html">Liên hệ</a></li>
-                                            <li class="special-link"><a href="contact.html">GET A QUOTE</a></li>
+                                            <li><a href="{{ route('contact') }}">Liên hệ</a></li>
+                                            <li class="special-link"><a href="{{ route('contact') }}">GET A QUOTE</a></li>
                                         </ul>
                                     </div>
                                 </nav>
@@ -152,7 +152,7 @@
                                     </div>
                                 </div>
                                 <div class="header-search-1-form">
-                                    <form id="#" method="get" action="#">
+                                    <form id="search-form" method="get" action="{{ route('products.search') }}">
                                         <input type="text" name="search" value="" placeholder="Search here..." />
                                         <button type="submit">
                                             <span><i class="icon-search"></i></span>
@@ -164,12 +164,12 @@
                             <div class="ltn__drop-menu user-menu">
                                 <ul>
                                     <li>
-                                        <a href="#"><i class="icon-user"></i></a>
+                                        <a href="{{ route('account') }}"><i class="icon-user"></i></a>
                                         <ul>
                                             @if(Auth::check())
                                                 <li><a href="{{ route('account') }}">Tài khoản</a></li>
                                                 <li><a href="wishlist.html">Yêu thích</a></li>
-                                                <li><a href="{{ route('logout.customer') }}" id="logoutBtn">Đăng xuất</a></li>
+                                                <li><a href="#" data-url="{{ route('logout.customer') }}" class="logoutBtn">Đăng xuất</a></li>
                                             @else
                                                 <li><a href="{{route('login')}}">Đăng nhập</a></li>
                                             @endif

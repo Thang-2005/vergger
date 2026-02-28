@@ -1444,3 +1444,39 @@
 
   
 })(jQuery);
+
+$('.ltn__category-slider-active').slick({
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    infinite: true,
+    dots: false,
+    autoplay: false,
+
+    prevArrow:
+        '<button class="slick-prev"><i class="fas fa-angle-left"></i></button>',
+
+    nextArrow:
+        '<button class="slick-next"><i class="fas fa-angle-right"></i></button>',
+
+    responsive: [
+        {
+            breakpoint: 992,
+            settings: {
+                slidesToShow: 3
+            }
+        },
+        {
+            breakpoint: 768,
+            settings: {
+                slidesToShow: 2
+            }
+        },
+        {
+            breakpoint: 576,
+            settings: {
+                slidesToShow: 1
+            }
+        }
+    ]
+});
