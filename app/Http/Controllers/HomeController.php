@@ -11,18 +11,18 @@ class HomeController extends Controller
 {
     public function index()
 {
-    $categories = Category::with('products.fristImage')->get();
+    $categories = Category::with('products.firstImage')->get();
 
     foreach ($categories as $category) {
         foreach ($category->products as $product) {
             $product->image_url =
-                $product->fristImage && $product->fristImage->image
-                ? asset('storage/uploads/product/'.$product->fristImage->image)
+                $product->firstImage && $product->firstImage->image
+                ? asset('storage/uploads/product/'.$product->firstImage->image)
                 : asset('storage/uploads/product/default_product.jpg');
         }
     }
 
-    $bestSellingProduct = Product::with('fristImage')
+    $bestSellingProduct = Product::with('firstImage')
         ->select(
             'products.*',
             DB::raw('SUM(order_items.quantity) as total_sold')
@@ -43,12 +43,14 @@ class HomeController extends Controller
 
     foreach ($bestSellingProduct as $product) {
         $product->image_url =
-            $product->fristImage && $product->fristImage->image
-            ? asset('storage/uploads/products/'.$product->fristImage->image)
-            : asset('storage/uploads/products/default_product.png');
+            $product->firstImage && $product->firstImage->image
+            ? asset('storage/uploads/product/'.$product->firstImage->image)
+            : asset('storage/uploads/product/default_product.jpg');
     }
 
     return view('clients.pages.home',
         compact('categories','bestSellingProduct'));
 }
+
+
 }

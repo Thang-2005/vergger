@@ -10,8 +10,6 @@
     use Illuminate\Support\Facades\Auth;    
     use Illuminate\Support\Facades\Mail;
     use App\Mail\ActivationMail;
-
-    use App\Models\Register;
     use App\Models\User;
 
 
@@ -108,6 +106,7 @@
         // 4. Check role
         if ($user->role_id !== 3) {
             return response()->json([
+                'success' =>'true',
                 'message' => 'Tài khoản không có quyền truy cập'
             ], 403);
         }

@@ -39,10 +39,7 @@
                                 <div class="tab-content">
                                     <div class="tab-pane fade active show" id="liton_tab_1_1">
                                         <div class="ltn__myaccount-tab-content-inner">
-                                                <p>Xin chào <strong>{{ $user->name }}</strong></p> 
-                                                (không phải <strong>{{ Auth::user()->name }}</strong>?
-                                                <small><a href="#" data-url="{{ route('logout.customer') }}" class="logoutBtn">Đăng xuất</a></small>)
-                                            </p>
+                                                <p>Xin chào <strong>{{ $user->name }}</strong> (không phải <strong>{{ $user->name }}</strong>? <small><a href="#" data-url="{{ route('logout.customer') }}" class="logoutBtn">Đăng xuất</a></small>)</p>
                                             <p>Từ bảng điều khiển tài khoản của bạn, bạn có thể xem 
                                                 <span>đơn hàng gần đây</span>, quản lý 
                                                 <span>địa chỉ giao hàng và thanh toán</span>, và 

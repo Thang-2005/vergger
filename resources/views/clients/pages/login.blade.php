@@ -45,7 +45,7 @@
 
                     <form 
                         id="login_form"
-                        action="{{ route('login.customer') }}"
+                        action="{{ url()->current() }}"
                         method="POST"
                         class="ltn__form-box contact-form-box"
                     >

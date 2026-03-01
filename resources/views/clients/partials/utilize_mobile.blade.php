@@ -38,7 +38,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('wishlist') }}" title="Yêu thích">
+                            <a href="{{ route('wishlist.index') }}" title="Yêu thích">
                                 <span class="utilize-btn-icon">
                                     <i class="far fa-heart"></i>
                                     <sup>3</sup>
@@ -47,7 +47,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('cart') }}" title="Giỏ hàng">
+                            <a href="{{route('cart.index') }}" title="Giỏ hàng">
                                 <span class="utilize-btn-icon">
                                     <i class="fas fa-shopping-cart"></i>
                                     <sup>5</sup>

@@ -1480,3 +1480,32 @@ $('.ltn__category-slider-active').slick({
         }
     ]
 });
+
+// Tìm dòng này
+$('.ltn__related-product-slider-one-active')
+if ($('.ltn__related-product-slider-one-active').length) {
+    $('.ltn__related-product-slider-one-active').slick({
+        arrows: true,
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-arrow-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fas fa-arrow-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: { slidesToShow: 3 }
+            },
+            {
+                breakpoint: 992,
+                settings: { slidesToShow: 2 }
+            },
+            {
+                breakpoint: 576,
+                settings: { slidesToShow: 1 }
+            }
+        ]
+    });
+}
