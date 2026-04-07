@@ -1480,3 +1480,102 @@ $('.ltn__category-slider-active').slick({
         }
     ]
 });
+
+// Tìm dòng này
+$('.ltn__related-product-slider-one-active')
+if ($('.ltn__related-product-slider-one-active').length) {
+    $('.ltn__related-product-slider-one-active').slick({
+        arrows: true,
+        dots: false,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-arrow-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fas fa-arrow-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: { slidesToShow: 3 }
+            },
+            {
+                breakpoint: 992,
+                settings: { slidesToShow: 2 }
+            },
+            {
+                breakpoint: 576,
+                settings: { slidesToShow: 1 }
+            }
+        ]
+    });
+}
+
+//checkout page slider
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const changeAddressBtn = document.getElementById('change-address-btn');
+        const addressListContainer = document.getElementById('address-list-container');
+        const selectedAddressView = document.getElementById('selected-address-view');
+        const addressRadios = document.querySelectorAll('.address-radio');
+
+        // Function to hide the address list and reset the button
+        function hideAddressList() {
+            if (addressListContainer) {
+                addressListContainer.style.display = 'none';
+            }
+            if (changeAddressBtn) {
+                changeAddressBtn.textContent = 'Thay đổi';
+            }
+        }
+
+        // Toggle address list visibility on button click
+        if (changeAddressBtn) {
+            changeAddressBtn.addEventListener('click', function() {
+                const isHidden = addressListContainer.style.display === 'none';
+                addressListContainer.style.display = isHidden ? 'block' : 'none';
+                this.textContent = isHidden ? 'Đóng' : 'Thay đổi';
+            });
+        }
+
+        // Update selected view and auto-hide list on selection
+        addressRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const name = this.dataset.name;
+                    const phone = this.dataset.phone;
+                    const address = this.dataset.address;
+
+                    if (selectedAddressView) {
+                        selectedAddressView.innerHTML = `
+                            <strong class="d-block">${name}</strong>
+                            <small class="text-muted d-block">${phone}</small>
+                            <small class="text-muted">${address}</small>
+                        `;
+                    }
+
+                    // Automatically hide the list after selection
+                    hideAddressList();
+                }
+            });
+        });
+
+        // Function to check if any address is selected to enable/disable submit button
+        function checkAddressSelection() {
+            const hasSelectedAddress = Array.from(addressRadios).some(radio => radio.checked);
+            const submitButton = document.querySelector('button[type="submit"]');
+
+            if (submitButton) {
+                submitButton.disabled = !hasSelectedAddress;
+                submitButton.style.opacity = hasSelectedAddress ? '1' : '0.6';
+                submitButton.style.cursor = hasSelectedAddress ? 'pointer' : 'not-allowed';
+            }
+        }
+
+        // Add event listener to check selection on change
+        addressRadios.forEach(radio => {
+            radio.addEventListener('change', checkAddressSelection);
+        });
+
+        // Initial check on page load
+        checkAddressSelection();
+    });

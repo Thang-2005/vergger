@@ -9,7 +9,7 @@ class Product extends Model
 {   use HasFactory;
      protected $fillable = [
         'name',
-        'slug ',
+        'slug',
         'price',
         'description',
         'category_id',
@@ -28,10 +28,14 @@ class Product extends Model
     public function review(){
         return $this->hasMany(Review::class);
     }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
     public function cartItems(){
         return $this->hasMany(CartItem::class);
     }
-    public function fristImage(){
+    public function firstImage(){
         return $this->hasOne(ProductImage::class)->orderBy('id', 'asc');
     }
     

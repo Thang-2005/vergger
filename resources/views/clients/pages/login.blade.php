@@ -33,19 +33,9 @@
                         <x-alert type="danger" :message="session('error')" />
                     @endif
 
-                    @if ($errors->any())
-                        <x-alert type="danger" dismissible>
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </x-alert>
-                    @endif
-
                     <form 
                         id="login_form"
-                        action="{{ route('login.customer') }}"
+                        action="{{ url()->current() }}"
                         method="POST"
                         class="ltn__form-box contact-form-box"
                     >

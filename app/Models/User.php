@@ -43,6 +43,21 @@ class User extends Authenticatable
         return $this->hasMany(ShippingAddress::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /* ================== ACCESSORS ================== */
+
+    public function getAvatarUrlAttribute()
+    {
+        if ($this->avatar) {
+            return asset('storage/' . $this->avatar);
+        }
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=random&color=fff';
+    }
+
     /* ================== STATUS CHECK ================== */
 
     public function isPending()

@@ -7,48 +7,40 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="{{ asset('asset/client/js/speculation-rules.js') }}"></script>
+
+    {{-- CSRF token cho AJAX --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <!-- Place favicon.png in the root directory -->
-    <link rel="shortcut icon" href="{{asset('asset/client/img/favicon.png')}}" type="image/x-icon" />
-    <!-- Font Icons css -->
-    <link rel="stylesheet" href="{{asset('asset/client/css/font-icons.css')}}">
-    <!-- FontAwesome CDN -->
+
+    <link rel="shortcut icon" href="{{ asset('asset/client/img/favicon.png') }}" type="image/x-icon" />
+
+    {{-- CSS --}}
+    <link rel="stylesheet" href="{{ asset('asset/client/css/font-icons.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- plugins css -->
-    <link rel="stylesheet" href="{{asset('asset/client/css/plugins.css')}}">
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="{{asset('asset/client/css/style.css')}}">
-    <!-- Responsive css -->
-    <link rel="stylesheet" href="{{asset('asset/client/css/responsive.css')}}">
-    <link rel="stylesheet" href="{{asset('asset/client/css/customer.css')}}">
-
-    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('asset/client/css/plugins.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/client/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/client/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/client/css/customer.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/client/css/review.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <!-- ui -->
-    <link rel="stylesheet"href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
+    @yield('meta')
 </head>
 
 <body>
-   
     <div class="wrapper">
-    @include('clients.partials.header')
-    <!-- @hasSession('breadcrumb') -->
+        @include('clients.partials.header')
         @include('clients.partials.breadcrumb')
-    <!-- @endhasSession -->
 
+        <main>
+            @yield('content')
+        </main>
 
-    <main>
-        @yield('content')
-    </main>
-    @include('clients.partials.fearture')
-
-    @include('clients.partials.footer')
-
-        
+        @include('clients.partials.fearture')
+        @include('clients.partials.footer')
     </div>
-   
+
     <div class="preloader d-none" id="preloader">
         <div class="preloader-inner">
             <div class="spinner">
@@ -57,24 +49,40 @@
             </div>
         </div>
     </div>
-    
-    <script src="{{asset('asset/client/js/plugins.js')}}"></script>
-    <!-- Main JS -->
-    <script src="{{asset('asset/client/js/main.js')}}"></script>
-    <script src="{{asset('asset/client/js/custom.js')}}"></script>
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {{-- ===== JAVASCRIPT - ĐÚNG THỨ TỰ ===== --}}
 
-    <!-- Toastr -->
+    {{-- 1. jQuery load ĐẦU TIÊN --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    {{-- 2. Bootstrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- 3. Toastr + SweetAlert --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <!-- Convert Bootstrap Alerts to Toastr -->
+
+    {{-- 4. Plugins (cần jQuery) --}}
+    <script src="{{ asset('asset/client/js/plugins.js') }}"></script>
+
+    {{-- 5. Main + Custom --}}
+    <script src="{{ asset('asset/client/js/main.js') }}"></script>
+    <script src="{{ asset('asset/client/js/custom.js') }}"></script>
+
+    {{-- 6. Global config - CSRF + Toastr --}}
     <script>
-        $(document).ready(function() {
-            // Config toastr
+        $(document).ready(function () {
+
+            // ✅ CSRF cho tất cả AJAX request
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Config Toastr
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
@@ -82,51 +90,30 @@
                 "timeOut": "4000"
             };
 
-            // Convert alert-success to toastr
-            $('.alert-success').each(function() {
+            // Convert Laravel flash alerts → Toastr
+            $('.alert-success').each(function () {
                 const message = $(this).text().trim();
-                if (message) {
-                    toastr.success(message);
-                    $(this).remove();
-                }
+                if (message) { toastr.success(message); $(this).remove(); }
             });
-
-            // Convert alert-danger to toastr
-            $('.alert-danger').each(function() {
+            $('.alert-danger').each(function () {
                 const content = $(this).html().trim();
-                if (content) {
-                    toastr.error(content);
-                    $(this).remove();
-                }
+                if (content) { toastr.error(content); $(this).remove(); }
             });
-
-            // Convert alert-warning to toastr
-            $('.alert-warning').each(function() {
+            $('.alert-warning').each(function () {
                 const message = $(this).text().trim();
-                if (message) {
-                    toastr.warning(message);
-                    $(this).remove();
-                }
+                if (message) { toastr.warning(message); $(this).remove(); }
             });
-
-            // Convert alert-info to toastr
-            $('.alert-info').each(function() {
+            $('.alert-info').each(function () {
                 const message = $(this).text().trim();
-                if (message) {
-                    toastr.info(message);
-                    $(this).remove();
-                }
+                if (message) { toastr.info(message); $(this).remove(); }
             });
         });
     </script>
+
+    {{-- 7. Page-specific scripts --}}
+    @stack('scripts')
+    @yield('scripts')
+
     
-    <script src="{{asset('asset/client/js/custom.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ui -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
 </body>
-
 </html>
