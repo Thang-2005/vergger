@@ -1,32 +1,22 @@
-@props(['type' => 'info', 'message' => '', 'dismissible' => true, 'icon' => true])
+@props([
+    'type' => 'info',
+    'message' => '',
+    'dismissible' => false,
+])
 
 @php
-    $typeClass = match($type) {
+    $bgColors = [
         'success' => 'alert-success',
-        'error' => 'alert-danger',
         'danger' => 'alert-danger',
         'warning' => 'alert-warning',
         'info' => 'alert-info',
-        default => 'alert-info'
-    };
-    
-    $iconClass = match($type) {
-        'success' => 'fa-check-circle',
-        'error' => 'fa-exclamation-circle',
-        'danger' => 'fa-exclamation-circle',
-        'warning' => 'fa-exclamation-triangle',
-        'info' => 'fa-info-circle',
-        default => 'fa-info-circle'
-    };
+    ];
+    $bgClass = $bgColors[$type] ?? 'alert-info';
 @endphp
 
-<div class="alert {{ $typeClass }} {{ $dismissible ? 'alert-dismissible fade show' : '' }}" role="alert">
-    @if ($icon)
-        <i class="fa {{ $iconClass }} me-2"></i>
-    @endif
-    
+<div class="alert {{ $bgClass }} {{ $dismissible ? 'alert-dismissible fade show' : '' }}" role="alert">
     @if ($message)
-        <strong>{{ $message }}</strong>
+        <div>{!! $message !!}</div>
     @else
         {{ $slot }}
     @endif

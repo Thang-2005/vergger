@@ -7,6 +7,7 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="{{ asset('asset/client/js/speculation-rules.js') }}"></script>
 
     {{-- CSRF token cho AJAX --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('asset/client/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/client/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/client/css/customer.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/client/css/review.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 

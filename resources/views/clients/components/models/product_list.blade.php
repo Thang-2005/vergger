@@ -32,8 +32,10 @@
                         </li>
                         <li>
                             <a href="javascript:void(0)" title="Yêu thích"
+                                class="btn-add-wishlist"
                                 data-bs-toggle="modal"
-                                data-bs-target="#liton_wishlist_modal-{{ $product->id }}">
+                                data-bs-target="#liton_wishlist_modal-{{ $product->id }}"
+                                data-product-id="{{ $product->id }}">
                                 <i class="far fa-heart"></i>
                             </a>
                         </li>

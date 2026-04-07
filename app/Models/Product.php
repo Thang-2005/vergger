@@ -28,6 +28,10 @@ class Product extends Model
     public function review(){
         return $this->hasMany(Review::class);
     }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
     public function cartItems(){
         return $this->hasMany(CartItem::class);
     }

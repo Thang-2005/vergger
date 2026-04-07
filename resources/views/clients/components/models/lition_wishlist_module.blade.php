@@ -13,7 +13,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="modal-product-img">
-                                        <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}">
+                                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                                     </div>
                                     <div class="modal-product-info">
                                         <h5>

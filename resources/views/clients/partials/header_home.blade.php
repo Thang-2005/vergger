@@ -8,50 +8,14 @@
         </div>
 
         {{-- MINI CART LIST --}}
-        <div class="mini-cart-product-area ltn__scrollbar">
 
-            @forelse($cartItems as $cart)
-            <div class="mini-cart-item clearfix">
-
-                <div class="mini-cart-img">
-                    <a href="{{ route('product.detail',$cart->product->slug) }}">
-                        <img src="{{ $cart->product->image_url }}"
-                            alt="{{ $cart->product->name }}">
-                    </a>
-
-                    {{-- nút xoá --}}
-                    <span class="btn-remove-cart"
-                        data-cart-id="{{ $cart->id }}">
-                        <i class="icon-cancel"></i>
-                    </span>
-                </div>
-
-                <div class="mini-cart-info">
-                    <h6>
-                        <a href="{{ route('product.detail',$cart->product->slug) }}">
-                            {{ $cart->product->name }}
-                        </a>
-                    </h6>
-
-                    <span class="mini-cart-quantity">
-                        {{ $cart->quantity }} x
-                        {{ number_format($cart->product->price,0,',','.') }}đ
-                    </span>
-                </div>
-
-            </div>
-            @empty
-
-            {{-- khi chưa có sản phẩm --}}
-            <div class="text-center p-4">
-                <img src="{{ asset('asset/client/img/logo.png') }}"
-                    width="80">
-                <p class="mt-2">Giỏ hàng đang trống</p>
-            </div>
-
-            @endforelse
-
+        <div class="mini-cart-icon">
+            <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
+                <i class="icon-shopping-cart"></i>
+                <sup>2</sup>
+            </a>
         </div>
+
 
         {{-- FOOTER --}}
         <div class="mini-cart-footer">
@@ -92,10 +56,9 @@
                 <div class="col-md-7">
                     <div class="ltn__top-bar-menu">
                         <ul>
-                            <li><a href="locations.html"><i class="icon-placeholder"></i> Ngu Hanh Son, Da
-                                    Nang</a></li>
-                            <li><a href="mailto:minhdien.dev@gmail.com?Subject=Contact%20with%20to%20you"><i
-                                        class="icon-mail"></i> minhdien.dev@gmail.com</a></li>
+                            <li><a href="locations.html"><i class="icon-placeholder"></i> Thien Dinh, Ha Noi</a></li>
+                            <li><a href="mailto:nguyenthang2611205@gmail.com?Subject=Contact%20with%20to%20you"><i
+                                        class="icon-mail"></i> nguyenthang2611205@gmial.com</a></li>
                         </ul>
                     </div>
                 </div>

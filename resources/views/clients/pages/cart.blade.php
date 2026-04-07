@@ -20,13 +20,13 @@
                                         <a href="#" class="btn-remove-cart" data-cart-id="{{ $item->id }}">x</a>
                                     </td>
                                     <td class="cart-product-image">
-                                        <a href="{{ route('product.detail', $item->product->id) }}">
+                                        <a href="{{ route('product.detail', $item->product->slug) }}">
                                             <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}">
                                         </a>
                                     </td>
                                     <td class="cart-product-info">
                                         <h4>
-                                            <a href="{{ route('product.detail', $item->product->id) }}">
+                                            <a href="{{ route('product.detail', $item->product->slug) }}">
                                                 {{ $item->product->name }}
                                             </a>
                                         </h4>
@@ -80,6 +80,15 @@
                         <h4>Tổng giỏ hàng</h4>
                         <table class="table">
                             <tbody>
+                                @forelse ($cartItems as $item)
+                                <tr>
+                                    <td>{{ $item->product->name }} x {{ $item->quantity }}</td>
+                                    <td class="text-end">
+                                        <strong>{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}đ</strong>
+                                    </td>
+                                </tr>
+                                @empty
+                                @endforelse
                                 <tr>
                                     <td>Tạm tính</td>
                                     {{-- JS: $('#cart-total').text(res.total) --}}
@@ -96,7 +105,7 @@
                             </tbody>
                         </table>
                         <div class="btn-wrapper text-right text-end">
-                            <a href="#" class="theme-btn-1 btn btn-effect-1">
+                            <a href="{{ route('checkout') }}" class="theme-btn-1 btn btn-effect-1">
                                 Tiến hành thanh toán
                             </a>
                         </div>

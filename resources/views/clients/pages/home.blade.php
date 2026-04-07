@@ -4,6 +4,12 @@
 
 @section ('content')
 
+@php
+$bannerCategory1 = $categories->get(0);
+$bannerCategory2 = $categories->get(1);
+$bannerCategory3 = $categories->get(2);
+@endphp
+
 <div class="ltn__utilize-overlay"></div>
 
 <!-- KHU VỰC SLIDER BẮT ĐẦU -->
@@ -28,7 +34,7 @@
                                         <p>Chúng tôi mang đến những sản phẩm tươi ngon, sạch sẽ và an toàn nhất từ thiên nhiên đến bàn ăn của bạn.</p>
                                     </div>
                                     <div class="btn-wrapper animated">
-                                        <a href="#" class="theme-btn-1 btn btn-effect-1 text-uppercase">Khám phá sản phẩm</a>
+                                        <a href="{{ $bannerCategory1 ? route('category', $bannerCategory1->id) : route('product') }}" class="theme-btn-1 btn btn-effect-1 text-uppercase">Khám phá sản phẩm</a>
                                     </div>
                                 </div>
                             </div>
@@ -53,8 +59,8 @@
                                         <p>Chúng tôi mang đến những sản phẩm tươi ngon, sạch sẽ và an toàn nhất từ thiên nhiên đến bàn ăn của bạn.</p>
                                     </div>
                                     <div class="btn-wrapper animated">
-                                        <a href="#" class="theme-btn-1 btn btn-effect-1 text-uppercase">Khám phá sản phẩm</a>
-                                        <a href="#" class="btn btn-transparent btn-effect-3">TÌM HIỂU THÊM</a>
+                                        <a href="{{ $bannerCategory2 ? route('category', $bannerCategory2->id) : route('product') }}" class="theme-btn-1 btn btn-effect-1 text-uppercase">Khám phá sản phẩm</a>
+                                        <a href="{{ route('about') }}" class="btn btn-transparent btn-effect-3">TÌM HIỂU THÊM</a>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +81,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="ltn__banner-item">
                     <div class="ltn__banner-img">
-                        <a href="#">
+                        <a href="{{ $bannerCategory1 ? route('category', $bannerCategory1->id) : route('product') }}">
                             <img src="{{ asset('asset/client/img/banner/13.png') }}" alt="Ảnh Banner">
                         </a>
                     </div>
@@ -86,7 +92,7 @@
                     <div class="col-lg-12">
                         <div class="ltn__banner-item">
                             <div class="ltn__banner-img">
-                                <a href="#">
+                                <a href="{{ $bannerCategory2 ? route('category', $bannerCategory2->id) : route('product') }}">
                                     <img src="{{ asset('asset/client/img/banner/14.png') }}" alt="Ảnh Banner">
                                 </a>
                             </div>
@@ -95,7 +101,7 @@
                     <div class="col-lg-12">
                         <div class="ltn__banner-item">
                             <div class="ltn__banner-img">
-                                <a href="#">
+                                <a href="{{ $bannerCategory3 ? route('category', $bannerCategory3->id) : route('product') }}">
                                     <img src="{{ asset('asset/client/img/banner/15.png') }}" alt="Ảnh Banner">
                                 </a>
                             </div>
@@ -124,12 +130,12 @@
             <div class="ltn__category-item-wrapper">
                 <div class="ltn__category-item ltn__category-item-3 text-center">
                     <div class="ltn__category-item-img">
-                        <a href="#  ">
+                        <a href="{{ route('category', $category->id) }}">
                             <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
                         </a>
                     </div>
                     <div class="ltn__category-item-name">
-                        <h5>{{ $category->name }}</h5>
+                        <h5><a href="{{ route('category', $category->id) }}">{{ $category->name }}</a></h5>
                         <h6>{{ $category->products()->count() }} sản phẩm</h6>
                     </div>
                 </div>
@@ -168,9 +174,7 @@
                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                     <div class="ltn__product-item ltn__product-item-3 text-center">
                                         <div class="product-img">
-                                            <a href="#" title="{{ $product->name }}"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#quick_view_modal-{{ $product->id }}">
+                                            <a href="{{ route('product.detail', $product->slug) }}" title="{{ $product->name }}">
                                                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                                             </a>
                                             @if($product->discount)
@@ -225,7 +229,7 @@
                                                 </ul>
                                             </div>
                                             <h2 class="product-title">
-                                                <a href="#" title="{{ $product->name }}">{{ $product->name }}</a>
+                                                <a href="{{ route('product.detail', $product->slug) }}" title="{{ $product->name }}">{{ $product->name }}</a>
                                             </h2>
                                             <div class="product-price">
                                                 <span>{{ number_format($product->price, 0, ',', '.') }}đ</span>

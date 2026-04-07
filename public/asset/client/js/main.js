@@ -1509,3 +1509,73 @@ if ($('.ltn__related-product-slider-one-active').length) {
         ]
     });
 }
+
+//checkout page slider
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const changeAddressBtn = document.getElementById('change-address-btn');
+        const addressListContainer = document.getElementById('address-list-container');
+        const selectedAddressView = document.getElementById('selected-address-view');
+        const addressRadios = document.querySelectorAll('.address-radio');
+
+        // Function to hide the address list and reset the button
+        function hideAddressList() {
+            if (addressListContainer) {
+                addressListContainer.style.display = 'none';
+            }
+            if (changeAddressBtn) {
+                changeAddressBtn.textContent = 'Thay đổi';
+            }
+        }
+
+        // Toggle address list visibility on button click
+        if (changeAddressBtn) {
+            changeAddressBtn.addEventListener('click', function() {
+                const isHidden = addressListContainer.style.display === 'none';
+                addressListContainer.style.display = isHidden ? 'block' : 'none';
+                this.textContent = isHidden ? 'Đóng' : 'Thay đổi';
+            });
+        }
+
+        // Update selected view and auto-hide list on selection
+        addressRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const name = this.dataset.name;
+                    const phone = this.dataset.phone;
+                    const address = this.dataset.address;
+
+                    if (selectedAddressView) {
+                        selectedAddressView.innerHTML = `
+                            <strong class="d-block">${name}</strong>
+                            <small class="text-muted d-block">${phone}</small>
+                            <small class="text-muted">${address}</small>
+                        `;
+                    }
+
+                    // Automatically hide the list after selection
+                    hideAddressList();
+                }
+            });
+        });
+
+        // Function to check if any address is selected to enable/disable submit button
+        function checkAddressSelection() {
+            const hasSelectedAddress = Array.from(addressRadios).some(radio => radio.checked);
+            const submitButton = document.querySelector('button[type="submit"]');
+
+            if (submitButton) {
+                submitButton.disabled = !hasSelectedAddress;
+                submitButton.style.opacity = hasSelectedAddress ? '1' : '0.6';
+                submitButton.style.cursor = hasSelectedAddress ? 'pointer' : 'not-allowed';
+            }
+        }
+
+        // Add event listener to check selection on change
+        addressRadios.forEach(radio => {
+            radio.addEventListener('change', checkAddressSelection);
+        });
+
+        // Initial check on page load
+        checkAddressSelection();
+    });

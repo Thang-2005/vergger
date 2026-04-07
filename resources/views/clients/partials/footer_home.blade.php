@@ -68,12 +68,12 @@
                                 <h4 class="footer-title">Dịch vụ</h4>
                                 <div class="footer-menu">
                                     <ul>
-                                        <li><a href="order-tracking.html">Theo dõi đơn hàng</a></li>
-                                        <li><a href="wishlist.html">Danh sách yêu thích</a></li>
-                                        <li><a href="login.html">Đăng nhập</a></li>
-                                        <li><a href="account.html">Tài khoản</a></li>
-                                        <li><a href="about.html">Điều khoản & Điều kiện</a></li>
-                                        <li><a href="about.html">Khuyến mãi</a></li>
+                                        <li><a href="#">Theo dõi đơn hàng</a></li>
+                                            <li><a href="{{ route('wishlist') }}">Danh sách yêu thích</a></li>
+                                            <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                            <li><a href="{{ route('account.show') }}">Tài khoản</a></li>
+                                            <li><a href="about.html">Điều khoản & Điều kiện</a></li>
+                                            <li><a href="about.html">Khuyến mãi</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -83,12 +83,12 @@
                                 <h4 class="footer-title">Hỗ trợ khách hàng</h4>
                                 <div class="footer-menu">
                                     <ul>
-                                        <li><a href="login.html">Đăng nhập</a></li>
-                                        <li><a href="account.html">Tài khoản</a></li>
-                                        <li><a href="wishlist.html">Danh sách yêu thích</a></li>
-                                        <li><a href="order-tracking.html">Theo dõi đơn hàng</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
-                                        <li><a href="contact.html">Liên hệ</a></li>
+                                        <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                        <li><a href="{{ route('account.show') }}">Tài khoản</a></li>
+                                        <li><a href="{{ route('wishlist') }}">Danh sách yêu thích</a></li>
+                                        <li><a href="#">Theo dõi đơn hàng</a></li>
+                                        <li><a href="{{ route('faq') }}">FAQ</a></li>
+                                        <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                                     </ul>
                                 </div>
                             </div>
