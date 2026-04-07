@@ -237,29 +237,41 @@
                                                                         @endfor
                                                                     </div>
                                                                 </div>
-                                                                <small class="review-item-time">{{ $review->created_at->diffForHumans() }}</small>
+                                                                <div class="review-item-time-actions">
+                                                                    <small class="review-item-time">{{ $review->created_at->diffForHumans() }}</small>
+                                                                    @if(Auth::check() && $review->user_id == Auth::id())
+                                                                        <div class="review-action-menu-wrapper">
+                                                                            <button type="button"
+                                                                                    class="review-action-menu-toggle"
+                                                                                    data-review-menu-toggle="{{ $review->id }}"
+                                                                                    aria-label="Tùy chọn đánh giá"
+                                                                                    aria-expanded="false">
+                                                                                <i class="fas fa-ellipsis-v"></i>
+                                                                            </button>
+                                                                            <div class="review-action-menu d-none" data-review-menu="{{ $review->id }}">
+                                                                                <button type="button"
+                                                                                        class="review-action-menu-item edit-review-trigger"
+                                                                                        data-review-id="{{ $review->id }}"
+                                                                                        data-rating="{{ $review->rating }}"
+                                                                                        data-comment="{{ htmlspecialchars($review->comment) }}">
+                                                                                    <i class="fas fa-edit"></i> Sửa
+                                                                                </button>
+                                                                                <form action="{{ route('review.destroy', $review->id) }}"
+                                                                                      method="POST"
+                                                                                      onsubmit="return confirm('Bạn có chắc muốn xóa đánh giá này?')">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+                                                                                    <button type="submit" class="review-action-menu-item review-action-menu-item-danger">
+                                                                                        <i class="fas fa-trash"></i> Xóa
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <p class="review-item-comment">{{ $review->comment }}</p>
-                                                        
-                                                        {{-- EDIT & DELETE BUTTONS FOR OWN REVIEWS --}}
-                                                        @if(Auth::check() && $review->user_id == Auth::id())
-                                                            <div class="review-item-actions">
-                                                                <button type="button" class="review-item-edit-btn edit-review-trigger" 
-                                                                        data-review-id="{{ $review->id }}" 
-                                                                        data-rating="{{ $review->rating }}" 
-                                                                        data-comment="{{ htmlspecialchars($review->comment) }}">
-                                                                    <i class="fas fa-edit"></i> Sửa
-                                                                </button>
-                                                                <form action="{{ route('review.destroy', $review->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa đánh giá này?')">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="review-item-delete-btn">
-                                                                        <i class="fas fa-trash"></i> Xóa
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -505,6 +517,48 @@ document.addEventListener('DOMContentLoaded', function() {
             const rating = this.getAttribute('data-rating');
             const comment = this.getAttribute('data-comment');
             editReview(rating, comment);
+
+            const actionMenu = this.closest('.review-action-menu');
+            if (actionMenu) {
+                actionMenu.classList.add('d-none');
+            }
+        });
+    });
+
+    // Review action menu toggle
+    const menuToggles = document.querySelectorAll('[data-review-menu-toggle]');
+    const closeAllMenus = function() {
+        document.querySelectorAll('[data-review-menu]').forEach(menu => {
+            menu.classList.add('d-none');
+        });
+        menuToggles.forEach(toggle => {
+            toggle.setAttribute('aria-expanded', 'false');
+        });
+    };
+
+    menuToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            const reviewId = this.getAttribute('data-review-menu-toggle');
+            const menu = document.querySelector('[data-review-menu="' + reviewId + '"]');
+            const willOpen = menu && menu.classList.contains('d-none');
+
+            closeAllMenus();
+
+            if (menu && willOpen) {
+                menu.classList.remove('d-none');
+                this.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    document.addEventListener('click', function() {
+        closeAllMenus();
+    });
+
+    document.querySelectorAll('[data-review-menu]').forEach(menu => {
+        menu.addEventListener('click', function(event) {
+            event.stopPropagation();
         });
     });
 });
