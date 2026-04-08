@@ -10,6 +10,7 @@ use App\Http\Controllers\Client\AccountController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\WishlistController;
+use App\Http\Controllers\Client\ContactController;
 
 
 
@@ -107,3 +108,8 @@ Route::prefix('wishlist')->name('wishlist.')->group(function () {
     Route::delete('/clear', [WishlistController::class, 'clear'])->name('clear');
     Route::get('/count',    [WishlistController::class, 'count'])->name('count');
 });
+
+
+// contact
+ Route::get('/contact', [ContactController::class, 'show_contact'])->name('contact');
+ Route::post('/contact', [ContactController::class, 'submit_contact'])->name('contact.submit');
