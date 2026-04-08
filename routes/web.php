@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Client\HomeController;
 
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Client\ResetPasswordController;
@@ -113,3 +113,12 @@ Route::prefix('wishlist')->name('wishlist.')->group(function () {
 // contact
  Route::get('/contact', [ContactController::class, 'show_contact'])->name('contact');
  Route::post('/contact', [ContactController::class, 'submit_contact'])->name('contact.submit');
+
+
+
+
+
+
+
+
+ require __DIR__.'/admin.php';

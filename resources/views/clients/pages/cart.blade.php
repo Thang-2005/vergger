@@ -96,7 +96,7 @@
                             </tbody>
                         </table>
                         <div class="btn-wrapper text-right text-end">
-                            <a href="#" class="theme-btn-1 btn btn-effect-1">
+                            <a href="" class="theme-btn-1 btn btn-effect-1">
                                 Tiến hành thanh toán
                             </a>
                         </div>
