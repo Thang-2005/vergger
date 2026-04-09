@@ -18,9 +18,12 @@ class CategorySeeder extends Seeder
             ['name' => 'Thịt', 'slug' => 'thit-ca', 'description' => 'Các loại thịt tươi ngon, giàu protein.','image' => 'uploads/categories/thit.png'],
             ['name' => 'cá', 'slug' => 'ca', 'description' => 'Các loại cá tươi ngon, giàu protein.','image' => 'uploads/categories/ca.png'],
             ['name' => 'Thực phẩm khác', 'slug' => 'thuc-pham-khac', 'description' => 'Các loại thực phẩm khác tươi ngon, giàu dinh dưỡng.','image' => 'uploads/categories/thuc_pham_khac.png'],
-    ];
+        ];
         foreach ($categories as $category) {
-            \App\Models\Category::create($category);
+            \App\Models\Category::updateOrCreate(
+                ['name' => $category['name']],
+                $category
+            );
         }
     }
 }

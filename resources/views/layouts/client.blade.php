@@ -60,7 +60,9 @@
     {{-- 3. Toastr + SweetAlert --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
+    {{-- 4. Flash Messages --}}
+    @include('flash::message')
 
     {{-- 4. Plugins (cần jQuery) --}}
     <script src="{{ asset('asset/client/js/plugins.js') }}"></script>
@@ -85,26 +87,13 @@
                 "closeButton": true,
                 "progressBar": true,
                 "positionClass": "toast-top-right",
-                "timeOut": "4000"
+                "timeOut": "4000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
             };
-
-            // Convert Laravel flash alerts → Toastr
-            $('.alert-success').each(function () {
-                const message = $(this).text().trim();
-                if (message) { toastr.success(message); $(this).remove(); }
-            });
-            $('.alert-danger').each(function () {
-                const content = $(this).html().trim();
-                if (content) { toastr.error(content); $(this).remove(); }
-            });
-            $('.alert-warning').each(function () {
-                const message = $(this).text().trim();
-                if (message) { toastr.warning(message); $(this).remove(); }
-            });
-            $('.alert-info').each(function () {
-                const message = $(this).text().trim();
-                if (message) { toastr.info(message); $(this).remove(); }
-            });
         });
     </script>
 

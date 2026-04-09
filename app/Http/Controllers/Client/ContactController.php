@@ -53,6 +53,7 @@ class ContactController extends Controller
         }
         
         // Redirect back with a success message
-        return redirect()->route('contact')->with('success', 'Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ phản hồi sớm nhất có thể.');
+        flash('Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ phản hồi sớm nhất có thể.', 'success');
+        return redirect()->route('contact');
     }
 }

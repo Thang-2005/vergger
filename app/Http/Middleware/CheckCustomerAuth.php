@@ -20,23 +20,23 @@ class CheckCustomerAuth
         if (!Auth::check()) {
             // Lưu URL hiện tại để redirect về sau khi login
             session(['url.intended' => url()->current()]);
-            
-            return redirect()->route('login.customer')
-                ->with('error', 'Vui lòng đăng nhập để tiếp tục');
+
+            flash('Vui lòng đăng nhập để tiếp tục', 'error');
+            return redirect()->route('login.customer');
         }
 
         // Kiểm tra role_id = 3 (customer)
         if (Auth::user()->role_id !== 3) {
             Auth::logout();
-            return redirect()->route('login.customer')
-                ->with('error', 'Bạn không có quyền truy cập');
+            flash('Bạn không có quyền truy cập', 'error');
+            return redirect()->route('login.customer');
         }
 
         // Kiểm tra status = active
         if (Auth::user()->status !== 'active') {
             Auth::logout();
-            return redirect()->route('login.customer')
-                ->with('error', 'Tài khoản chưa được kích hoạt');
+            flash('Tài khoản chưa được kích hoạt', 'error');
+            return redirect()->route('login.customer');
         }
 
         // Cho phép tiếp tục request

@@ -13,10 +13,13 @@
                          <a class="dropdown-item" href="javascript:;"> Profile</a>
                          <a class="dropdown-item" href="javascript:;">
                              <span class="badge bg-red pull-right">50%</span>
-                             <span>Settings</span>
+                             <span>Cài đặt</span>
                          </a>
-                         <a class="dropdown-item" href="javascript:;">Help</a>
-                         <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                         <a class="dropdown-item" href="javascript:;">Giúp đỡ</a>
+                         <a class="dropdown-item" href="{{ route('admin.logout')}}" onclick="return confirm('Bạn có muốn đăng xuất không?');">
+                             <i class="fa fa-sign-out pull-right"></i> Đăng xuất    
+                         </a>
+                         
                      </div>
                  </li>
 

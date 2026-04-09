@@ -30,6 +30,8 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('asset/admin/build/css/custom.min.css')}}" rel="stylesheet">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   </head>
 
   <body class="nav-md">
@@ -89,6 +91,27 @@
 
     <!-- Custom Theme Scripts -->
     <script src="{{asset('asset/admin/build/js/custom.min.js')}}"></script>
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- Flash Messages -->
+    @include('flash::message')
+
+    <!-- Global Toastr Config -->
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "4000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    </script>
 	
   </body>
 </html>

@@ -30,11 +30,12 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
         if ($status === Password::RESET_LINK_SENT) {
-            return back()->with('success', 'Đường dẫn đặt lại mật khẩu đã được gửi đến email của bạn.');
+            flash('Đường dẫn đặt lại mật khẩu đã được gửi đến email của bạn.', 'success');
+            return back();
         } else {
+            flash('Không thể gửi đường dẫn đặt lại mật khẩu. Vui lòng thử lại sau.', 'error');
             return back()
-                ->withInput($request->only('email'))
-                ->with('error', 'Không thể gửi đường dẫn đặt lại mật khẩu. Vui lòng thử lại sau.');
+                ->withInput($request->only('email'));
         }
     }
 }

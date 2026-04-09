@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
        $middleware->alias([
-    'auth.customer' => \App\Http\Middleware\RedirectIfNotAuthenticated::class,
+    'auth.customer' => \App\Http\Middleware\CheckCustomerAuth::class,
+    'auth.admin' => \App\Http\Middleware\RedirectIfNotAuthenticated::class,
+    'check.auth.admin' => \App\Http\Middleware\RedirectIfAuthentcatedAdmin::class,
+    'checkpermission' => \App\Http\Middleware\CheckPermission::class,
+    'checkpemisson' => \App\Http\Middleware\CheckPermission::class,
 ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

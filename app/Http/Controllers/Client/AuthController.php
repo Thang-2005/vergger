@@ -149,6 +149,7 @@
         $user->activation_token = null;
         $user->save();
 
-        return redirect()->route('login.customer')->with('success', 'Kích hoạt tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.');
+        flash('Kích hoạt tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.', 'success');
+        return redirect()->route('login.customer');
     }
 }

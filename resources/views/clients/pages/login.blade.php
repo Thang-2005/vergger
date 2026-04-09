@@ -25,22 +25,15 @@
             <div class="col-lg-6">
                 <div class="account-login-inner">
 
-                    @if (session('success'))
-                        <x-alert type="success" :message="session('success')" />
-                    @endif
-
-                    @if (session('error'))
-                        <x-alert type="danger" :message="session('error')" />
-                    @endif
-
                     @if ($errors->any())
-                        <x-alert type="danger" dismissible>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
-                        </x-alert>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     @endif
 
                     <form 
