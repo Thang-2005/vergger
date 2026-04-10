@@ -1242,26 +1242,11 @@ $(document).on('click', '.mini-cart-item-delete', function () {
     });
 
 });
-<<<<<<< HEAD
-    // ===== CẬP NHẬT BADGE =====
-    function updateWishlistBadge(count) {
-        if (count !== undefined) {
-            $('.wishlist-badge').text(count);
-            return;
-        }
-        $.get('/wishlist/count', function (res) {
-            $('.wishlist-badge').text(res.count || 0);
-        });
-    }
 
-}); 
 // ==============contact=============================
 // $(document).ready(function () {
 //     $('#contact_form').on('submit', function (e) {
 //         e.preventDefault();
-=======
-
->>>>>>> e7351409f7ab6f1e413c46e3156063f849d60737
 
 //         let name = $('input[name="name"]');
 //         let email = $('input[name="email"]');
