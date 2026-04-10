@@ -25,6 +25,7 @@
             <div class="col-lg-6">
                 <div class="account-login-inner">
 
+<<<<<<< HEAD
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <ul class="mb-0">
@@ -34,6 +35,14 @@
                             </ul>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+=======
+                    @if (session('success'))
+                        <x-alert type="success" :message="session('success')" />
+                    @endif
+
+                    @if (session('error'))
+                        <x-alert type="danger" :message="session('error')" />
+>>>>>>> e7351409f7ab6f1e413c46e3156063f849d60737
                     @endif
 
                     <form 

@@ -71,10 +71,10 @@
                     View Cart
                 </a>
 
-                <a href="#"
+                <a href="{{route('checkout') }}"
                     class="theme-btn-2 btn btn-effect-2">
                     Checkout
-                </a>
+                </a>        
             </div>
 
             <p>Free Shipping on All Orders Over 100.000đ!</p>
@@ -185,10 +185,10 @@
                     <div class="ltn__drop-menu user-menu">
                         <ul>
                             <li>
-                                <a href="{{ route('account') }}"><i class="icon-user"></i></a>
+                                <a href="{{ route('account.show_account') }}"><i class="icon-user"></i></a>
                                 <ul>
                                     @if(Auth::check())
-                                    <li><a href="{{ route('account') }}">Tài khoản</a></li>
+                                    <li><a href="{{ route('account.show_account') }}">Tài khoản</a></li>
                                     <li>
                                         <a href="{{ route('wishlist.index') }}">
                                             Yêu thích

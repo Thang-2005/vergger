@@ -10,27 +10,41 @@ use App\Models\Wishlist;
 
 class WishlistController extends Controller
 {
-    public function index()
-    {
-        if (!Auth::check()) {
-            return redirect()->route('login.customer');
-        }
-
-        $wishlist = Wishlist::where('user_id', Auth::id())
-            ->with('product.firstImage')
-            ->get();
-
-        return view('clients.pages.wishlist', compact('wishlist'));
+   public function index()
+{
+    if (!Auth::check()) {
+        return redirect()->route('login');
     }
+
+    $wishlist = Wishlist::where('user_id', Auth::id())
+        ->with('product.firstImage')
+        ->get();
+
+    foreach ($wishlist as $item) {
+
+        $product = $item->product;
+
+        $product->image_url =
+            $product->firstImage && $product->firstImage->image
+            ? asset('storage/uploads/product/'.$product->firstImage->image)
+            : asset('storage/uploads/product/default_product.jpg');
+    }
+
+    return view('clients.pages.wishlist', compact('wishlist'));
+}
 
     public function add(Request $request)
     {
         if (!Auth::check()) {
             return response()->json([
                 'message'  => 'Vui lòng đăng nhập',
-                'redirect' => route('login.customer')
+                'redirect' => route('login')
             ], 401);
         }
+
+        $request->validate([
+            'product_id' => ['required', 'integer', 'exists:products,id'],
+        ]);
         
         $product = Product::findOrFail($request->product_id);
 

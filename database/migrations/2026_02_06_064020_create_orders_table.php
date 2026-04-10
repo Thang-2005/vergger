@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->decimal('total_price',10,2);
             $table->string('status')->default('pending'); //pending, complated, canceled;
-            $table->foreignId('shiping_address_id')->constrained('shipping_address')->onDelete('cascade');
+            $table->foreignId('shipping_address_id')->constrained('shipping_address')->onDelete('cascade');
             $table->timestamps();
         });
     }

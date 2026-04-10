@@ -154,4 +154,20 @@ class CartController extends Controller
 
         return response()->json(['cart_count' => $count]);
     }
+
+    public function loadmini(){
+        $CartItems=[];
+        if(Auth::check())
+        {
+            $CartItems = cartItem::with('product')->where('user_id',Auth::id())->get;
+
+        }
+        else{
+            $CartItems=session('cart',[]);
+        }
+        return response()->json([
+            'status'     => 'true',
+            'html'=>view('clients.components.include.mini_cart', compact('cartItems'))->render(),
+        ]);
+    }
 }

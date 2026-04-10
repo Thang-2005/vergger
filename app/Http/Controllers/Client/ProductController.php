@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function show_product()
+    public function show_product($categoryId = null)
     {
         $categories = Category::with('products.firstImage')->get();
         foreach ($categories as $category) {
@@ -22,7 +22,13 @@ class ProductController extends Controller
                     : asset('storage/uploads/product/default_product.jpg');
             }
         }
-        $products = Product::with('firstImage')->where('status', 'in_stock')->paginate(9);
+        $productsQuery = Product::with('firstImage')->where('status', 'in_stock');
+
+        if ($categoryId) {
+            $productsQuery->where('category_id', $categoryId);
+        }
+
+        $products = $productsQuery->paginate(9);
         foreach ($products as $product) {
             $product->image_url =
                 $product->firstImage && $product->firstImage->image
@@ -142,7 +148,7 @@ class ProductController extends Controller
    public function show_product_detail($slug)
 {
     $product = Product::where('slug', $slug)
-        ->with(['image', 'firstImage', 'category'])
+        ->with(['image', 'firstImage', 'category', 'reviews.user'])
         ->firstOrFail();
 
     $product->image_url =

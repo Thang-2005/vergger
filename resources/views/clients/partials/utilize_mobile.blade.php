@@ -30,7 +30,7 @@
                 <div class="ltn__utilize-buttons ltn__utilize-buttons-2">
                     <ul>
                         <li>
-                            <a href="{{ route('account') }}" title="Tài khoản">
+                            <a href="{{ route('account.show_account') }}" title="Tài khoản">
                                 <span class="utilize-btn-icon">
                                     <i class="far fa-user"></i>
                                 </span>

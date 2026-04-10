@@ -679,6 +679,44 @@ $(document).ready(function () {
             });
         });
 
+        // ===== CANCEL ORDER HANDLER =====
+        $(document).on('click', '.cancel-order-btn', function (e) {
+            e.preventDefault();
+
+            let orderId = $(this).data('order-id');
+
+            Swal.fire({
+                title: 'Xác nhận hủy đơn',
+                text: 'Bạn có chắc muốn hủy đơn hàng này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hủy đơn',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/account/orders/' + orderId + '/cancel',
+                        type: 'POST',
+                        success: function (res) {
+                            toastr.success(res.message || 'Đơn hàng đã được hủy thành công');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        },
+                        error: function (xhr) {
+                            if (xhr.responseJSON?.message) {
+                                toastr.error(xhr.responseJSON.message);
+                            } else {
+                                toastr.error('Có lỗi xảy ra khi hủy đơn hàng!');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
 
     });
 
@@ -988,7 +1026,7 @@ $(document).ready(function () {
         e.stopPropagation();
 
         const productId = $(this).data('product-id');              // đọc data-product-id
-        const modalId   = $(this).attr('data-bs-target');          // ✅ SỬA: dùng .attr() không phải .data()
+        const modalId = $(this).attr('data-bs-target');          // ✅ SỬA: dùng .attr() không phải .data()
 
         if (!productId) {
             toastr.error('Không tìm thấy sản phẩm');
@@ -999,7 +1037,7 @@ $(document).ready(function () {
             url: '/wishlist/add',
             type: 'POST',
             data: {
-                _token:     $('meta[name="csrf-token"]').attr('content'),
+                _token: $('meta[name="csrf-token"]').attr('content'),
                 product_id: productId,
             },
             success: function (res) {
@@ -1024,41 +1062,41 @@ $(document).ready(function () {
     });
 
     // ===== XÓA 1 SẢN PHẨM =====
-   $(document).on('click', '.btn-remove-wishlist', function (e) {
-    e.preventDefault();
+    $(document).on('click', '.btn-remove-wishlist', function (e) {
+        e.preventDefault();
 
-    const id  = $(this).data('id');
-    const row = $(this).closest('tr');
+        const id = $(this).data('id');
+        const row = $(this).closest('tr');
 
-    Swal.fire({
-        title: 'Xóa sản phẩm yêu thích?',
-        text: 'Bạn có chắc muốn xóa sản phẩm này khỏi yêu thích?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy',
-        confirmButtonColor: '#d33'
-    }).then((result) => {
+        Swal.fire({
+            title: 'Xóa sản phẩm yêu thích?',
+            text: 'Bạn có chắc muốn xóa sản phẩm này khỏi yêu thích?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#d33'
+        }).then((result) => {
 
-        if (result.isConfirmed) {
+            if (result.isConfirmed) {
 
-            $.ajax({
-                url: '/wishlist/remove/' + id,
-                type: 'DELETE',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
+                $.ajax({
+                    url: '/wishlist/remove/' + id,
+                    type: 'DELETE',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
 
-                success: function (res) {
+                    success: function (res) {
 
-                    toastr.success(res.message);
+                        toastr.success(res.message);
 
-                    row.fadeOut(300, function () {
-                        $(this).remove();
+                        row.fadeOut(300, function () {
+                            $(this).remove();
 
-                        // nếu wishlist trống
-                        if ($('tbody tr').length === 0) {
-                            $('tbody').html(`
+                            // nếu wishlist trống
+                            if ($('tbody tr').length === 0) {
+                                $('tbody').html(`
                                 <tr id="wishlist-empty-row">
                                     <td colspan="7" class="text-center py-4">
                                         <i class="far fa-heart fa-2x mb-2 d-block text-muted"></i>
@@ -1067,50 +1105,50 @@ $(document).ready(function () {
                                 </tr>
                             `);
 
-                            $('#btn-clear-wishlist').hide();
-                        }
-                    });
+                                $('#btn-clear-wishlist').hide();
+                            }
+                        });
 
-                    updateWishlistBadge(res.wishlist_count);
-                },
+                        updateWishlistBadge(res.wishlist_count);
+                    },
 
-                error: function () {
-                    toastr.error('Không thể xóa sản phẩm');
-                }
-            });
+                    error: function () {
+                        toastr.error('Không thể xóa sản phẩm');
+                    }
+                });
 
-        }
+            }
+        });
     });
-});
 
     // ===== XÓA TOÀN BỘ =====
     $(document).on('click', '#btn-clear-wishlist', function () {
 
-    Swal.fire({
-        title: 'Xóa toàn bộ yêu thích?',
-        text: 'Tất cả sản phẩm yêu thích sẽ bị xóa.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Xóa hết',
-        cancelButtonText: 'Hủy',
-        confirmButtonColor: '#d33'
-    }).then((result) => {
+        Swal.fire({
+            title: 'Xóa toàn bộ yêu thích?',
+            text: 'Tất cả sản phẩm yêu thích sẽ bị xóa.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa hết',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#d33'
+        }).then((result) => {
 
-        if (result.isConfirmed) {
+            if (result.isConfirmed) {
 
-            $.ajax({
-                url: '/wishlist/clear',
-                type: 'DELETE',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
+                $.ajax({
+                    url: '/wishlist/clear',
+                    type: 'DELETE',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
 
-                success: function (res) {
+                    success: function (res) {
 
-                    toastr.success(res.message);
+                        toastr.success(res.message);
 
-                    // ✅ Xóa toàn bộ sản phẩm khỏi table
-                    $('tbody').html(`
+                        // ✅ Xóa toàn bộ sản phẩm khỏi table
+                        $('tbody').html(`
                         <tr id="wishlist-empty-row">
                             <td colspan="7" class="text-center py-4">
                                 <i class="far fa-heart fa-2x mb-2 d-block text-muted"></i>
@@ -1119,22 +1157,92 @@ $(document).ready(function () {
                         </tr>
                     `);
 
-                    // ✅ reset badge wishlist
-                    updateWishlistBadge(0);
+                        // ✅ reset badge wishlist
+                        updateWishlistBadge(0);
 
-                    // ✅ ẩn nút clear
-                    $('#btn-clear-wishlist').hide();
-                    (location.reload(), 500);
+                        // ✅ ẩn nút clear
+                        $('#btn-clear-wishlist').hide();
+                        (location.reload(), 500);
+                    },
+
+                    error: function () {
+                        toastr.error('Không thể xóa yêu thích');
+                    }
+                });
+
+            }
+        });
+    });
+    // ===== CẬP NHẬT BADGE =====
+    function updateWishlistBadge(count) {
+        const badgeSelector = '.wishlist-count, .wishlist-badge';
+
+        if (count !== undefined) {
+            $(badgeSelector).text(count);
+            return;
+        }
+        $.get('/wishlist/count', function (res) {
+            $(badgeSelector).text(res.count || 0);
+        });
+    }
+
+});
+
+
+
+// ============================================
+// cart
+// ============================================
+//mini_cart
+
+$(document).on('click', '.mini-cart-item-delete', function () {
+
+    const cartId = $(this).data('cart-id');
+    const $row = $(this).closest('.mini-cart-item');
+
+    Swal.fire({
+        title: 'Xóa sản phẩm?',
+        text: 'Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+        confirmButtonColor: '#d33',
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: '/cart/remove/' + cartId,
+                type: 'DELETE',
+
+                success: function (res) {
+
+                    toastr.success(res.message);
+
+                    $row.fadeOut(300, function () {
+                        $(this).remove();
+                    });
+
+                    $('#cart-total').text(res.total);
+                    updateCartBadge(res.cart_count);
+
+                    if (res.cart_count === 0) {
+                        setTimeout(() => location.reload(), 800);
+                    }
                 },
 
                 error: function () {
-                    toastr.error('Không thể xóa yêu thích');
+                    toastr.error('Không thể xóa sản phẩm');
                 }
             });
 
         }
+
     });
+
 });
+<<<<<<< HEAD
     // ===== CẬP NHẬT BADGE =====
     function updateWishlistBadge(count) {
         if (count !== undefined) {
@@ -1151,6 +1259,9 @@ $(document).ready(function () {
 // $(document).ready(function () {
 //     $('#contact_form').on('submit', function (e) {
 //         e.preventDefault();
+=======
+
+>>>>>>> e7351409f7ab6f1e413c46e3156063f849d60737
 
 //         let name = $('input[name="name"]');
 //         let email = $('input[name="email"]');
