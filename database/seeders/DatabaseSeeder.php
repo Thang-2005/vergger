@@ -16,23 +16,15 @@ class DatabaseSeeder extends Seeder
     
     public function run(): void
     {
-<<<<<<< HEAD
         $this->call([
             RoleSeeder::class,
             PermissionSeeder::class,
             RolePermissionSeeder::class,
             CategorySeeder::class,
             AdminUserSeeder::class,
-            
         ]);
-=======
-       $this->call([
-        RoleSeeder::class,
-        CategorySeeder::class,
-    ]);
 
-    Product::factory(100)->create();
->>>>>>> e7351409f7ab6f1e413c46e3156063f849d60737
+        Product::factory(100)->create();
 
         
     }
