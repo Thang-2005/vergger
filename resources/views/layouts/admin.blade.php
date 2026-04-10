@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<link rel="icon" href="{{ asset('asset/admin/build/images/favicon.ico') }}" type="image/ico" />
     <link rel="shortcut icon" href="{{ asset('asset/client/img/favicon.png') }}" type="image/x-icon" />
 
@@ -92,8 +93,19 @@
     <!-- Custom Theme Scripts -->
     <script src="{{asset('asset/admin/build/js/custom.min.js')}}"></script>
 
+    
+
+
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('asset/admin/js/admin.js') }}?v={{ filemtime(public_path('asset/admin/js/admin.js')) }}"></script>
+
+
+    
 
     <!-- Flash Messages -->
     @include('flash::message')

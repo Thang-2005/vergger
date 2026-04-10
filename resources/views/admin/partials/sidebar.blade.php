@@ -46,7 +46,7 @@
                     <li>
                         <a><i class="fa fa-user"></i> Quan ly nguoi dung <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Danh sach tai khoan</a></li>
+                            <li><a href="{{ route('admin.users') }}">Danh sach tai khoan</a></li>
                             <li><a href="#">Phan quyen nhan vien</a></li>
                         </ul>
                     </li>
