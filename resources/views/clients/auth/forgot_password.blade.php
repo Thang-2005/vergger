@@ -13,21 +13,14 @@
                 <p>Vui lòng nhập email của bạn để nhận link đặt lại mật khẩu.</p>
 
                 @if ($errors->any())
-                    <x-alert type="danger" dismissible>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    </x-alert>
-                @endif
-
-                @if (session('success'))
-                    <x-alert type="success" :message="session('success')" />
-                @endif
-
-                @if (session('error'))
-                    <x-alert type="danger" :message="session('error')" />
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
 
                 <form action="{{ route('password.email') }}" method="POST" onsubmit="return confirmEmail()">

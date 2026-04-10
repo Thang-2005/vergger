@@ -16,29 +16,15 @@
 
                 <div class="card-body">
 
-                    @if (session('error'))
-                        <x-alert type="danger" :message="session('error')" />
-                    @endif
-
-                    @if (session('success'))
-                        <x-alert type="success">
-                            <strong>✓ Thành công!</strong> {{ session('success') }}
-                        </x-alert>
-                        <script>
-                            setTimeout(function() {
-                                window.location.href = "{{ route('login') }}";
-                            }, 2000);
-                        </script>
-                    @endif
-
                     @if ($errors->any())
-                        <x-alert type="danger" dismissible>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
-                        </x-alert>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     @endif
 
                     <form method="POST" action="{{ route('password.update') }}" id="reset_password_form">

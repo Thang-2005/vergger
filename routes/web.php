@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Client\HomeController;
 
 use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Client\ResetPasswordController;
@@ -10,6 +10,7 @@ use App\Http\Controllers\Client\AccountController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\WishlistController;
+use App\Http\Controllers\Client\ContactController;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\ReviewController;
@@ -86,7 +87,6 @@ Route::middleware('auth.customer')->group(function () {
 
         Route::get('/orders', [AccountController::class, 'show_orders'])->name('orders');
         Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel_order'])->name('orders.cancel');
-        
     });
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
@@ -110,7 +110,6 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::delete('/clear',        [CartController::class, 'clear'])->name('clear');
     Route::get('/count',           [CartController::class, 'count'])->name('count');
     Route::get('/mini',           [CartController::class, 'loadmini'])->name('mini');
-
 });
 
 Route::prefix('wishlist')->name('wishlist.')->group(function () {
@@ -120,6 +119,10 @@ Route::prefix('wishlist')->name('wishlist.')->group(function () {
     Route::delete('/clear', [WishlistController::class, 'clear'])->name('clear');
     Route::get('/count',    [WishlistController::class, 'count'])->name('count');
 });
+
+// contact
+Route::get('/contact', [ContactController::class, 'show_contact'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit_contact'])->name('contact.submit');
 
 Route::prefix('review')->name('review.')->middleware('auth.customer')->group(function () {
     Route::post('/store', [ReviewController::class, 'store'])->name('store');
@@ -136,10 +139,8 @@ Route::prefix('review')->name('review.')->middleware('auth.customer')->group(fun
 
 
 
-Route::middleware('auth.customer')->group(function () {
+require __DIR__ . '/admin.php';
 
 
 
-});
-
-
+Route::middleware('auth.customer')->group(function () {});

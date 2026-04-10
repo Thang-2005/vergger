@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable
 {
@@ -31,6 +32,30 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function getRolesAttribute(): Collection
+    {
+        return collect([$this->role])->filter();
+    }
+
+    public function isAdminOrStaff(): bool
+    {
+        $roleName = strtolower($this->role?->name ?? '');
+        return in_array($roleName, ['admin', 'staff'], true);
+    }
+
+    public function hasPermission(string $permissionName): bool
+    {
+        if (!$this->role) {
+            return false;
+        }
+
+        if (strtolower($this->role->name) === 'admin') {
+            return true;
+        }
+
+        return $this->role->hasPermission($permissionName);
     }
 
     public function reviews()

@@ -113,6 +113,85 @@ $(document).ready(function () {
     });
 
 
+    // ===== CONTACT FORM =====
+    $('#contact-form').on('submit', function (e) {
+        e.preventDefault();
+
+        let form = $(this);
+        let name = $('input[name="name"]');
+        let email = $('input[name="email"]');
+        let phone = $('input[name="phone"]');
+        let message = $('textarea[name="message"]');
+        let valid = true;
+
+        // Clear all errors
+        $('.error').text('');
+        $('input, textarea').removeClass('is-invalid');
+
+        // Validate name
+        if (name.val().trim().length < 3) {
+            showError(name, 'Tên phải ít nhất 3 ký tự');
+            valid = false;
+        }
+
+        // Validate email
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email.val().trim())) {
+            showError(email, 'Email không đúng định dạng');
+            valid = false;
+        }
+
+        // Validate message
+        if (message.val().trim().length < 5) {
+            showError(message, 'Tin nhắn phải ít nhất 5 ký tự');
+            valid = false;
+        }
+        if(phone.val().trim().length > 0) {
+            let phoneRegex = /^[0-9]{10,11}$/;
+            if (!phoneRegex.test(phone.val().trim())) {
+                showError(phone, 'Số điện thoại không đúng định dạng');
+                valid = false;
+            }
+        }
+
+
+        if (!valid) {
+            toastr.error('Vui lòng kiểm tra lại thông tin');
+            return;
+        }
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            },
+            data: form.serialize(),
+            success: function (res) {
+                toastr.success(res.message);
+                form[0].reset();
+                $('.error').text('');
+                $('input, textarea').removeClass('is-invalid');
+                
+                setTimeout(function () {
+                    window.location.href = res.redirect;
+                }, 1500);
+            },
+            error: function (xhr) {
+                if (xhr.status === 422 && xhr.responseJSON?.errors) {
+                    let errors = xhr.responseJSON.errors;
+                    Object.entries(errors).forEach(([field, msgs]) => {
+                        let input = $('[name="' + field + '"]');
+                        showError(input, msgs[0]);
+                        toastr.error(msgs[0]);
+                    });
+                } else {
+                    toastr.error('Có lỗi xảy ra!');
+                }
+            }
+        });
+    });
+
     // ===== LOGIN CUSTOMER =====
     // Đặt trước tất cả AJAX call
     $.ajaxSetup({
@@ -1163,8 +1242,80 @@ $(document).on('click', '.mini-cart-item-delete', function () {
     });
 
 });
+<<<<<<< HEAD
+    // ===== CẬP NHẬT BADGE =====
+    function updateWishlistBadge(count) {
+        if (count !== undefined) {
+            $('.wishlist-badge').text(count);
+            return;
+        }
+        $.get('/wishlist/count', function (res) {
+            $('.wishlist-badge').text(res.count || 0);
+        });
+    }
 
+}); 
+// ==============contact=============================
+// $(document).ready(function () {
+//     $('#contact_form').on('submit', function (e) {
+//         e.preventDefault();
+=======
 
+>>>>>>> e7351409f7ab6f1e413c46e3156063f849d60737
 
+//         let name = $('input[name="name"]');
+//         let email = $('input[name="email"]');
+//         let phone = $('input[name="phone"]');
+//         let message = $('textarea[name="message"]');
 
+//         let valid = true;
+
+//         if (name.val().trim().length < 3) {
+//             toastr.error('Tên phải có ít nhất 3 ký tự');
+//             valid = false;
+//         }
+
+//         let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//         if (!emailRegex.test(email.val().trim())) {
+//             toastr.error('Email không đúng định dạng');
+//             valid = false;
+//         }
+//         let phoneRegex = /^\d{10,}$/;
+//         if (!phoneRegex.test(phone.val().trim())) {
+//             toastr.error('Số điện thoại không hợp lệ (≥10 số)');
+//             valid = false;
+//         }
+
+//         if (message.val().trim().length < 10) {
+//             toastr.error('Nội dung phải có ít nhất 10 ký tự');
+//             valid = false;
+//         }
+
+//         if (!valid) {
+//             toastr.error('Vui lòng kiểm tra lại thông tin liên hệ');
+//             return;
+//         }
+
+//         $.ajax({
+//             url: '/contact/submit',
+//             type: 'POST',
+//             data: $(this).serialize(),
+//             success: function (res) {
+//                 toastr.success(res.message);
+//                 $('#contact_form')[0].reset();
+//             },
+//             error: function (xhr) {
+//                 if (xhr.status === 422 && xhr.responseJSON?.errors) {
+//                     Object.values(xhr.responseJSON.errors).forEach(err => {
+//                         toastr.error(err[0]);
+//                     });
+//                     return;
+//                 }
+
+//                 let msg = xhr.responseJSON?.message || xhr.responseText || 'Có lỗi xảy ra!';
+//                 toastr.error(msg);
+//             }
+//         });
+//     });
+// });
 

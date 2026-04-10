@@ -21,7 +21,8 @@ class AccountController extends Controller
 
 
         if (!Auth::check()) {
-            return redirect()->route('login.customer')->with('error', 'Vui lòng đăng nhập');
+            flash('Vui lòng đăng nhập', 'error');
+            return redirect()->route('login.customer');
         }
         /** @var User $user */
         $user = Auth::user();

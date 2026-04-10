@@ -41,12 +41,12 @@ class ResetPasswordController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('login.customer')
-                ->with('success', 'Đặt lại mật khẩu thành công! Vui lòng đăng nhập với mật khẩu mới.');
+            flash('Đặt lại mật khẩu thành công! Vui lòng đăng nhập với mật khẩu mới.', 'success');
+            return redirect()->route('login.customer');
         } else {
+            flash('Đường dẫn đặt lại mật khẩu không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.', 'error');
             return back()
-                ->withInput($request->only('email'))
-                ->with('error', 'Đường dẫn đặt lại mật khẩu không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.');
+                ->withInput($request->only('email'));
         }
     }
 }

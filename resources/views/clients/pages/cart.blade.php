@@ -105,7 +105,11 @@
                             </tbody>
                         </table>
                         <div class="btn-wrapper text-right text-end">
+<<<<<<< HEAD
+                            <a href="" class="theme-btn-1 btn btn-effect-1">
+=======
                             <a href="{{ route('checkout') }}" class="theme-btn-1 btn btn-effect-1">
+>>>>>>> e7351409f7ab6f1e413c46e3156063f849d60737
                                 Tiến hành thanh toán
                             </a>
                         </div>
