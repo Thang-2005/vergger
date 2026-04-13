@@ -35,7 +35,35 @@ class OrderController extends Controller
             };
         }
 
-        return view('clients.pages.order_detail', compact('order', 'paymentMethod'));
+        $invoiceData = [
+            'id' => $order->id,
+            'created_at' => $order->created_at?->format('H:i d/m/Y'),
+            'status' => $order->status,
+            'total_price' => $order->total_price,
+            'payment_method' => $order->payment?->payment_method,
+            'payment_status' => $order->payment?->status,
+            'payment_status_label' => match ($order->payment?->status) {
+                'paid' => 'Đã thanh toán',
+                'pending' => 'Chưa thanh toán',
+                default => 'Chưa cập nhật',
+            },
+            'shipping' => $order->shippingAddress ? [
+                'full_name' => $order->shippingAddress->full_name,
+                'phone' => $order->shippingAddress->phone,
+                'address' => $order->shippingAddress->address,
+                'city' => $order->shippingAddress->city,
+            ] : null,
+            'items' => $order->orderItems->map(function ($item) {
+                return [
+                    'name' => $item->product?->name ?? 'Sản phẩm đã xóa',
+                    'quantity' => $item->quantity,
+                    'price' => (float) $item->price,
+                    'total' => (float) $item->price * $item->quantity,
+                ];
+            })->values(),
+        ];
+
+        return view('clients.pages.order_detail', compact('order', 'paymentMethod', 'invoiceData'));
     }
 
     public function cancel_order(Request $request, $id)

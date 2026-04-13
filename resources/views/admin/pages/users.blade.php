@@ -72,7 +72,7 @@
                                         <button type="button" class="btn btn-success btn-sm">
                                             <i class="fa fa-comments-o"></i>
                                         </button>
-                                            @if(in_array($user->role->name, ['Customer', 'Staff']))
+                                            @if($canManageUsers && in_array($user->role->name, ['Customer', 'Staff']))
                                             @if($user->role->name == 'Customer')
                                             <button type="button" class="btn btn-primary btn-sm upgrateStart" data-user-id="{{ $user->id }}">
                                                 <i class="fa fa-user"></i> Lên Staff

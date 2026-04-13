@@ -131,6 +131,7 @@
 							@if ($order->status === 'pending')
 								<button type="button" class="btn btn-outline-danger cancel-order-btn" data-order-id="{{ $order->id }}">Hủy đơn hàng</button>
 							@endif
+							<button type="button" class="btn btn-outline-primary" id="downloadInvoiceBtn">Xuất hóa đơn PDF</button>
 							<a href="{{ route('account.orders') }}" class="btn btn-outline-secondary">Quay lại danh sách đơn hàng</a>
 							<a href="{{ route('home') }}" class="btn theme-btn-1">Tiếp tục mua sắm</a>
 						</div>
@@ -140,5 +141,7 @@
 		</div>
 	</div>
 </div>
+
+<script id="invoice-data" type="application/json">{!! json_encode($invoiceData, JSON_UNESCAPED_UNICODE) !!}</script>
 
 @endsection

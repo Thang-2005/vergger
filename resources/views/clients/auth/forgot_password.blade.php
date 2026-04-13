@@ -23,7 +23,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('password.email') }}" method="POST" onsubmit="return confirmEmail()">
+                <form action="{{ route('password.email') }}" method="POST" onsubmit="return window.confirmEmail()">
                     @csrf
                     <input type="email" name="email" placeholder="Email *" value="{{ old('email') }}" required>
                     <small class="text-danger" id="error_email"></small>
@@ -31,19 +31,6 @@
                     <button class="theme-btn-1 btn btn-block" type="submit">GỬI LINK ĐẶT LẠI MẬT KHẨU</button>
                 </form>
 
-                <script>
-                    function confirmEmail() {
-                        const emailInput = document.querySelector('input[name="email"]');
-                        const email = emailInput.value.trim();
-                        
-                        if (!email) {
-                            alert('Vui lòng nhập email');
-                            return false;
-                        }
-                        
-                        return confirm(`Có chắc chắn gửi link đặt lại mật khẩu đến email:\n${email}?`);
-                    }
-                </script>
             </div>
         </div>
     </div>
