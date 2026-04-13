@@ -103,6 +103,7 @@ class OrderController extends Controller
                 }
 
                 $product->stock += $orderItem->quantity;
+                // Cập nhật trạng thái back to in_stock
                 if ($product->stock > 0 && $product->status === 'out_of_stock') {
                     $product->status = 'in_stock';
                 }

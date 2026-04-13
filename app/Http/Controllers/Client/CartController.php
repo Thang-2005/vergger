@@ -28,10 +28,28 @@ class CartController extends Controller
 
         $product = Product::findOrFail($request->product_id);
 
+        // Validate: Kiểm tra sản phẩm hết hàng
+        if ($product->stock <= 0 || $product->status === 'out_of_stock') {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "Sản phẩm \"{$product->name}\" hiện tại đã hết hàng",
+            ], 400);
+        }
+
         // Nếu đã có trong giỏ → cộng thêm số lượng
         $cartItem = CartItem::where('user_id', Auth::id())
             ->where('product_id', $request->product_id)
             ->first();
+
+        $newQuantity = ($cartItem ? $cartItem->quantity : 0) + $request->quantity;
+
+        // Validate: Kiểm tra số lượng yêu cầu vượt quá stock
+        if ($newQuantity > $product->stock) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "Sản phẩm \"{$product->name}\" chỉ còn {$product->stock} cái. Bạn không thể thêm {$request->quantity} cái",
+            ], 400);
+        }
 
         if ($cartItem) {
             $cartItem->increment('quantity', $request->quantity);
@@ -91,6 +109,24 @@ class CartController extends Controller
         $cartItem = CartItem::where('id', $id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
+
+        $product = $cartItem->product;
+
+        // Validate: Kiểm tra sản phẩm hết hàng
+        if ($product->stock <= 0 || $product->status === 'out_of_stock') {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "Sản phẩm \"{$product->name}\" hiện tại đã hết hàng",
+            ], 400);
+        }
+
+        // Validate: Kiểm tra số lượng yêu cầu vượt quá stock
+        if ($request->quantity > $product->stock) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "Sản phẩm \"{$product->name}\" chỉ còn {$product->stock} cái. Bạn không thể cập nhật {$request->quantity} cái",
+            ], 400);
+        }
 
         $cartItem->update(['quantity' => $request->quantity]);
 

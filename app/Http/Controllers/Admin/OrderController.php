@@ -157,6 +157,11 @@ class OrderController extends Controller
                 foreach ($order->orderItems as $item) {
                     if ($item->product) {
                         $item->product->decrement('stock', $item->quantity);
+                        // Cập nhật trạng thái to out_of_stock
+                        if ($item->product->stock <= 0) {
+                            $item->product->status = 'out_of_stock';
+                            $item->product->save();
+                        }
                     }
                 }
             }
@@ -167,6 +172,11 @@ class OrderController extends Controller
                 foreach ($order->orderItems as $item) {
                     if ($item->product) {
                         $item->product->increment('stock', $item->quantity);
+                        // Cập nhật trạng thái back to in_stock
+                        if ($item->product->stock > 0 && $item->product->status === 'out_of_stock') {
+                            $item->product->status = 'in_stock';
+                            $item->product->save();
+                        }
                     }
                 }
             }
