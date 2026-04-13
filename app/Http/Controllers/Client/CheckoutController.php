@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\CartItem;
@@ -13,6 +14,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\ShippingAddress;
+use App\Mail\OrderThankYouMail;
 
 class CheckoutController extends Controller
 {
@@ -95,8 +97,10 @@ class CheckoutController extends Controller
             return $item->product->price * $item->quantity;
         });
 
+        $order = null;
+
         try {
-            DB::transaction(function () use ($cartItems, $shippingAddressId, $totalPrice, $validated) {
+            DB::transaction(function () use (&$order, $cartItems, $shippingAddressId, $totalPrice, $validated) {
                 // Tạo order
                 $order = Order::create([
                     'user_id' => Auth::id(),
@@ -143,6 +147,15 @@ class CheckoutController extends Controller
             });
         } catch (\RuntimeException $e) {
             return redirect()->route('cart.index')->with('error', $e->getMessage());
+        }
+
+        if ($order) {
+            try {
+                $order->load(['user', 'shippingAddress', 'payment', 'orderItems.product']);
+                Mail::to($order->user?->email)->send(new OrderThankYouMail($order, 'placed'));
+            } catch (\Throwable $mailException) {
+                report($mailException);
+            }
         }
 
         return redirect()->route('account.orders')->with('success', 'Đơn hàng được tạo thành công! Kiểm tra tại mục "Đơn hàng" trong tài khoản của bạn.');

@@ -846,6 +846,341 @@ $(document).ready(function () {
     }
 });
 
+(function () {
+    window.confirmEmail = function () {
+        var emailInput = document.querySelector('input[name="email"]');
+        var email = emailInput ? emailInput.value.trim() : '';
+
+        if (!email) {
+            alert('Vui lòng nhập email');
+            return false;
+        }
+
+        return confirm('Có chắc chắn gửi link đặt lại mật khẩu đến email:\n' + email + '?');
+    };
+
+    window.togglePasswordVisibility = function (selector) {
+        var input = document.querySelector(selector);
+        if (!input) {
+            return;
+        }
+
+        var btn = input.parentElement ? input.parentElement.querySelector('.toggle-password-btn') : null;
+        var icon = btn ? btn.querySelector('.toggle-password-icon, i') : null;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            if (icon) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        } else {
+            input.type = 'password';
+            if (icon) {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    };
+
+    window.editReview = function (rating, comment) {
+        var formSection = document.getElementById('review-form-section');
+        var reviewHint = document.getElementById('review-edit-hint');
+        var formTitle = document.getElementById('form-title');
+        var submitText = document.getElementById('submit-text');
+        var ratingInput = document.getElementById('rating-input');
+        var commentInput = document.getElementById('comment');
+        var stars = document.querySelectorAll('.star-item');
+
+        if (formSection) {
+            formSection.classList.remove('d-none');
+        }
+        if (reviewHint) {
+            reviewHint.classList.add('d-none');
+        }
+        if (ratingInput) {
+            ratingInput.value = rating;
+        }
+        if (commentInput) {
+            commentInput.value = comment;
+        }
+
+        stars.forEach(function (star) {
+            var starValue = parseInt(star.getAttribute('data-value'), 10);
+            if (starValue <= rating) {
+                star.classList.remove('far');
+                star.classList.add('fas');
+            } else {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+        });
+
+        if (formTitle) {
+            formTitle.textContent = 'Chỉnh sửa đánh giá';
+        }
+        if (submitText) {
+            submitText.textContent = 'Cập nhật đánh giá';
+        }
+        if (formSection) {
+            formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
+    window.cancelEdit = function () {
+        var form = document.getElementById('review-form');
+        var formSection = document.getElementById('review-form-section');
+        var reviewHint = document.getElementById('review-edit-hint');
+        var hasReview = form ? form.getAttribute('data-has-review') === '1' : false;
+
+        if (!hasReview) {
+            return;
+        }
+
+        var originalRating = form.getAttribute('data-original-rating');
+        var originalComment = form.getAttribute('data-original-comment');
+        var ratingInput = document.getElementById('rating-input');
+        var commentInput = document.getElementById('comment');
+        var stars = document.querySelectorAll('.star-item');
+
+        if (ratingInput) {
+            ratingInput.value = originalRating;
+        }
+        if (commentInput) {
+            commentInput.value = originalComment;
+        }
+
+        stars.forEach(function (star) {
+            var starValue = parseInt(star.getAttribute('data-value'), 10);
+            if (starValue <= parseInt(originalRating, 10)) {
+                star.classList.remove('far');
+                star.classList.add('fas');
+            } else {
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+        });
+
+        if (formSection) {
+            formSection.classList.add('d-none');
+        }
+        if (reviewHint) {
+            reviewHint.classList.remove('d-none');
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var bars = document.querySelectorAll('.review-rating-bar');
+        if (bars.length) {
+            bars.forEach(function (bar) {
+                var width = bar.getAttribute('data-width');
+                bar.style.width = width + '%';
+            });
+        }
+
+        var stars = document.querySelectorAll('.star-item');
+        var ratingInput = document.getElementById('rating-input');
+        stars.forEach(function (star) {
+            star.addEventListener('click', function () {
+                var value = this.getAttribute('data-value');
+                if (ratingInput) {
+                    ratingInput.value = value;
+                }
+
+                stars.forEach(function (s) {
+                    var starValue = s.getAttribute('data-value');
+                    if (starValue <= value) {
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    } else {
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
+                });
+            });
+
+            star.addEventListener('mouseenter', function () {
+                var value = this.getAttribute('data-value');
+                stars.forEach(function (s) {
+                    var starValue = s.getAttribute('data-value');
+                    s.style.transform = starValue <= value ? 'scale(1.2)' : 'scale(1)';
+                });
+            });
+        });
+
+        var starContainer = document.getElementById('star-rating');
+        if (starContainer) {
+            starContainer.addEventListener('mouseleave', function () {
+                stars.forEach(function (s) { s.style.transform = 'scale(1)'; });
+            });
+        }
+
+        var editButtons = document.querySelectorAll('.edit-review-trigger');
+        editButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var rating = this.getAttribute('data-rating');
+                var comment = this.getAttribute('data-comment');
+                window.editReview(rating, comment);
+
+                var actionMenu = this.closest('.review-action-menu');
+                if (actionMenu) {
+                    actionMenu.classList.add('d-none');
+                }
+            });
+        });
+
+        var menuToggles = document.querySelectorAll('[data-review-menu-toggle]');
+        if (menuToggles.length) {
+            var closeAllMenus = function () {
+                document.querySelectorAll('[data-review-menu]').forEach(function (menu) {
+                    menu.classList.add('d-none');
+                });
+                menuToggles.forEach(function (toggle) {
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            };
+
+            menuToggles.forEach(function (toggle) {
+                toggle.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    var reviewId = this.getAttribute('data-review-menu-toggle');
+                    var menu = document.querySelector('[data-review-menu="' + reviewId + '"]');
+                    var willOpen = menu && menu.classList.contains('d-none');
+
+                    closeAllMenus();
+                    if (menu && willOpen) {
+                        menu.classList.remove('d-none');
+                        this.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+
+            document.addEventListener('click', closeAllMenus);
+            document.querySelectorAll('[data-review-menu]').forEach(function (menu) {
+                menu.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                });
+            });
+        }
+
+        var downloadBtn = document.getElementById('downloadInvoiceBtn');
+        var invoiceDataElement = document.getElementById('invoice-data');
+        if (downloadBtn && invoiceDataElement && typeof pdfMake !== 'undefined') {
+            var order = JSON.parse(invoiceDataElement.textContent || '{}');
+            var currencyFormatter = new Intl.NumberFormat('vi-VN');
+            var paymentMethodLabel = {
+                cash: 'Thanh toán khi nhận hàng',
+                cod: 'Thanh toán khi nhận hàng',
+                vnpay: 'VNPAY',
+                paypal: 'PayPal'
+            }[order.payment_method] || 'Chưa cập nhật';
+
+            var statusLabel = {
+                pending: 'Chờ xác nhận',
+                processing: 'Đang xử lý',
+                shipped: 'Đang giao',
+                completed: 'Hoàn thành',
+                cancelled: 'Đã hủy',
+                canceled: 'Đã hủy'
+            }[order.status] || order.status;
+
+            downloadBtn.addEventListener('click', function () {
+                var rows = (order.items || []).map(function (item, index) {
+                    return [
+                        { text: String(index + 1), alignment: 'center' },
+                        item.name,
+                        { text: String(item.quantity), alignment: 'center' },
+                        { text: currencyFormatter.format(item.price) + ' đ', alignment: 'right' },
+                        { text: currencyFormatter.format(item.total) + ' đ', alignment: 'right' },
+                    ];
+                });
+
+                var docDefinition = {
+                    pageSize: 'A4',
+                    pageMargins: [40, 48, 40, 48],
+                    content: [
+                        { text: 'VEGGIE', style: 'brand' },
+                        { text: 'HÓA ĐƠN BÁN HÀNG', style: 'title' },
+                        {
+                            columns: [
+                                [
+                                    { text: 'Thông tin đơn hàng', style: 'sectionTitle' },
+                                    { text: 'Mã đơn: #' + order.id },
+                                    { text: 'Ngày đặt: ' + (order.created_at || '-') },
+                                    { text: 'Trạng thái: ' + statusLabel },
+                                ],
+                                [
+                                    { text: 'Thông tin thanh toán', style: 'sectionTitle' },
+                                    { text: 'Phương thức: ' + paymentMethodLabel },
+                                    { text: 'Trạng thái: ' + (order.payment_status_label || order.payment_status || 'pending') },
+                                ]
+                            ],
+                            columnGap: 24,
+                            margin: [0, 0, 0, 16]
+                        },
+                        {
+                            columns: [
+                                [
+                                    { text: 'Người nhận', style: 'sectionTitle' },
+                                    { text: order.shipping ? order.shipping.full_name : 'Chưa có thông tin' },
+                                    { text: order.shipping ? order.shipping.phone : '' },
+                                    { text: order.shipping ? (order.shipping.address + ', ' + order.shipping.city) : '' },
+                                ],
+                                [
+                                    { text: 'Cửa hàng', style: 'sectionTitle' },
+                                    { text: 'Veggie' },
+                                    { text: 'Hotline: 0900 000 000' },
+                                    { text: 'Email: support@veggie.local' },
+                                ]
+                            ],
+                            columnGap: 24,
+                            margin: [0, 0, 0, 18]
+                        },
+                        {
+                            table: {
+                                headerRows: 1,
+                                widths: [30, '*', 50, 85, 85],
+                                body: [
+                                    [
+                                        { text: '#', style: 'tableHeader' },
+                                        { text: 'Sản phẩm', style: 'tableHeader' },
+                                        { text: 'SL', style: 'tableHeader' },
+                                        { text: 'Đơn giá', style: 'tableHeader' },
+                                        { text: 'Thành tiền', style: 'tableHeader' },
+                                    ],
+                                ].concat(rows).concat([
+                                    [
+                                        { text: 'Tổng cộng', colSpan: 4, alignment: 'right', bold: true },
+                                        {},
+                                        {},
+                                        {},
+                                        { text: currencyFormatter.format(order.total_price) + ' đ', alignment: 'right', bold: true },
+                                    ]
+                                ])
+                            },
+                            layout: 'lightHorizontalLines'
+                        },
+                        {
+                            text: 'Cảm ơn bạn đã mua sắm tại Veggie.',
+                            margin: [0, 18, 0, 0],
+                            italics: true,
+                        }
+                    ],
+                    styles: {
+                        brand: { fontSize: 18, bold: true, color: '#2f6d3a', alignment: 'center' },
+                        title: { fontSize: 15, bold: true, alignment: 'center', margin: [0, 2, 0, 18] },
+                        sectionTitle: { fontSize: 11, bold: true, color: '#2f6d3a', margin: [0, 0, 0, 4] },
+                        tableHeader: { bold: true, fillColor: '#eef4ef' }
+                    },
+                    defaultStyle: { fontSize: 10 }
+                };
+
+                pdfMake.createPdf(docDefinition).download('hoa-don-don-hang-' + order.id + '.pdf');
+            });
+        }
+    });
+})();
+
 
 
 // ============================================
@@ -1303,4 +1638,6 @@ $(document).on('click', '.mini-cart-item-delete', function () {
 //         });
 //     });
 // });
+
+
 

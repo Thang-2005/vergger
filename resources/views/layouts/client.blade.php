@@ -62,6 +62,8 @@
     {{-- 3. Toastr + SweetAlert --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('asset/admin/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('asset/admin/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
 
     {{-- 4. Flash Messages --}}
     @include('flash::message')
@@ -72,6 +74,7 @@
     {{-- 5. Main + Custom --}}
     <script src="{{ asset('asset/client/js/main.js') }}"></script>
     <script src="{{ asset('asset/client/js/custom.js') }}"></script>
+    
 
     {{-- 6. Global config - CSRF + Toastr --}}
     <script>

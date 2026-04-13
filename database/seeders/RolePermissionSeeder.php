@@ -25,9 +25,14 @@ class RolePermissionSeeder extends Seeder
 
         if ($staffRole) {
             $staffPermissionIds = Permission::whereIn('name', [
-                'manage_products',
-                'manage_orders',
-                'manage_contacts',
+                'products.view',
+                'products.create',
+                'products.update',
+                'products.delete',
+                'orders.view',
+                'orders.manage',
+                'contacts.view',
+                'contacts.manage',
             ])->pluck('id')->all();
 
             $staffRole->permissions()->sync($staffPermissionIds);

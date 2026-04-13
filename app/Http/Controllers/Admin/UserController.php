@@ -9,13 +9,14 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    private function ensureAdminAccess(): ?\Illuminate\Http\JsonResponse
+    private function ensurePermission(string $permission): ?\Illuminate\Http\JsonResponse
     {
+         /** @var \App\Models\User|null $adminUser */
        $adminUser = auth('admin')->user();
 
-       if (!$adminUser || !$adminUser->role || $adminUser->role->name !== 'Admin') {
+       if (!$adminUser || !$adminUser->hasPermission($permission)) {
            return response()->json([
-               'message' => 'Chỉ Admin mới có quyền thực hiện thao tác này.',
+               'message' => 'Bạn không có quyền thực hiện thao tác này.',
            ], 403);
        }
 
@@ -43,14 +44,22 @@ class UserController extends Controller
 
     public function index()
     {
-       $users = User::with('role')->paginate(9);
+         /** @var \App\Models\User|null $adminUser */
+       $adminUser = auth('admin')->user();
 
-        return view('admin.pages.users', compact('users'));
+       if (!$adminUser || !$adminUser->hasPermission('users.view')) {
+           abort(403, 'Bạn không có quyền truy cập trang này.');
+       }
+
+       $users = User::with('role')->paginate(9);
+       $canManageUsers = $adminUser->hasPermission('users.manage');
+
+        return view('admin.pages.users', compact('users', 'canManageUsers'));
     }
 
     public function upgradeRole(Request $request)
     {
-       if ($error = $this->ensureAdminAccess()) {
+       if ($error = $this->ensurePermission('users.manage')) {
            return $error;
        }
 
@@ -89,7 +98,7 @@ class UserController extends Controller
 
     public function downgradeRole(Request $request)
     {
-       if ($error = $this->ensureAdminAccess()) {
+       if ($error = $this->ensurePermission('users.manage')) {
            return $error;
        }
 
@@ -128,7 +137,7 @@ class UserController extends Controller
 
     public function changeStatus(Request $request)
     {
-       if ($error = $this->ensureAdminAccess()) {
+       if ($error = $this->ensurePermission('users.manage')) {
            return $error;
        }
 

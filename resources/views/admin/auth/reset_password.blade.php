@@ -24,11 +24,7 @@
                         <x-alert type="success">
                             <strong>✓ Thành công!</strong> {{ session('success') }}
                         </x-alert>
-                        <script>
-                            setTimeout(function() {
-                                window.location.href = "{{ route('login') }}";
-                            }, 2000);
-                        </script>
+                        <div class="js-auto-redirect" data-auto-redirect-url="{{ route('login') }}" data-auto-redirect-delay="2000"></div>
                     @endif
 
                     @if ($errors->any())
@@ -118,23 +114,5 @@ input.is-invalid {
     border: 1px solid #dc3545;
 }
 </style>
-
-<script>
-    function togglePassword(fieldId) {
-        const field = document.getElementById(fieldId);
-        const button = event.target.closest('button');
-        const icon = button.querySelector('i');
-        
-        if (field.type === 'password') {
-            field.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            field.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-</script>
 
 @endsection

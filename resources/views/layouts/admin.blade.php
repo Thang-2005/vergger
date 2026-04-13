@@ -31,8 +31,13 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('asset/admin/build/css/custom.min.css')}}" rel="stylesheet">
+    <link href="{{asset('asset/admin/css/admin.css')}}" rel="stylesheet">
+
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+    </style>
   </head>
 
   <body class="nav-md">
@@ -41,13 +46,11 @@
         
           @include('admin.partials.sidebar')
           @include('admin.partials.top_nagivation')
-          @include('admin.partials.footer')
-        
-
-
           <main>
             @yield('content')
           </main>
+
+          @include('admin.partials.footer')
        
       </div>
     </div>
