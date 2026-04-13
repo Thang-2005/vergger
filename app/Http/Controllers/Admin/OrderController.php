@@ -151,6 +151,26 @@ class OrderController extends Controller
             $history->changed_at = now();
             $history->save();
 
+            // Trừ stock khi đơn hàng được xác nhận giao hàng thành công (completed)
+            if ($newStatus === 'completed' && $originalStatus !== 'completed') {
+                $order->loadMissing(['orderItems.product']);
+                foreach ($order->orderItems as $item) {
+                    if ($item->product) {
+                        $item->product->decrement('stock', $item->quantity);
+                    }
+                }
+            }
+
+            // Hoàn lại stock nếu đơn hàng bị hủy
+            if ($newStatus === 'cancelled' && $originalStatus !== 'cancelled') {
+                $order->loadMissing(['orderItems.product']);
+                foreach ($order->orderItems as $item) {
+                    if ($item->product) {
+                        $item->product->increment('stock', $item->quantity);
+                    }
+                }
+            }
+
             if ($originalStatus === 'pending' && in_array($newStatus, ['processing', 'shipped', 'completed'], true)) {
                 try {
                     $order->loadMissing(['user', 'shippingAddress', 'payment', 'orderItems.product']);
