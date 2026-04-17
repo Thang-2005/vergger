@@ -22,7 +22,7 @@ Route::prefix('admin')->group(function () {
     Route::middleware('check.auth.admin')->group(function () {
         
         Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-        Route::get('/', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+        Route::get('/', [AdminAuthController::class, 'showLoginForm']);
 
         Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
     });
