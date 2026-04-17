@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Client\HomeController;
 
 use App\Http\Controllers\Client\AuthController;
@@ -13,10 +14,18 @@ use App\Http\Controllers\Client\WishlistController;
 use App\Http\Controllers\Client\ContactController;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\Client\CouponController;
 use App\Http\Controllers\Client\ReviewController;
+use App\Http\Controllers\Client\PaymentController;
 
 
 
+
+// Language Switcher Route
+Route::get('/locale/{locale}', [LocaleController::class, 'change'])->name('locale.change');
+
+// Account alias for backward compatibility
+Route::get('/account', [AccountController::class, 'show_account'])->name('account')->middleware('auth.customer');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -112,6 +121,11 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/mini',           [CartController::class, 'loadmini'])->name('mini');
 });
 
+Route::middleware('auth.customer')->prefix('coupon')->name('coupon.')->group(function () {
+    Route::post('/apply',  [CouponController::class, 'apply'])->name('apply');
+    Route::post('/remove', [CouponController::class, 'remove'])->name('remove');
+});
+
 Route::prefix('wishlist')->name('wishlist.')->group(function () {
     Route::get('/',         [WishlistController::class, 'index'])->name('index');
     Route::post('/add',     [WishlistController::class, 'add'])->name('add');
@@ -130,6 +144,10 @@ Route::prefix('review')->name('review.')->middleware('auth.customer')->group(fun
     Route::delete('/delete/{id}', [ReviewController::class, 'destroy'])->name('destroy');
 });
 
+// VNPAY Payment Routes (Return callback and IPN)
+Route::get('/payment/vnpay/return', [PaymentController::class, 'vnpayReturn'])->name('payment.vnpay.return');
+Route::post('/vnpay-ipn', [PaymentController::class, 'vnpayIpn'])->name('vnpay.ipn');
+
 
 
 
@@ -141,6 +159,3 @@ Route::prefix('review')->name('review.')->middleware('auth.customer')->group(fun
 
 require __DIR__ . '/admin.php';
 
-
-
-Route::middleware('auth.customer')->group(function () {});

@@ -45,7 +45,7 @@
             <div class="text-center p-4">
                 <img src="{{ asset('asset/client/img/logo.png') }}"
                     width="80">
-                <p class="mt-2">Giỏ hàng đang trống</p>
+                <p class="mt-2">{{ __('messages.empty_cart') }}</p>
             </div>
 
             @endforelse
@@ -67,7 +67,7 @@
             <div class="btn-wrapper">
                 <a href="{{ route('cart.index') }}"
                     class="theme-btn-1 btn btn-effect-1">
-                    Xem giỏ hàng
+                    {{ __('messages.view_cart') }}
                 </a>
 
                 <a href="{{ route('checkout') }}"

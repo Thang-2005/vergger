@@ -71,7 +71,7 @@
                                 <div class="modal-product-meta ltn__product-details-menu-1">
                                     <ul>
                                         <li>
-                                            <strong>Danh mục:</strong>
+                                            <strong>{{ __('messages.category') }}:</strong>
                                             <span>
                                                 <a href="{{ route('category', $product->category->slug) }}">{{ $product->category->name }}</a>
                                             </span>
@@ -88,11 +88,11 @@
                                         </li>
                                         <li>
                                             <a href="#" class="theme-btn-1 btn btn-effect-1"
-                                                title="Thêm vào giỏ hàng"
+                                                title="{{ __('messages.add_product') }} vào giỏ hàng"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#add_to_cart_modal-{{ $product->id }}">
                                                 <i class="fas fa-shopping-cart"></i>
-                                                <span>Thêm vào giỏ hàng</span>
+                                                <span>{{ __('messages.add_product') }} vào giỏ hàng</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -137,7 +137,7 @@
                     <div class="ltn__shop-details-tab-menu">
                         <div class="nav">
                             <a class="active show" data-bs-toggle="tab"
-                                href="#liton_tab_details_decription">Mô tả sản phẩm</a>
+                                href="#liton_tab_details_decription">{{ __('messages.description') }} sản phẩm</a>
                             <a data-bs-toggle="tab" href="#liton_tab_details_review">Đánh giá</a>
                         </div>
                     </div>
@@ -254,7 +254,7 @@
                                                                                         data-review-id="{{ $review->id }}"
                                                                                         data-rating="{{ $review->rating }}"
                                                                                         data-comment="{{ htmlspecialchars($review->comment) }}">
-                                                                                    <i class="fas fa-edit"></i> Sửa
+                                                                                    <i class="fas fa-edit"></i> {{ __('messages.edit') }}
                                                                                 </button>
                                                                                 <form action="{{ route('review.destroy', $review->id) }}"
                                                                                       method="POST"
@@ -262,7 +262,7 @@
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button type="submit" class="review-action-menu-item review-action-menu-item-danger">
-                                                                                        <i class="fas fa-trash"></i> Xóa
+                                                                                        <i class="fas fa-trash"></i> {{ __('messages.delete') }}
                                                                                     </button>
                                                                                 </form>
                                                                             </div>
@@ -293,7 +293,7 @@
                                     @if($userReview && !$showReviewForm)
                                         <div class="review-alert review-alert-info" id="review-edit-hint" role="alert">
                                             <i class="fas fa-pen review-alert-icon"></i>
-                                            Nhấn nút <strong>Sửa</strong> ở đánh giá của bạn để chỉnh sửa nội dung.
+                                            Nhấn nút <strong>{{ __('messages.edit') }}</strong> ở đánh giá của bạn để chỉnh sửa nội dung.
                                         </div>
                                     @endif
                                     <div class="add-review-section {{ $showReviewForm ? '' : 'd-none' }}" id="review-form-section">
@@ -340,7 +340,7 @@
                                                 <textarea class="form-control review-form-textarea @error('comment') is-invalid @enderror" 
                                                           id="comment" 
                                                           name="comment" 
-                                                          placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."
+                                                          placeholder="{{ __('messages.share_experience') }}"
                                                           required>{{ $userReview->comment ?? '' }}</textarea>
                                                 <small class="review-form-help-text">Tối thiểu 10 ký tự</small>
                                                 @error('comment')
@@ -352,11 +352,11 @@
                                             <div class="btn-wrapper">
                                                 <button class="review-form-submit-btn" type="submit" id="submit-btn">
                                                     <i class="fas fa-paper-plane"></i> 
-                                                    <span id="submit-text">{{ $userReview ? 'Cập nhật đánh giá' : 'Gửi đánh giá' }}</span>
+                                                    <span id="submit-text">{{ $userReview ? 'Cập nhật đánh giá' : '{{ __('messages.send') }} đánh giá' }}</span>
                                                 </button>
                                                 @if($userReview)
                                                     <button class="review-form-cancel-btn" type="button" onclick="cancelEdit()">
-                                                        <i class="fas fa-times"></i> Hủy
+                                                        <i class="fas fa-times"></i> {{ __('messages.cancel') }}
                                                     </button>
                                                 @endif
                                             </div>
@@ -412,7 +412,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" title="Thêm vào giỏ hàng"
+                                <a href="javascript:void(0)" title="{{ __('messages.add_product') }} vào giỏ hàng"
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_to_cart_modal-{{ $related->id }}">
                                     <i class="fas fa-shopping-cart"></i>

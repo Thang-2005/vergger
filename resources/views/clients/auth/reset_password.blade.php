@@ -33,9 +33,9 @@
                         {{-- TOKEN --}}
                         <input type="hidden" name="token" value="{{ $token }}">
 
-                        {{-- EMAIL --}}
+                        {{-- {{ __('messages.email') }} --}}
                         <div class="mb-3">
-                            <label>Email</label>
+                            <label>{{ __('messages.email') }}</label>
                             <input type="email"
                                    name="email"
                                    id="email"
@@ -48,7 +48,7 @@
 
                         {{-- PASSWORD --}}
                         <div class="mb-3">
-                            <label>Mật khẩu mới</label>
+                            <label>{{ __('messages.password') }} mới</label>
                             <div class="password-wrapper" style="margin-bottom: 0;">
                                 <input type="password"
                                        name="password"

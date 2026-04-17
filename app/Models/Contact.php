@@ -12,6 +12,7 @@ class Contact extends Model
         'email',
         'message',
         'is_Reply',
+        'reply_content',
     ];
     
 }

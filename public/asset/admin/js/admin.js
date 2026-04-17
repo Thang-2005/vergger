@@ -767,4 +767,108 @@ $(document).ready(function () {
     });
 })();
 
+/******************contact_reply_summernote**
+*****initialize summernote and handle form submission*****/
+$(document).ready(function() {
+    // Initialize Summernote if element exists
+    if ($('#reply_content').length) {
+        console.log('🔄 Initializing Summernote...');
+        
+        $('#reply_content').summernote({
+            height: 300,
+            minHeight: 250,
+            lang: 'vi-VN',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']],
+                ['view', ['fullscreen', 'undo', 'redo']]
+            ],
+            callbacks: {
+                onInit: function() {
+                    console.log('✅ Summernote initialized successfully');
+                }
+            }
+        });
+
+        // Form submission with confirmation
+        $('#replyForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const replyContent = $('#reply_content').summernote('code');
+
+            if (!replyContent || replyContent.trim() === '<p><br></p>' || !replyContent.replace(/<[^>]*>/g, '').trim()) {
+                alert('❌ Vui lòng nhập nội dung phản hồi!');
+                return;
+            }
+
+            // Ask for confirmation
+            const confirmText = prompt('⚠️ Nhập "tôi chắc chắn" để xác nhận gửi phản hồi:');
+            
+            if (confirmText === null) {
+                return; // User cancelled
+            }
+
+            if (confirmText !== 'tôi chắc chắn') {
+                alert('❌ Xác nhận không chính xác!');
+                return;
+            }
+
+            console.log('📧 Submitting reply...');
+
+            const submitBtn = $(this).find('button[type="submit"]');
+            const originalText = submitBtn.html();
+            submitBtn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Đang gửi...');
+
+            $.ajax({
+                url: $('#replyForm').attr('action'),
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({
+                    reply_content: replyContent
+                }),
+                success: function(response) {
+                    console.log('✅ Success:', response);
+                    alert('✅ ' + response.message);
+                    setTimeout(() => {
+                        window.location.href = response.redirect || '/admin/contacts';
+                    }, 1000);
+                },
+                error: function(error) {
+                    console.error('❌ Error:', error.responseJSON);
+                    const errorMsg = error.responseJSON?.message || 'Có lỗi xảy ra';
+                    alert('❌ ' + errorMsg);
+                    submitBtn.prop('disabled', false).html(originalText);
+                }
+            });
+        });
+
+        // Delete contact
+        window.deleteContact = function(contactId) {
+            if (!confirm('⚠️ Bạn chắc chắn muốn xóa tin nhắn này không? Hành động này không thể hoàn tác!')) {
+                return;
+            }
+
+            $.ajax({
+                url: '/admin/contacts/' + contactId,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    alert('✅ Xóa thành công');
+                    window.location.href = '/admin/contacts';
+                },
+                error: function(error) {
+                    alert('❌ Lỗi: ' + (error.responseJSON?.message || 'Không thể xóa'));
+                }
+            });
+        };
+    }
+});
+
 

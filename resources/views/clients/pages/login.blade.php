@@ -54,11 +54,11 @@
                     >
                         @csrf
 
-                       <input type="email" name="email" placeholder="Email *">
+                       <input type="email" name="email" placeholder="{{ __('messages.email') }} *">
                         <small class="text-danger" id="error_email"></small>
 
                         <div class="password-wrapper">
-                            <input type="password" id="login_password" name="password" placeholder="Mật khẩu *">
+                            <input type="password" id="login_password" name="password" placeholder="{{ __('messages.password') }} *">
                             <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#login_password')">
                                 <i class="fas fa-eye toggle-password-icon"></i>
                             </button>

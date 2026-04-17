@@ -74,13 +74,19 @@
                     <div class="info-value">{{ $order->created_at?->format('H:i d/m/Y') }}</div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Trạng thái:</div>
+                    <div class="info-label">{{ __('messages.status') }}:</div>
                     <div class="info-value">{{ $orderStatus }}</div>
                 </div>
                 <div class="info-row">
                     <div class="info-label">Tổng tiền:</div>
                     <div class="info-value"><strong style="color: #2f6d3a; font-size: 18px;">{{ number_format($order->total_price, 0, ',', '.') }} đ</strong></div>
                 </div>
+                @if(($order->discount_amount ?? 0) > 0)
+                <div class="info-row">
+                    <div class="info-label">Giảm giá:</div>
+                    <div class="info-value"><strong style="color:#2f6d3a;">-{{ number_format($order->discount_amount, 0, ',', '.') }} đ</strong>@if($order->coupon_code) ({{ $order->coupon_code }})@endif</div>
+                </div>
+                @endif
             </div>
 
             <div class="section">
@@ -90,31 +96,31 @@
                     <div class="info-value">{{ $paymentMethod }}</div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Trạng thái:</div>
+                    <div class="info-label">{{ __('messages.status') }}:</div>
                     <div class="info-value"><strong>{{ $paymentStatus }}</strong></div>
                 </div>
             </div>
 
             @if ($shipping)
                 <div class="section">
-                    <div class="section-title">Địa chỉ nhận hàng</div>
+                    <div class="section-title">{{ __('messages.address') }} nhận hàng</div>
                     <div class="info-row">
                         <div class="info-label">Tên người nhận:</div>
                         <div class="info-value">{{ $shipping->full_name }}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Số điện thoại:</div>
+                        <div class="info-label">{{ __('messages.phone_number') }}:</div>
                         <div class="info-value">{{ $shipping->phone }}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Địa chỉ:</div>
+                        <div class="info-label">{{ __('messages.address') }}:</div>
                         <div class="info-value">{{ $shipping->address }}, {{ $shipping->city }}</div>
                     </div>
                 </div>
             @endif
 
             <div class="section">
-                <div class="section-title">Chi tiết sản phẩm</div>
+                <div class="section-title">{{ __('messages.view_details') }} sản phẩm</div>
                 <table>
                     <thead>
                         <tr>
@@ -135,6 +141,16 @@
                                 <td style="text-align: right;">{{ number_format($item->price * $item->quantity, 0, ',', '.') }} đ</td>
                             </tr>
                         @endforeach
+                        <tr class="total-row">
+                            <td colspan="4" style="text-align: right;">Tạm tính:</td>
+                            <td style="text-align: right;">{{ number_format($order->orderItems->sum(fn($i) => $i->price * $i->quantity), 0, ',', '.') }} đ</td>
+                        </tr>
+                        @if(($order->discount_amount ?? 0) > 0)
+                        <tr class="total-row">
+                            <td colspan="4" style="text-align: right; color:#2f6d3a;">Giảm giá @if($order->coupon_code) ({{ $order->coupon_code }}) @endif:</td>
+                            <td style="text-align: right; color:#2f6d3a;">-{{ number_format($order->discount_amount, 0, ',', '.') }} đ</td>
+                        </tr>
+                        @endif
                         <tr class="total-row">
                             <td colspan="4" style="text-align: right;">Tổng cộng:</td>
                             <td style="text-align: right;">{{ number_format($order->total_price, 0, ',', '.') }} đ</td>

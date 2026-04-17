@@ -16,7 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.admin' => \App\Http\Middleware\RedirectIfNotAuthenticated::class,
             'check.auth.admin' => \App\Http\Middleware\RedirectIfAuthentcatedAdmin::class,
             'check.permission' => \App\Http\Middleware\CheckPermission::class,
+            'default.admin.data' => \App\Http\Middleware\DefaultAdminData::class,
         ]);
+
+        // Add SetLocale middleware to all web requests
+        $middleware->web(
+            \App\Http\Middleware\SetLocale::class,
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -1,18 +1,18 @@
 @extends('layouts.admin')
 
-@section('title', 'Quản lý sản phẩm')
+@section('title', __('messages.product_management'))
 
 @section('content')
 @php
     $statusMeta = [
-        'in_stock' => ['label' => 'Còn hàng', 'class' => 'success', 'icon' => 'fa-check-circle'],
-        'out_of_stock' => ['label' => 'Hết hàng', 'class' => 'danger', 'icon' => 'fa-times-circle'],
+        'in_stock' => ['label' => __('messages.in_stock'), 'class' => 'success', 'icon' => 'fa-check-circle'],
+        'out_of_stock' => ['label' => __('messages.out_of_stock'), 'class' => 'danger', 'icon' => 'fa-times-circle'],
     ];
 
     $statusOptions = [
-        '' => 'Tất cả trạng thái',
-        'in_stock' => 'Còn hàng',
-        'out_of_stock' => 'Hết hàng',
+        '' => __('messages.all_status'),
+        'in_stock' => __('messages.in_stock'),
+        'out_of_stock' => __('messages.out_of_stock'),
     ];
 
     $formatPrice = function ($value) {
@@ -60,8 +60,8 @@
 <div class="right_col products-page" role="main">
     <div class="page-title">
         <div class="title_left">
-            <h3>Quản lý sản phẩm</h3>
-            <p style="margin:6px 0 0; color:#7a7a7a;">Tìm kiếm, lọc, thêm, sửa và xem chi tiết sản phẩm trong một màn hình duy nhất.</p>
+            <h3>{{ __('messages.product_management') }}</h3>
+            <p style="margin:6px 0 0; color:#7a7a7a;">{{ __('messages.search_and_manage') }}</p>
         </div>
     </div>
 
@@ -99,7 +99,7 @@
                 <div class="x_content">
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
                         <div>
-                            <p style="margin:0 0 4px; color:#7a7a7a;">Còn hàng</p>
+                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ __('messages.in_stock') }}</p>
                             <h2 style="margin:0;">{{ $inStockProducts }}</h2>
                         </div>
                         <i class="fa fa-check-circle fa-2x" style="color:#1abb9c;"></i>
@@ -112,7 +112,7 @@
                 <div class="x_content">
                     <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
                         <div>
-                            <p style="margin:0 0 4px; color:#7a7a7a;">Hết hàng</p>
+                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ __('messages.out_of_stock') }}</p>
                             <h2 style="margin:0;">{{ $outOfStockProducts }}</h2>
                         </div>
                         <i class="fa fa-exclamation-triangle fa-2x" style="color:#d9534f;"></i>
@@ -127,13 +127,13 @@
             <div class="x_panel">
                 <div class="x_title" style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
                     <div>
-                        <h2>Danh sách sản phẩm</h2>
+                        <h2>{{ __('messages.product_list') }}</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                         <span class="label label-default" style="font-size:12px; padding:6px 10px;">Tổng tồn kho: {{ $totalStock }}</span>
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#createProductModal">
-                            <i class="fa fa-plus"></i> Thêm sản phẩm
+                            <i class="fa fa-plus"></i> {{ __('messages.add_product') }}
                         </button>
                     </div>
                 </div>
@@ -143,14 +143,14 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="form-group">
                                 <label for="keyword">Từ khóa</label>
-                                <input type="text" id="keyword" name="keyword" class="form-control" value="{{ request('keyword') }}" placeholder="Tên hoặc slug sản phẩm">
+                                <input type="text" id="keyword" name="keyword" class="form-control" value="{{ request('keyword') }}" placeholder="{{ __('messages.search_product') }}">
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
-                                <label for="category_id">Danh mục</label>
+                                <label for="category_id">{{ __('messages.category') }}</label>
                                 <select id="category_id" name="category_id" class="form-control">
-                                    <option value="">Tất cả danh mục</option>
+                                    <option value="">{{ __('messages.all_categories') }}</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ (string) request('category_id') === (string) $category->id ? 'selected' : '' }}>
                                             {{ $category->name }}
@@ -161,7 +161,7 @@
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="form-group">
-                                <label for="status">Trạng thái</label>
+                                <label for="status">{{ __('messages.status') }}</label>
                                 <select id="status" name="status" class="form-control">
                                     @foreach($statusOptions as $value => $label)
                                         <option value="{{ $value }}" {{ request('status', '') === $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -172,7 +172,7 @@
                         <div class="col-md-2 col-sm-6">
                             <div class="form-group" style="margin-top:25px; display:flex; gap:8px;">
                                 <button type="submit" class="btn btn-primary" style="width:100%;">
-                                    <i class="fa fa-search"></i> Lọc
+                                    <i class="fa fa-search"></i> {{ __('messages.filter') }}
                                 </button>
                                 <a href="{{ route('admin.products.list') }}" class="btn btn-default" style="width:100%;">
                                     <i class="fa fa-refresh"></i>
@@ -186,13 +186,13 @@
                             <thead>
                                 <tr>
                                     <th style="width:70px;">#</th>
-                                    <th style="width:100px;">Ảnh</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Danh mục</th>
-                                    <th style="width:140px;">Giá bán</th>
-                                    <th style="width:120px;">Tồn kho</th>
-                                    <th style="width:130px;">Trạng thái</th>
-                                    <th style="width:260px;">Thao tác</th>
+                                    <th style="width:100px;">{{ __('messages.product_image') }}</th>
+                                    <th>{{ __('messages.product_name') }}</th>
+                                    <th>{{ __('messages.category') }}</th>
+                                    <th style="width:140px;">{{ __('messages.price') }}</th>
+                                    <th style="width:120px;">{{ __('messages.inventory') }}</th>
+                                    <th style="width:130px;">{{ __('messages.status') }}</th>
+                                    <th style="width:260px;">{{ __('messages.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -212,7 +212,7 @@
                                             <div style="display:flex; flex-direction:column; gap:4px;">
                                                 <strong>{{ $product->name }}</strong>
                                                 <small style="color:#777;">{{ \Illuminate\Support\Str::limit($product->description ?? '', 90) ?: 'Chưa có mô tả.' }}</small>
-                                                <small style="color:#999;">Slug: <code>{{ $product->slug }}</code></small>
+                                                <small style="color:#999;">{{ __('messages.product_slug') }}: <code>{{ $product->slug }}</code></small>
                                             </div>
                                         </td>
                                         <td>
@@ -249,7 +249,7 @@
                                                     data-image-url="{{ e($imageUrl) }}"
                                                     onclick="openProductDetail(this); return false;"
                                                 >
-                                                    <i class="fa fa-eye"></i> Chi tiết
+                                                    <i class="fa fa-eye"></i> {{ __('messages.view_details') }}
                                                 </button>
                                                 <button
                                                     type="button"
@@ -266,13 +266,13 @@
                                                     data-image-url="{{ e($imageUrl) }}"
                                                     onclick="openProductEdit(this); return false;"
                                                 >
-                                                    <i class="fa fa-edit"></i> Sửa
+                                                    <i class="fa fa-edit"></i> {{ __('messages.edit') }}
                                                 </button>
                                                 <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="delete-product-form" style="display:inline-block;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger delete-product-btn" data-name="{{ $product->name }}">
-                                                        <i class="fa fa-trash"></i> Xóa
+                                                        <i class="fa fa-trash"></i> {{ __('messages.delete') }}
                                                     </button>
                                                 </form>
                                             </div>
@@ -280,7 +280,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center" style="padding:30px 15px;">Chưa có sản phẩm nào phù hợp với bộ lọc hiện tại.</td>
+                                        <td colspan="8" class="text-center" style="padding:30px 15px;">{{ __('messages.no_products') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -300,7 +300,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="createProductModalLabel">Thêm sản phẩm mới</h4>
+                <h4 class="modal-title" id="createProductModalLabel">{{ __('messages.add_new_product') }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -311,23 +311,23 @@
                         @csrf
                         <input type="hidden" name="product_id" value="">
                         <div class="form-group">
-                            <label for="create_name">Tên sản phẩm</label>
+                            <label for="create_name">{{ __('messages.product_name') }}</label>
                             <input type="text" id="create_name" name="name" class="form-control" value="{{ old('name') }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="create_slug">Slug</label>
-                            <input type="text" id="create_slug" name="slug" class="form-control" value="{{ old('slug') }}" placeholder="Tự động nếu để trống">
+                            <label for="create_slug">{{ __('messages.product_slug') }}</label>
+                            <input type="text" id="create_slug" name="slug" class="form-control" value="{{ old('slug') }}" placeholder="{{ __('messages.auto_if_empty') }}">
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="create_price">Giá bán</label>
+                                    <label for="create_price">{{ __('messages.price') }}</label>
                                     <input type="number" id="create_price" name="price" class="form-control" min="0" step="0.01" value="{{ old('price') }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="create_stock">Tồn kho</label>
+                                    <label for="create_stock">{{ __('messages.inventory') }}</label>
                                     <input type="number" id="create_stock" name="stock" class="form-control" min="0" step="1" value="{{ old('stock', 0) }}" required>
                                 </div>
                             </div>
@@ -335,9 +335,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="create_category_id">Danh mục</label>
+                                    <label for="create_category_id">{{ __('messages.category') }}</label>
                                     <select id="create_category_id" name="category_id" class="form-control" required>
-                                        <option value="">-- Chọn danh mục --</option>
+                                        <option value="">{{ __('messages.select_category') }}</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ (string) old('category_id') === (string) $category->id ? 'selected' : '' }}>
                                                 {{ $category->name }}
@@ -348,34 +348,34 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="create_status">Trạng thái</label>
+                                    <label for="create_status">{{ __('messages.status') }}</label>
                                     <select id="create_status" name="status" class="form-control" required>
-                                        <option value="in_stock" {{ old('status', 'in_stock') === 'in_stock' ? 'selected' : '' }}>Còn hàng</option>
-                                        <option value="out_of_stock" {{ old('status') === 'out_of_stock' ? 'selected' : '' }}>Hết hàng</option>
+                                        <option value="in_stock" {{ old('status', 'in_stock') === 'in_stock' ? 'selected' : '' }}>{{ __('messages.in_stock') }}</option>
+                                        <option value="out_of_stock" {{ old('status') === 'out_of_stock' ? 'selected' : '' }}>{{ __('messages.out_of_stock') }}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="create_unit">Đơn vị</label>
+                            <label for="create_unit">{{ __('messages.unit') }}</label>
                             <input type="text" id="create_unit" name="unit" class="form-control" value="{{ old('unit') }}" placeholder="Ví dụ: kg, hộp, túi">
                         </div>
                         <div class="form-group">
-                            <label for="create_description">Mô tả</label>
+                            <label for="create_description">{{ __('messages.description') }}</label>
                             <textarea id="create_description" name="description" rows="5" class="form-control" style="resize:vertical;">{{ old('description') }}</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="create_image_file">Ảnh sản phẩm</label>
+                            <label for="create_image_file">{{ __('messages.product_image') }} sản phẩm</label>
                             <div style="margin-bottom:10px;">
                                 <div id="createProductPreview" style="width:100%; height:220px; border-radius:14px; border:1px dashed #d9d9d9; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#fafafa;">
-                                    <span style="color:#999;">Chưa có ảnh</span>
+                                    <span style="color:#999;">{{ __('messages.no_image') }}</span>
                                 </div>
                             </div>
                             <input type="file" id="create_image_file" name="image_file" class="form-control" accept="image/*" data-preview-input="createProductPreview" required>
                         </div>
                         <div class="text-right" style="display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-success">Lưu sản phẩm</button>
+                            <button type="submit" class="btn btn-success">{{ __('messages.save_product') }}</button>
                         </div>
                     </form>
                 @else
@@ -390,7 +390,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="editProductModalLabel">Chỉnh sửa sản phẩm</h4>
+                <h4 class="modal-title" id="editProductModalLabel">{{ __('messages.edit_product') }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -402,23 +402,23 @@
                         @method('PUT')
                         <input type="hidden" name="product_id" id="edit_product_id" value="{{ old('product_id', $selectedProduct?->id) }}">
                         <div class="form-group">
-                            <label for="edit_name">Tên sản phẩm</label>
+                            <label for="edit_name">{{ __('messages.product_name') }}</label>
                             <input type="text" id="edit_name" name="name" class="form-control" value="{{ old('name', $selectedProduct?->name) }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="edit_slug">Slug</label>
-                            <input type="text" id="edit_slug" name="slug" class="form-control" value="{{ old('slug', $selectedProduct?->slug) }}" placeholder="Tự động nếu để trống">
+                            <label for="edit_slug">{{ __('messages.product_slug') }}</label>
+                            <input type="text" id="edit_slug" name="slug" class="form-control" value="{{ old('slug', $selectedProduct?->slug) }}" placeholder="{{ __('messages.auto_if_empty') }}">
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="edit_price">Giá bán</label>
+                                    <label for="edit_price">{{ __('messages.price') }}</label>
                                     <input type="number" id="edit_price" name="price" class="form-control" min="0" step="0.01" value="{{ old('price', $selectedProduct?->price) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="edit_stock">Tồn kho</label>
+                                    <label for="edit_stock">{{ __('messages.inventory') }}</label>
                                     <input type="number" id="edit_stock" name="stock" class="form-control" min="0" step="1" value="{{ old('stock', $selectedProduct?->stock ?? 0) }}" required>
                                 </div>
                             </div>
@@ -426,9 +426,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="edit_category_id">Danh mục</label>
+                                    <label for="edit_category_id">{{ __('messages.category') }}</label>
                                     <select id="edit_category_id" name="category_id" class="form-control" required>
-                                        <option value="">-- Chọn danh mục --</option>
+                                        <option value="">{{ __('messages.select_category') }}</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ (string) old('category_id', $selectedProduct?->category_id) === (string) $category->id ? 'selected' : '' }}>
                                                 {{ $category->name }}
@@ -439,30 +439,30 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="edit_status">Trạng thái</label>
+                                    <label for="edit_status">{{ __('messages.status') }}</label>
                                     <select id="edit_status" name="status" class="form-control" required>
-                                        <option value="in_stock" {{ old('status', $selectedProduct?->status ?? 'in_stock') === 'in_stock' ? 'selected' : '' }}>Còn hàng</option>
-                                        <option value="out_of_stock" {{ old('status', $selectedProduct?->status ?? 'in_stock') === 'out_of_stock' ? 'selected' : '' }}>Hết hàng</option>
+                                        <option value="in_stock" {{ old('status', $selectedProduct?->status ?? 'in_stock') === 'in_stock' ? 'selected' : '' }}>{{ __('messages.in_stock') }}</option>
+                                        <option value="out_of_stock" {{ old('status', $selectedProduct?->status ?? 'in_stock') === 'out_of_stock' ? 'selected' : '' }}>{{ __('messages.out_of_stock') }}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="edit_unit">Đơn vị</label>
+                            <label for="edit_unit">{{ __('messages.unit') }}</label>
                             <input type="text" id="edit_unit" name="unit" class="form-control" value="{{ old('unit', $selectedProduct?->unit) }}" placeholder="Ví dụ: kg, hộp, túi">
                         </div>
                         <div class="form-group">
-                            <label for="edit_description">Mô tả</label>
+                            <label for="edit_description">{{ __('messages.description') }}</label>
                             <textarea id="edit_description" name="description" rows="5" class="form-control" style="resize:vertical;">{{ old('description', $selectedProduct?->description) }}</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="edit_image_file">Ảnh sản phẩm</label>
+                            <label for="edit_image_file">{{ __('messages.product_image') }} sản phẩm</label>
                             <div style="margin-bottom:10px;">
                                 <div id="editProductPreview" style="width:100%; height:220px; border-radius:14px; border:1px dashed #d9d9d9; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#fafafa;">
                                     @if($selectedProduct?->firstImage && $selectedProduct?->firstImage->image)
                                         <img src="{{ asset('storage/uploads/product/' . $selectedProduct->firstImage->image) }}" alt="{{ $selectedProduct->name }}" style="width:100%; height:100%; object-fit:cover;">
                                     @else
-                                        <span style="color:#999;">Chưa có ảnh</span>
+                                        <span style="color:#999;">{{ __('messages.no_image') }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -471,11 +471,11 @@
                         </div>
                         <div class="text-right" style="display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                            <button type="submit" class="btn btn-primary">{{ __('messages.save_changes') }}</button>
                         </div>
                     </form>
                 @else
-                    <div class="alert alert-warning" style="margin-bottom:0;">Bạn không có quyền chỉnh sửa sản phẩm.</div>
+                    <div class="alert alert-warning" style="margin-bottom:0;">{{ __('messages.no_permission_edit_product') }}</div>
                 @endif
             </div>
         </div>
@@ -486,7 +486,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="productDetailModalLabel">Chi tiết sản phẩm</h4>
+                <h4 class="modal-title" id="productDetailModalLabel">{{ __('messages.view_details') }} sản phẩm</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -501,39 +501,39 @@
                     <div class="col-md-7">
                         <div style="background:#fff; border:1px solid #eef1f4; border-radius:16px; padding:18px 20px; box-shadow:0 8px 24px rgba(15,23,42,0.04);">
                             <div style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #f1f5f9;">
-                                <div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#64748b; margin-bottom:4px;">Tên sản phẩm</div>
+                                <div style="font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#64748b; margin-bottom:4px;">{{ __('messages.product_name') }}</div>
                                 <div id="detailProductName" style="font-size:20px; font-weight:700; color:#0f172a; line-height:1.35;"></div>
                             </div>
 
                             <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px 16px; margin-bottom:14px;">
                                 <div>
-                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">Slug</div>
-                                    <div id="detailProductSlug" style="font-size:14px; color:#334155; word-break:break-word;"></div>
+                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">{{ __('messages.product_slug') }}</div>
+                                    <div id="detailProduct{{ __('messages.product_slug') }}" style="font-size:14px; color:#334155; word-break:break-word;"></div>
                                 </div>
                                 <div>
-                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">Danh mục</div>
+                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">{{ __('messages.category') }}</div>
                                     <div id="detailProductCategory" style="font-size:14px; color:#334155;"></div>
                                 </div>
                                 <div>
-                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">Giá bán</div>
+                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">{{ __('messages.price') }}</div>
                                     <div id="detailProductPrice" style="font-size:14px; font-weight:700; color:#0f766e;"></div>
                                 </div>
                                 <div>
-                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">Tồn kho</div>
+                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">{{ __('messages.inventory') }}</div>
                                     <div id="detailProductStock" style="font-size:14px; color:#334155;"></div>
                                 </div>
                                 <div>
-                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">Trạng thái</div>
+                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">{{ __('messages.status') }}</div>
                                     <div id="detailProductStatus" style="font-size:14px; font-weight:700;"></div>
                                 </div>
                                 <div>
-                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">Đơn vị</div>
+                                    <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:3px;">{{ __('messages.unit') }}</div>
                                     <div id="detailProductUnit" style="font-size:14px; color:#334155;"></div>
                                 </div>
                             </div>
 
                             <div>
-                                <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:6px;">Mô tả</div>
+                                <div style="font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748b; margin-bottom:6px;">{{ __('messages.description') }}</div>
                                 <div id="detailProductDescription" style="font-size:14px; line-height:1.8; color:#475569; white-space:pre-line; background:#f8fafc; border-radius:12px; padding:14px 16px; border:1px solid #e2e8f0; min-height:72px;"></div>
                             </div>
                         </div>

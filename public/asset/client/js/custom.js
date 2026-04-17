@@ -1095,6 +1095,34 @@ $(document).ready(function () {
                     ];
                 });
 
+                var subTotal = Number(order.sub_total || order.total_price || 0);
+                var discountAmount = Number(order.discount_amount || 0);
+                var summaryRows = [
+                    [
+                        { text: 'Tạm tính', colSpan: 4, alignment: 'right', bold: true },
+                        {},
+                        {},
+                        {},
+                        { text: currencyFormatter.format(subTotal) + ' đ', alignment: 'right', bold: true },
+                    ]
+                ];
+                if (discountAmount > 0) {
+                    summaryRows.push([
+                        { text: 'Giảm giá' + (order.coupon_code ? ' (' + order.coupon_code + ')' : ''), colSpan: 4, alignment: 'right', color: '#2f6d3a', bold: true },
+                        {},
+                        {},
+                        {},
+                        { text: '-' + currencyFormatter.format(discountAmount) + ' đ', alignment: 'right', color: '#2f6d3a', bold: true },
+                    ]);
+                }
+                summaryRows.push([
+                    { text: 'Tổng cộng', colSpan: 4, alignment: 'right', bold: true },
+                    {},
+                    {},
+                    {},
+                    { text: currencyFormatter.format(order.total_price) + ' đ', alignment: 'right', bold: true },
+                ]);
+
                 var docDefinition = {
                     pageSize: 'A4',
                     pageMargins: [40, 48, 40, 48],
@@ -1148,15 +1176,7 @@ $(document).ready(function () {
                                         { text: 'Đơn giá', style: 'tableHeader' },
                                         { text: 'Thành tiền', style: 'tableHeader' },
                                     ],
-                                ].concat(rows).concat([
-                                    [
-                                        { text: 'Tổng cộng', colSpan: 4, alignment: 'right', bold: true },
-                                        {},
-                                        {},
-                                        {},
-                                        { text: currencyFormatter.format(order.total_price) + ' đ', alignment: 'right', bold: true },
-                                    ]
-                                ])
+                                ].concat(rows).concat(summaryRows)
                             },
                             layout: 'lightHorizontalLines'
                         },
@@ -1249,8 +1269,9 @@ $(document).ready(function () {
             success: function (res) {
                 toastr.success(res.message);
                 $row.find('.item-total').text(res.item_total);
-                $('#cart-total').text(res.total);
+                $('#cart-subtotal').text(res.total);
                 updateCartBadge(res.cart_count);
+                document.dispatchEvent(new CustomEvent('cart:total-updated'));
             },
             error: function () {
                 toastr.error('Không thể cập nhật số lượng');
@@ -1279,8 +1300,9 @@ $(document).ready(function () {
                     success: function (res) {
                         toastr.success(res.message);
                         $row.fadeOut(300, function () { $(this).remove(); });
-                        $('#cart-total').text(res.total);
+                        $('#cart-subtotal').text(res.total);
                         updateCartBadge(res.cart_count);
+                        document.dispatchEvent(new CustomEvent('cart:total-updated'));
 
                         // Nếu giỏ trống thì reload
                         if (res.cart_count === 0) {
@@ -1638,6 +1660,129 @@ $(document).on('click', '.mini-cart-item-delete', function () {
 //         });
 //     });
 // });
+
+// ============================================
+// CART COUPON LOGIC
+// ============================================
+
+function initCartCoupon() {
+    var applyBtn = document.getElementById('apply-cart-coupon-btn');
+    var removeBtn = document.getElementById('remove-cart-coupon-btn');
+    var input = document.getElementById('cart-coupon-code-input');
+    var message = document.getElementById('cart-coupon-message');
+    var subTotalEl = document.getElementById('cart-subtotal');
+    var discountRow = document.getElementById('cart-discount-row');
+    var discountEl = document.getElementById('cart-discount');
+    var finalTotalEl = document.getElementById('cart-final-total');
+    var couponCodeEl = document.getElementById('cart-coupon-code');
+
+    if (!applyBtn || !input) {
+        return;
+    }
+
+    function parseMoney(text) {
+        return Number(String(text).replace(/[^0-9]/g, '')) || 0;
+    }
+
+    function fmt(value) {
+        return Number(value).toLocaleString('vi-VN') + 'đ';
+    }
+
+    function setMsg(text, isError) {
+        message.textContent = text;
+        message.style.color = isError ? '#d9534f' : '#2f6d3a';
+    }
+
+    function getSubTotal() {
+        return parseMoney(subTotalEl ? subTotalEl.textContent : '0');
+    }
+
+    function applyCoupon(code) {
+        var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        
+        fetch("/coupon/apply", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                coupon_code: code,
+                total_amount: getSubTotal()
+            })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            if (!data.valid) {
+                setMsg(data.message || 'Mã giảm giá không hợp lệ.', true);
+                return;
+            }
+            discountRow.style.display = '';
+            discountEl.textContent = '-' + fmt(data.discount || 0);
+            finalTotalEl.textContent = fmt(data.final_amount || getSubTotal());
+            couponCodeEl.textContent = '(' + code.toUpperCase() + ')';
+            removeBtn.style.display = '';
+            setMsg(data.message || 'Áp dụng mã thành công.', false);
+        })
+        .catch(function () {
+            setMsg('Không thể áp dụng mã lúc này.', true);
+        });
+    }
+
+    applyBtn.addEventListener('click', function () {
+        var code = (input.value || '').trim();
+        if (!code) {
+            setMsg('Vui lòng nhập mã giảm giá.', true);
+            return;
+        }
+        applyCoupon(code);
+    });
+
+    if (removeBtn) {
+        removeBtn.addEventListener('click', function () {
+            var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            
+            fetch("/coupon/remove", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(function (res) { return res.json(); })
+            .then(function () {
+                discountRow.style.display = 'none';
+                discountEl.textContent = '-0đ';
+                finalTotalEl.textContent = fmt(getSubTotal());
+                couponCodeEl.textContent = '';
+                input.value = '';
+                removeBtn.style.display = 'none';
+                setMsg('Đã xóa mã giảm giá.', false);
+            })
+            .catch(function () {
+                setMsg('Không thể xóa mã lúc này.', true);
+            });
+        });
+    }
+
+    document.addEventListener('cart:total-updated', function () {
+        var code = (input.value || '').trim();
+        if (code) {
+            applyCoupon(code);
+        } else {
+            finalTotalEl.textContent = fmt(getSubTotal());
+        }
+    });
+}
+
+// Gọi hàm khi DOM ready nếu trang cart
+$(document).ready(function () {
+    if (document.getElementById('cart-coupon-code-input')) {
+        initCartCoupon();
+    }
+});
 
 
 

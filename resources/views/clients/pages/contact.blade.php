@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
-@section('title', 'Liên hệ')
-@section('breadcrumb', 'Liên hệ')
+@section('title', __('messages.contact_management'))
+@section('breadcrumb', __('messages.contact_management'))
 
 @section('content')
 
@@ -13,7 +13,7 @@
                             <div class="ltn__contact-address-icon">
                                 <img src="{{ asset('asset/client/img/icons/10.png') }}" alt="Icon Image">
                             </div>
-                            <h3>Địa chỉ Email</h3>
+                            <h3>{{ __('messages.address') }} Email</h3>
                             <p>veggie@example.com <br>
                                 jobs@webexample.com</p>
                         </div>
@@ -23,7 +23,7 @@
                             <div class="ltn__contact-address-icon">
                                 <img src="{{ asset('asset/client/img/icons/11.png') }}" alt="Icon Image">
                             </div>
-                            <h3>Số điện thoại</h3>
+                            <h3>{{ __('messages.phone_number') }}</h3>
                             <p>+0123-456789 <br> +987-6543210</p>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                             <div class="ltn__contact-address-icon">
                                 <img src="{{ asset('asset/client/img/icons/12.png') }}" alt="Icon Image">
                             </div>
-                            <h3>Địa chỉ văn phòng</h3>
+                            <h3>{{ __('messages.address') }} văn phòng</h3>
                             <p>Thien Đình, Hà Nội <br>
                                 Việt Nam</p>
                         </div>
@@ -55,31 +55,31 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-item input-item-name ltn__custom-icon">
-                                            <input type="text" name="name" placeholder="Nhập tên của bạn" value="{{ old('name') }}">
+                                            <input type="text" name="name" placeholder="{{ __('messages.full_name_required') }}" value="{{ old('name') }}">
                                             <span class="error" id="error_name" style="color: red; font-size: 12px;"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-item input-item-email ltn__custom-icon">
-                                            <input type="email" name="email" placeholder="Nhập địa chỉ email" value="{{ old('email') }}">
+                                            <input type="email" name="email" placeholder="{{ __('messages.email_required') }}" value="{{ old('email') }}">
                                             <span class="error" id="error_email" style="color: red; font-size: 12px;"></span>
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <div class="input-item input-item-phone ltn__custom-icon">
-                                            <input type="text" name="phone" placeholder="Nhập số điện thoại" value="{{ old('phone') }}">
+                                            <input type="text" name="phone" placeholder="{{ __('messages.enter_phone') }}" value="{{ old('phone') }}">
                                             <span class="error" id="error_phone" style="color: red; font-size: 12px;"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="input-item input-item-textarea ltn__custom-icon">
-                                    <textarea name="message" placeholder="Nhập tin nhắn">{{ old('message') }}</textarea>
+                                    <textarea name="message" placeholder="{{ __('messages.enter_message') }}">{{ old('message') }}</textarea>
                                     <span class="error" id="error_message" style="color: red; font-size: 12px;"></span>
                                 </div>
                                 
                                 <div class="btn-wrapper mt-0">
-                                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">Gửi</button>
+                                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">{{ __('messages.send') }}</button>
                                 </div>
                                 <p class="form-messege mb-0 mt-20"></p>
                             </form>

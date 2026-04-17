@@ -1,5 +1,6 @@
 // Order Detail Page - PDF Invoice Functions
 document.addEventListener('DOMContentLoaded', function () {
+
     let pdfMakeLoaded = false;
     const invoiceDataJsonElement = document.getElementById('invoiceDataJson');
     const invoiceDataJson = invoiceDataJsonElement ? JSON.parse(invoiceDataJsonElement.textContent) : {};
@@ -77,6 +78,34 @@ document.addEventListener('DOMContentLoaded', function () {
             ];
         });
 
+        const subTotal = Number(order.sub_total || order.total_price || 0);
+        const discountAmount = Number(order.discount_amount || 0);
+        const summaryRows = [
+            [
+                { text: 'Tạm tính', colSpan: 4, alignment: 'right', bold: true },
+                {},
+                {},
+                {},
+                { text: currencyFormatter.format(subTotal) + ' đ', alignment: 'right', bold: true },
+            ]
+        ];
+        if (discountAmount > 0) {
+            summaryRows.push([
+                { text: 'Giảm giá' + (order.coupon_code ? ' (' + order.coupon_code + ')' : ''), colSpan: 4, alignment: 'right', color: '#2f6d3a', bold: true },
+                {},
+                {},
+                {},
+                { text: '-' + currencyFormatter.format(discountAmount) + ' đ', alignment: 'right', color: '#2f6d3a', bold: true },
+            ]);
+        }
+        summaryRows.push([
+            { text: 'Tổng cộng', colSpan: 4, alignment: 'right', bold: true },
+            {},
+            {},
+            {},
+            { text: currencyFormatter.format(order.total_price) + ' đ', alignment: 'right', bold: true },
+        ]);
+
         const docDefinition = {
             pageSize: 'A4',
             pageMargins: [40, 48, 40, 48],
@@ -131,13 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 { text: 'Thành tiền', style: 'tableHeader' },
                             ],
                             ...rows,
-                            [
-                                { text: 'Tổng cộng', colSpan: 4, alignment: 'right', bold: true },
-                                {},
-                                {},
-                                {},
-                                { text: currencyFormatter.format(order.total_price) + ' đ', alignment: 'right', bold: true },
-                            ]
+                            ...summaryRows
                         ]
                     },
                     layout: 'lightHorizontalLines'
@@ -209,6 +232,34 @@ document.addEventListener('DOMContentLoaded', function () {
             ];
         });
 
+        const subTotal = Number(order.sub_total || order.total_price || 0);
+        const discountAmount = Number(order.discount_amount || 0);
+        const summaryRows = [
+            [
+                { text: 'Tạm tính', colSpan: 4, alignment: 'right', bold: true },
+                {},
+                {},
+                {},
+                { text: currencyFormatter.format(subTotal) + ' đ', alignment: 'right', bold: true },
+            ]
+        ];
+        if (discountAmount > 0) {
+            summaryRows.push([
+                { text: 'Giảm giá' + (order.coupon_code ? ' (' + order.coupon_code + ')' : ''), colSpan: 4, alignment: 'right', color: '#2f6d3a', bold: true },
+                {},
+                {},
+                {},
+                { text: '-' + currencyFormatter.format(discountAmount) + ' đ', alignment: 'right', color: '#2f6d3a', bold: true },
+            ]);
+        }
+        summaryRows.push([
+            { text: 'Tổng cộng', colSpan: 4, alignment: 'right', bold: true },
+            {},
+            {},
+            {},
+            { text: currencyFormatter.format(order.total_price) + ' đ', alignment: 'right', bold: true },
+        ]);
+
         const docDefinition = {
             pageSize: 'A4',
             pageMargins: [40, 48, 40, 48],
@@ -263,13 +314,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 { text: 'Thành tiền', style: 'tableHeader' },
                             ],
                             ...rows,
-                            [
-                                { text: 'Tổng cộng', colSpan: 4, alignment: 'right', bold: true },
-                                {},
-                                {},
-                                {},
-                                { text: currencyFormatter.format(order.total_price) + ' đ', alignment: 'right', bold: true },
-                            ]
+                            ...summaryRows
                         ]
                     },
                     layout: 'lightHorizontalLines'
@@ -349,4 +394,10 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+
+
+
+    // -----------------Manager:contact--------------
+    // *************************************************
+
 });

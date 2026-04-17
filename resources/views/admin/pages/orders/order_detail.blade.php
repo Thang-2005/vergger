@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Chi tiết đơn hàng #' . $order->id)
+@section('title', __('messages.view_details') . ' #' . $order->id)
 
 @section('content')
 
 
 <div class="right_col" role="main">
     <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
-        <a href="#customer-info" class="btn btn-default btn-sm"><i class="fa fa-user"></i> Khách hàng</a>
-        <a href="#order-items" class="btn btn-default btn-sm"><i class="fa fa-list"></i> Sản phẩm</a>
-        <a href="#status-history" class="btn btn-default btn-sm"><i class="fa fa-history"></i> Lịch sử</a>
-        <a href="#order-actions" class="btn btn-default btn-sm"><i class="fa fa-cogs"></i> Thao tác</a>
+        <a href="#customer-info" class="btn btn-default btn-sm"><i class="fa fa-user"></i> {{ __('messages.customer_info') }}</a>
+        <a href="#order-items" class="btn btn-default btn-sm"><i class="fa fa-list"></i> {{ __('messages.product_name') }}</a>
+        <a href="#status-history" class="btn btn-default btn-sm"><i class="fa fa-history"></i> {{ __('messages.order_status') }}</a>
+        <a href="#order-actions" class="btn btn-default btn-sm"><i class="fa fa-cogs"></i> {{ __('messages.action') }}</a>
     </div>
 
     <!-- Header -->
@@ -18,9 +18,9 @@
         <div>
             <h3>
                 <i class="fa fa-shopping-cart"></i>
-                Chi tiết đơn hàng #{{ $order->id }}
+                {{ __('messages.view_details') }} #{{ $order->id }}
             </h3>
-            <p style="margin:6px 0 0; color:#7a7a7a;">Xem thông tin và quản lý đơn hàng</p>
+            <p style="margin:6px 0 0; color:#7a7a7a;">{{ __('messages.manage_order_description') }}</p>
         </div>
         @php
             $statusClass = match($order->status) {
@@ -44,7 +44,7 @@
         <div class="col-md-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><i class="fa fa-user"></i> Thông tin khách hàng</h2>
+                    <h2><i class="fa fa-user"></i> {{ __('messages.customer_info') }}</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -67,7 +67,7 @@
                             </div>
                             <div class="info-item">
                                 <i class="fa fa-map-marker"></i>
-                                <div class="info-label">Địa chỉ:</div>
+                                <div class="info-label">{{ __('messages.address') }}:</div>
                                 <div>{{ $order->shippingAddress->address }}, {{ $order->shippingAddress->city }}</div>
                             </div>
                         </div>
@@ -90,8 +90,14 @@
                 </div>
 
                 <div class="summary-item">
-                    <div class="summary-item-label"><i class="fa fa-money"></i> Tổng tiền</div>
+                    <div class="summary-item-label"><i class="fa fa-money"></i> {{ __('messages.total_amount') }}</div>
                     <div class="summary-item-value">{{ number_format($order->total_price, 0, ',', '.') }} đ</div>
+                    @if(($order->discount_amount ?? 0) > 0)
+                        <small style="display:block; color:#1f7a1f; margin-top:4px;">Đã giảm: -{{ number_format($order->discount_amount, 0, ',', '.') }} đ</small>
+                        @if($order->coupon_code)
+                            <small style="display:block; color:#666;">Mã: {{ $order->coupon_code }}</small>
+                        @endif
+                    @endif
                 </div>
 
                 <div class="summary-item">
@@ -109,7 +115,7 @@
                 <div class="summary-item">
                     <div class="summary-item-label"><i class="fa fa-check-circle"></i> Thanh toán</div>
                     <div style="margin-top: 8px;">
-                        @if ($order->payment?->status === 'paid')
+                        @if ($order->payment?->status === 'completed')
                             <span class="label" style="background-color: #D4EDDA; color: #155724; padding: 4px 8px; border-radius: 3px;">Đã thanh toán</span>
                         @else
                             <span class="label" style="background-color: #FFF3CD; color: #856404; padding: 4px 8px; border-radius: 3px;">Chưa thanh toán</span>
@@ -134,7 +140,7 @@
                             <thead>
                                 <tr>
                                     <th style="width:50px;">#</th>
-                                    <th style="width:70px;">Ảnh</th>
+                                    <th style="width:70px;">{{ __('messages.product_image') }}</th>
                                     <th>Sản phẩm</th>
                                     <th style="width:80px; text-align:center;">SL</th>
                                     <th style="width:120px; text-align:right;">Đơn giá</th>
@@ -158,7 +164,7 @@
                                             @if ($item->product)
                                                 <a href="{{ route('product.detail', $item->product->slug) }}" target="_blank">{{ $item->product->name }}</a>
                                             @else
-                                                <span style="color:#999;">Sản phẩm đã xóa</span>
+                                                <span style="color:#999;">{{ __('messages.product_deleted') }}</span>
                                             @endif
                                         </td>
                                         <td style="text-align:center;">{{ $item->quantity }}</td>
@@ -167,9 +173,19 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" style="text-align:center; padding:30px; color:#999;">Không có sản phẩm trong đơn hàng</td>
+                                        <td colspan="6" style="text-align:center; padding:30px; color:#999;">{{ __('messages.no_products_in_order') }}</td>
                                     </tr>
                                 @endforelse
+                                <tr style="background:#f8f9fa; font-weight:600;">
+                                    <td colspan="4" style="text-align:right;">Tạm tính:</td>
+                                    <td colspan="2" style="text-align:right;">{{ number_format($order->orderItems->sum(fn($i) => $i->price * $i->quantity), 0, ',', '.') }} đ</td>
+                                </tr>
+                                @if(($order->discount_amount ?? 0) > 0)
+                                <tr style="background:#f8f9fa; font-weight:600; color:#1f7a1f;">
+                                    <td colspan="4" style="text-align:right;">Giảm giá @if($order->coupon_code) ({{ $order->coupon_code }}) @endif:</td>
+                                    <td colspan="2" style="text-align:right;">-{{ number_format($order->discount_amount, 0, ',', '.') }} đ</td>
+                                </tr>
+                                @endif
                                 <tr style="background:#f5f5f5; font-weight:bold;">
                                     <td colspan="4" style="text-align:right;">Tổng cộng:</td>
                                     <td colspan="2" style="text-align:right; font-size:16px; color:#2a6edb;">{{ number_format($order->total_price, 0, ',', '.') }} đ</td>
@@ -197,7 +213,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width:150px;">Thời gian</th>
-                                        <th style="width:150px;">Trạng thái</th>
+                                        <th style="width:150px;">{{ __('messages.status') }}</th>
                                         <th>Ghi chú</th>
                                     </tr>
                                 </thead>
@@ -239,7 +255,7 @@
         <div class="col-md-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><i class="fa fa-cogs"></i> Thao tác</h2>
+                    <h2><i class="fa fa-cogs"></i> {{ __('messages.action') }}</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -256,7 +272,8 @@
 
                                 <form method="POST" action="{{ route('admin.orders.send-invoice', $order) }}" style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn btn-success" title="Gửi hóa đơn qua email" onclick="return confirm('Gửi hóa đơn tới: {{ $order->user?->email }}?')">
+                                    @php $sendConfirm = __('messages.send') . ' hóa đơn tới: ' . ($order->user?->email ?? 'email') . '?'; @endphp
+                                    <button type="submit" class="btn btn-success" title="{{ __('messages.send') }} hóa đơn qua email" onclick="return confirm('{{ $sendConfirm }}')">
                                         <i class="fa fa-envelope"></i> Email
                                     </button>
                                 </form>
@@ -270,7 +287,7 @@
                             <form method="POST" action="{{ route('admin.orders.update-status', $order) }}" class="status-update-form">
                                 @csrf
                                 @method('PUT')
-                                <label for="status" style="font-weight:bold; white-space:nowrap;">Cập nhật trạng thái:</label>
+                                <label for="status" style="font-weight:bold; white-space:nowrap;">{{ __('messages.update_status') }}:</label>
                                 <select name="status" id="status" class="form-control">
                                     <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Chờ xác nhận</option>
                                     <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Đang xử lý</option>

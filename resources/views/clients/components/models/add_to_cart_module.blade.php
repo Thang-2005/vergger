@@ -34,13 +34,13 @@
                                                     data-product-id="{{ $product->id }}"
                                                     data-qty-id="qty-{{ $product->id }}">
                                                 <i class="fas fa-shopping-cart me-1"></i>
-                                                Thêm vào giỏ hàng
+                                                {{ __('messages.add_product') }} vào giỏ hàng
                                             </button>
                                         </div>
 
                                         <div class="btn-wrapper">
                                             <a href="{{ route('cart.index') }}" class="theme-btn-2 btn btn-effect-2">
-                                                <i class="fas fa-eye me-1"></i> Xem giỏ hàng
+                                                <i class="fas fa-eye me-1"></i> {{ __('messages.view_cart') }}
                                             </a>
                                         </div>
                                     </div>

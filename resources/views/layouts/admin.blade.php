@@ -127,6 +127,7 @@
             "hideMethod": "fadeOut"
         };
     </script>
+
 	
   </body>
 </html>

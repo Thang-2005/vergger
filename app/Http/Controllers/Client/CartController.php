@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Models\Coupon;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -95,9 +96,12 @@ class CartController extends Controller
         fn($item) => $item->product->price * $item->quantity
     );
 
+    [$appliedCoupon, $discountAmount] = $this->resolveAppliedCoupon((float) $total);
+    $finalTotal = max(0, (float) $total - (float) $discountAmount);
+
     return view(
         'clients.pages.cart',
-        compact('cartItems', 'total')
+        compact('cartItems', 'total', 'appliedCoupon', 'discountAmount', 'finalTotal')
     );
 }
 
@@ -205,5 +209,39 @@ class CartController extends Controller
             'status'     => 'true',
             'html'=>view('clients.components.include.mini_cart', compact('cartItems'))->render(),
         ]);
+    }
+
+    private function resolveAppliedCoupon(float $totalAmount): array
+    {
+        $sessionCoupon = session('applied_coupon');
+        if (! $sessionCoupon || empty($sessionCoupon['id'])) {
+            return [null, 0];
+        }
+
+        $coupon = Coupon::query()->find($sessionCoupon['id']);
+        if (! $coupon) {
+            session()->forget('applied_coupon');
+
+            return [null, 0];
+        }
+
+        $result = $coupon->calculateDiscount($totalAmount);
+        if (! ($result['valid'] ?? false)) {
+            session()->forget('applied_coupon');
+
+            return [null, 0];
+        }
+
+        $normalizedCoupon = [
+            'code' => $coupon->code,
+            'id' => $coupon->id,
+            'discount_value' => $coupon->discount_value,
+            'discount_type' => $coupon->discount_type,
+            'discount_amount' => (float) $result['discount'],
+        ];
+
+        session(['applied_coupon' => $normalizedCoupon]);
+
+        return [$normalizedCoupon, (float) $result['discount']];
     }
 }

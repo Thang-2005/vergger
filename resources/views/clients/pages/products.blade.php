@@ -62,7 +62,7 @@
                 <aside class="sidebar ltn__shop-sidebar">
                     <!-- Category Widget -->
                     <div class="widget ltn__menu-widget">
-                        <h4 class="ltn__widget-title ltn__widget-title-border">Danh mục sản phẩm</h4>
+                        <h4 class="ltn__widget-title ltn__widget-title-border">{{ __('messages.category') }} sản phẩm</h4>
                         @foreach($categories as $category)
                         <ul>
                             <li><a href="javascript:void(0)" class="category-filter" data-id="{{ $category->id }}">{{ $category->name }} <span><i class="fas fa-long-arrow-alt-right"></i></span></a>
@@ -73,7 +73,7 @@
                     </div>
                     <!-- Price Filter Widget -->
                     <div class="widget ltn__price-filter-widget">
-                        <h4 class="ltn__widget-title ltn__widget-title-border">Lọc theo giá</h4>
+                        <h4 class="ltn__widget-title ltn__widget-title-border">{{ __('messages.filter') }} theo giá</h4>
                         <div class="price_filter">
                             <div class="price_slider_amount">
                                 <input type="submit" value="Your range:" />
@@ -84,7 +84,7 @@
                     </div>
                     <!-- Top Rated Product Widget -->
                     <div class="widget ltn__top-rated-product-widget">
-                        <h4 class="ltn__widget-title ltn__widget-title-border">Sản phẩm được ưa thích</h4>
+                        <h4 class="ltn__widget-title ltn__widget-title-border">{{ __('messages.top_rated_products') }}</h4>
                         @if($products_favorite)
                         <ul>
 

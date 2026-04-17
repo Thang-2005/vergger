@@ -25,14 +25,14 @@
                    <form action="{{ route('register') }}" id="register_form" method="POST">
                     @csrf
 
-                    <input type="text" name="full_name" placeholder="Họ và tên"
+                    <input type="text" name="full_name" placeholder="{{ __('messages.full_name') }}"
                         value="{{ old('full_name') }}">
                     <small class="text-danger error" id="error_full_name"></small>
                     <input type="email" name="email" placeholder="Email *"
                         value="{{ old('email') }}">
                     <small class="text-danger error" id="error_email"></small>
                     <div class="password-wrapper" style="margin-bottom: 16px;">
-                        <input type="password" id="register_password" name="password" placeholder="Mật khẩu *">
+                        <input type="password" id="register_password" name="password" placeholder="{{ __('messages.password') }} *">
                         <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#register_password')">
                             <i class="fas fa-eye toggle-password-icon"></i>
                         </button>
@@ -40,7 +40,7 @@
                     <small class="text-danger error" id="error_password"></small>
                     <div class="password-wrapper" style="margin-bottom: 16px;">
                         <input type="password" id="register_password_confirm" name="password_confirmation"
-                            placeholder="Xác nhận mật khẩu *">
+                            placeholder="{{ __('messages.confirm_password') }} *">
                         <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#register_password_confirm')">
                             <i class="fas fa-eye toggle-password-icon"></i>
                         </button>

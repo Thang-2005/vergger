@@ -35,10 +35,18 @@ class OrderController extends Controller
             };
         }
 
+        $subTotal = (float) $order->orderItems->sum(function ($item) {
+            return (float) $item->price * (int) $item->quantity;
+        });
+        $discountAmount = (float) ($order->discount_amount ?? 0);
+
         $invoiceData = [
             'id' => $order->id,
             'created_at' => $order->created_at?->format('H:i d/m/Y'),
             'status' => $order->status,
+            'sub_total' => $subTotal,
+            'discount_amount' => $discountAmount,
+            'coupon_code' => $order->coupon_code,
             'total_price' => $order->total_price,
             'payment_method' => $order->payment?->payment_method,
             'payment_status' => $order->payment?->status,
