@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -10,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE payments MODIFY payment_method ENUM('cash','cod','vnpay','paypal') NOT NULL");
-        DB::statement("ALTER TABLE payments MODIFY status ENUM('pending','completed','failed') NOT NULL DEFAULT 'pending'");
+        Schema::table('payments', function (Blueprint $table) {
+            $table->enum('payment_method', ['cash', 'cod', 'vnpay', 'paypal'])->nullable(false)->change();
+            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending')->nullable(false)->change();
+        });
     }
 
     /**
@@ -19,7 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE payments MODIFY payment_method ENUM('cash','paypal') NOT NULL");
-        DB::statement("ALTER TABLE payments MODIFY status ENUM('pending','complated','failed') NOT NULL DEFAULT 'pending'");
+        Schema::table('payments', function (Blueprint $table) {
+            $table->enum('payment_method', ['cash', 'paypal'])->nullable(false)->change();
+            $table->enum('status', ['pending', 'complated', 'failed'])->default('pending')->nullable(false)->change();
+        });
     }
 };
