@@ -103,7 +103,7 @@
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header bg-light border-bottom">
                         <h5 class="mb-0">
-                            <i class="fas fa-map-marker-alt me-2"></i>{{ __('messages.address') }} giao hàng
+                            <i class="fas fa-map-marker-alt me-2"></i>{{ 'Địa chỉ' }} giao hàng
                         </h5>
                     </div>
                     <div class="card-body">
@@ -170,10 +170,10 @@
 
 
                             <div class="col-md-12" id="new-address-form">
-                                <h5 class="checkout-title-3">{{ $addresses->count() > 0 ? 'Hoặc thêm địa chỉ giao hàng mới' : __('messages.add_product') . ' địa chỉ giao hàng' }}</h5>
+                                <h5 class="checkout-title-3">{{ $addresses->count() > 0 ? 'Hoặc thêm địa chỉ giao hàng mới' : 'Thêm sản phẩm' . ' địa chỉ giao hàng' }}</h5>
                                 <div class="btn-wrapper">
                                     <button type="button" class="theme-btn-1 btn btn-effect-1" data-bs-toggle="modal" data-bs-target="#add_address_modal">
-                                        <i class="fas fa-plus-circle me-2"></i> {{ __('messages.add_product') }} địa chỉ mới
+                                        <i class="fas fa-plus-circle me-2"></i> {{ 'Thêm sản phẩm' }} địa chỉ mới
                                     </button>
                                 </div>
                             </div>
@@ -234,11 +234,11 @@
                                         type="text"
                                         id="coupon_code"
                                         class="form-control"
-                                        placeholder="{{ __('messages.enter_coupon_code') }}"
+                                        placeholder="{{ 'Nhập mã giảm giá' }}"
                                         value="{{ $appliedCoupon['code'] ?? '' }}"
                                     >
                                     <button type="button" id="applyCouponBtn" class="btn btn-outline-primary">Áp dụng</button>
-                                    <button type="button" id="removeCouponBtn" class="btn btn-outline-danger" {{ empty($appliedCoupon) ? 'style=display:none;' : '' }}>{{ __('messages.delete') }}</button>
+                                    <button type="button" id="removeCouponBtn" class="btn btn-outline-danger" {{ empty($appliedCoupon) ? 'style=display:none;' : '' }}>{{ 'Xóa' }}</button>
                                 </div>
                                 <small id="couponMessage" class="d-block mt-2 {{ session('error') ? 'text-danger' : 'text-muted' }}">
                                     @if(!empty($appliedCoupon))
@@ -296,7 +296,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="add_address_modal_label">{{ __('messages.add_product') }} địa chỉ mới</h5>
+                            <h5 class="modal-title" id="add_address_modal_label">{{ 'Thêm sản phẩm' }} địa chỉ mới</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -311,7 +311,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">{{ __('messages.address') }}:</label>
+                                    <label for="address" class="form-label">{{ 'Địa chỉ' }}:</label>
                                     <input type="text" class="form-control" id="address" name="address">
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -323,7 +323,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label">{{ __('messages.phone_number') }}:</label>
+                                    <label for="phone" class="form-label">{{ 'Số điện thoại' }}:</label>
                                     <input type="text" class="form-control" id="phone" name="phone">
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -426,7 +426,7 @@
         }
 
         /**
-         * {{ __('messages.delete') }} giao diện hiển thị giảm giá
+         * {{ 'Xóa' }} giao diện hiển thị giảm giá
          */
         function clearDiscountDisplay() {
             discountRow.style.display = 'none';
@@ -445,7 +445,7 @@
                 return;
             }
 
-            // {{ __('messages.send') }} request áp dụng mã lên server
+            // {{ 'Gửi' }} request áp dụng mã lên server
             fetch("{{ route('coupon.apply') }}", {
                 method: 'POST',
                 headers: {
@@ -485,7 +485,7 @@
         // === SỰ KIỆN: CLICK BUTTON "XÓA" ===
         if (removeBtn) {
             removeBtn.addEventListener('click', function () {
-                // {{ __('messages.send') }} request xóa mã lên server
+                // {{ 'Gửi' }} request xóa mã lên server
                 fetch("{{ route('coupon.remove') }}", {
                     method: 'POST',
                     headers: {
@@ -496,7 +496,7 @@
                 })
                 .then(function (res) { return res.json(); })
                 .then(function (data) {
-                    // {{ __('messages.delete') }} thành công - reset giao diện
+                    // {{ 'Xóa' }} thành công - reset giao diện
                     clearDiscountDisplay();
                     codeInput.value = '';
                     setMessage('Đã xóa mã giảm giá.', false);
@@ -531,7 +531,7 @@
                 codBtn.style.display = 'none';
                 vnpayBtn.style.display = 'block';
                 
-                // {{ __('messages.delete') }} sự kiện confirm cho VNPAY
+                // {{ 'Xóa' }} sự kiện confirm cho VNPAY
                 if (submitVnpay) {
                     submitVnpay.onclick = null;
                 }

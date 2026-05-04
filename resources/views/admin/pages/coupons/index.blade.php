@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', __('messages.coupon_management'))
+@section('title', 'Quản lý mã giảm giá')
 
 @section('content')
 <div class="right_col" role="main">
     <div class="page-title">
         <div class="title_left">
-            <h3>{{ __('messages.coupon_management') }}</h3>
+            <h3>{{ 'Quản lý mã giảm giá' }}</h3>
         </div>
         <div class="title_right" style="text-align:right;">
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#createCouponModal" style="margin-top:5px;">
-                <i class="fa fa-plus"></i> {{ __('messages.add_coupon') }}
+                <i class="fa fa-plus"></i> {{ 'Thêm Mã Giảm Giá' }}
             </button>
         </div>
     </div>
@@ -21,7 +21,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>{{ __('messages.coupon_list') }}</h2>
+                    <h2>{{ 'Danh Sách Mã Giảm Giá' }}</h2>
                     <div class="clearfix"></div>
                 </div>
 
@@ -29,23 +29,23 @@
                     <form method="GET" action="{{ route('admin.coupons.index') }}" class="row" style="margin-bottom:18px;">
                         <div class="col-md-5 col-sm-6">
                             <div class="form-group">
-                                <label for="keyword">{{ __('messages.keyword') }}</label>
-                                <input type="text" id="keyword" name="keyword" class="form-control" placeholder="{{ __('messages.search_coupon_placeholder') }}" value="{{ request('keyword') }}">
+                                <label for="keyword">{{ 'Từ Khóa' }}</label>
+                                <input type="text" id="keyword" name="keyword" class="form-control" placeholder="{{ 'Tìm kiếm mã, mô tả...' }}" value="{{ request('keyword') }}">
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-4">
                             <div class="form-group">
-                                <label for="status">{{ __('messages.status') }}</label>
+                                <label for="status">{{ 'Trạng thái' }}</label>
                                 <select id="status" name="status" class="form-control">
-                                    <option value="">{{ __('messages.all_status') }}</option>
-                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>{{ __('messages.active') }}</option>
-                                    <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>{{ __('messages.expired') }}</option>
+                                    <option value="">{{ 'Tất cả trạng thái' }}</option>
+                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>{{ 'Hoạt Động' }}</option>
+                                    <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>{{ 'Hết Hạn' }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-2">
                             <div class="form-group" style="margin-top:25px;display:flex;gap:8px;">
-                                <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fa fa-search"></i> {{ __('messages.filter') }}</button>
+                                <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fa fa-search"></i> {{ 'Lọc' }}</button>
                                 <a href="{{ route('admin.coupons.index') }}" class="btn btn-default" style="width:100%;"><i class="fa fa-refresh"></i></a>
                             </div>
                         </div>
@@ -56,13 +56,13 @@
                             <thead>
                                 <tr>
                                     <th style="width:70px;">#</th>
-                                    <th style="width:140px;">{{ __('messages.coupon_code') }}</th>
-                                    <th style="width:150px;">{{ __('messages.discount_type') }}</th>
+                                    <th style="width:140px;">{{ 'Mã Giảm Giá' }}</th>
+                                    <th style="width:150px;">{{ 'Loại Giảm Giá' }}</th>
                                     <th>Giá trị</th>
-                                    <th style="width:120px;">{{ __('messages.used_count') }}</th>
-                                    <th style="width:180px;">{{ __('messages.expiration_date') }}</th>
-                                    <th style="width:120px;">{{ __('messages.status') }}</th>
-                                    <th style="width:260px;">{{ __('messages.action') }}</th>
+                                    <th style="width:120px;">{{ 'Đã Dùng' }}</th>
+                                    <th style="width:180px;">{{ 'Hạn Sử Dụng' }}</th>
+                                    <th style="width:120px;">{{ 'Trạng thái' }}</th>
+                                    <th style="width:260px;">{{ 'Hành động' }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,19 +72,19 @@
                                         <td><span class="label label-info">{{ $coupon->code }}</span></td>
                                         <td>
                                             @if($coupon->discount_type === 'percentage')
-                                                <span class="label label-success">{{ __('messages.discount') }} {{ $coupon->discount_value }}%</span>
+                                                <span class="label label-success">{{ 'Giảm' }} {{ $coupon->discount_value }}%</span>
                                             @else
-                                                <span class="label label-success">{{ __('messages.discount') }} {{ number_format($coupon->discount_value, 0, ',', '.') }}đ</span>
+                                                <span class="label label-success">{{ 'Giảm' }} {{ number_format($coupon->discount_value, 0, ',', '.') }}đ</span>
                                             @endif
                                         </td>
                                         <td>
                                             @if($coupon->discount_type === 'percentage')
-                                                {{ __('messages.discount') }} {{ $coupon->discount_value }}%
+                                                {{ 'Giảm' }} {{ $coupon->discount_value }}%
                                                 @if($coupon->max_discount)
-                                                    ({{ __('messages.max_discount_label') }} {{ number_format($coupon->max_discount, 0, ',', '.') }}đ)
+                                                    ({{ 'Tối Đa' }} {{ number_format($coupon->max_discount, 0, ',', '.') }}đ)
                                                 @endif
                                             @else
-                                                {{ __('messages.discount') }} {{ number_format($coupon->discount_value, 0, ',', '.') }}đ
+                                                {{ 'Giảm' }} {{ number_format($coupon->discount_value, 0, ',', '.') }}đ
                                             @endif
                                         </td>
                                         <td>{{ $coupon->usage_count }} / {{ $coupon->usage_limit ?? '∞' }}</td>
@@ -92,17 +92,17 @@
                                             @if($coupon->valid_until)
                                                 {{ $coupon->valid_until->format('d/m/Y H:i') }}
                                                 @if($coupon->valid_until->isPast())
-                                                    <div><span class="label label-danger">{{ __('messages.expired') }}</span></div>
+                                                    <div><span class="label label-danger">{{ 'Hết Hạn' }}</span></div>
                                                 @endif
                                             @else
-                                                <span class="label label-default">{{ __('messages.unlimited') }}</span>
+                                                <span class="label label-default">{{ 'Không Giới Hạn' }}</span>
                                             @endif
                                         </td>
                                         <td>
                                             @if($coupon->is_active)
-                                                <span class="label label-success">{{ __('messages.active') }}</span>
+                                                <span class="label label-success">{{ 'Hoạt Động' }}</span>
                                             @else
-                                                <span class="label label-default">{{ __('messages.inactive') }}</span>
+                                                <span class="label label-default">{{ 'Không Hoạt Động' }}</span>
                                             @endif
                                         </td>
                                         <td>
@@ -124,25 +124,25 @@
                                                     data-is-active="{{ $coupon->is_active ? 1 : 0 }}"
                                                     data-description="{{ e($coupon->description) }}"
                                                 >
-                                                    <i class="fa fa-edit"></i> {{ __('messages.edit') }}
+                                                    <i class="fa fa-edit"></i> {{ 'Sửa' }}
                                                 </button>
 
                                                 <form action="{{ route('admin.coupons.toggle', $coupon) }}" method="POST" style="display:inline-block;">
                                                     @csrf
                                                     @method('PATCH')
-                                                    @php $msg = __('messages.confirm_change_status'); @endphp
+                                                    @php $msg = 'Bạn có chắc chắn muốn thay đổi trạng thái?'; @endphp
                                                     <button type="submit" class="btn btn-sm {{ $coupon->is_active ? 'btn-warning' : 'btn-success' }}" onclick="return confirm('{{ $msg }}');">
                                                         <i class="fa {{ $coupon->is_active ? 'fa-eye-slash' : 'fa-check' }}"></i>
-                                                        {{ $coupon->is_active ? __('messages.deactivate') : __('messages.activate') }}
+                                                        {{ $coupon->is_active ? 'Vô Hiệu Hóa' : 'Kích Hoạt' }}
                                                     </button>
                                                 </form>
 
                                                     <form action="{{ route('admin.coupons.destroy', $coupon) }}" method="POST" style="display:inline-block;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        @php $deleteMsg = __('messages.confirm_delete'); @endphp
+                                                        @php $deleteMsg = 'Xác Nhận Xóa'; @endphp
                                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('{{ $deleteMsg }}');">
-                                                        <i class="fa fa-trash"></i> {{ __('messages.delete') }}
+                                                        <i class="fa fa-trash"></i> {{ 'Xóa' }}
                                                     </button>
                                                 </form>
                                             </div>
@@ -170,7 +170,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="createCouponModalLabel">{{ __('messages.add_product') }} mã giảm giá</h4>
+                <h4 class="modal-title" id="createCouponModalLabel">{{ 'Thêm sản phẩm' }} mã giảm giá</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -198,7 +198,7 @@
                         <input type="number" id="create_max_discount" name="max_discount" class="form-control" step="0.01" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="create_min_order_amount">{{ __('messages.minimum_order_amount') }}</label>
+                        <label for="create_min_order_amount">{{ 'Đơn hàng tối thiểu' }}</label>
                         <input type="number" id="create_min_order_amount" name="min_order_amount" class="form-control" step="0.01" min="0">
                     </div>
                     <div class="form-group">
@@ -214,14 +214,14 @@
                         <input type="datetime-local" id="create_valid_until" name="valid_until" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="create_is_active">{{ __('messages.status') }}</label>
+                        <label for="create_is_active">{{ 'Trạng thái' }}</label>
                         <select id="create_is_active" name="is_active" class="form-control">
-                            <option value="1" selected>{{ __('messages.active') }}</option>
+                            <option value="1" selected>{{ 'Hoạt Động' }}</option>
                             <option value="0">Vô hiệu</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="create_description">{{ __('messages.description') }}</label>
+                        <label for="create_description">{{ 'Mô tả' }}</label>
                         <textarea id="create_description" name="description" rows="3" class="form-control"></textarea>
                     </div>
                     <div class="text-right">
@@ -238,7 +238,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="editCouponModalLabel">{{ __('messages.edit_coupon') }}</h4>
+                <h4 class="modal-title" id="editCouponModalLabel">{{ 'Chỉnh Sửa Mã Giảm Giá' }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -267,7 +267,7 @@
                         <input type="number" id="edit_max_discount" name="max_discount" class="form-control" step="0.01" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="edit_min_order_amount">{{ __('messages.minimum_order_amount') }}</label>
+                        <label for="edit_min_order_amount">{{ 'Đơn hàng tối thiểu' }}</label>
                         <input type="number" id="edit_min_order_amount" name="min_order_amount" class="form-control" step="0.01" min="0">
                     </div>
                     <div class="form-group">
@@ -283,14 +283,14 @@
                         <input type="datetime-local" id="edit_valid_until" name="valid_until" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="edit_is_active">{{ __('messages.status') }}</label>
+                        <label for="edit_is_active">{{ 'Trạng thái' }}</label>
                         <select id="edit_is_active" name="is_active" class="form-control">
-                            <option value="1">{{ __('messages.active') }}</option>
+                            <option value="1">{{ 'Hoạt Động' }}</option>
                             <option value="0">Vô hiệu</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="edit_description">{{ __('messages.description') }}</label>
+                        <label for="edit_description">{{ 'Mô tả' }}</label>
                         <textarea id="edit_description" name="description" rows="3" class="form-control"></textarea>
                     </div>
                     <div class="text-right">

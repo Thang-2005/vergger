@@ -12,7 +12,7 @@
                 <img src="{{ Auth::guard('admin')->user()->avatar ?? asset('asset/admin/build/images/user.png') }}" alt="..." width="50" height="50" class="img-circle profile_img">
             </div>
             <div class="profile_info">
-                <span>{{ __('messages.hello') }},</span>
+                <span>{{ 'Xin chào' }},</span>
                 <h2>{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</h2>
             </div>
         </div>
@@ -23,7 +23,7 @@
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <div class="menu_section">
-                <h3>{{ __('messages.overview') }}</h3>
+                <h3>{{ 'Tổng quan' }}</h3>
                 @php
                     $adminUser = Auth::guard('admin')->user();
                     $isAdmin = optional($adminUser?->roles)->contains('name', 'Admin');
@@ -39,61 +39,61 @@
 
                 <ul class="nav side-menu">
                     <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <a href="{{ route('admin.dashboard') }}"><i class="fa fa-home"></i> {{ __('messages.dashboard') }}</a>
+                        <a href="{{ route('admin.dashboard') }}"><i class="fa fa-home"></i> {{ 'Bảng điều khiển' }}</a>
                     </li>
 
                     @if($canManageUsers)
                     <li>
-                        <a><i class="fa fa-user"></i> {{ __('messages.user_management') }} <span class="fa fa-chevron-down"></span></a>
+                        <a><i class="fa fa-user"></i> {{ 'Quản lý người dùng' }} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('admin.users') }}">{{ __('messages.account_list') }}</a></li>
-                            <li><a href="#">{{ __('messages.staff_permissions') }}</a></li>
+                            <li><a href="{{ route('admin.users') }}">{{ 'Danh sách tài khoản' }}</a></li>
+                            <li><a href="#">{{ 'Phân quyền nhân viên' }}</a></li>
                         </ul>
                     </li>
                     @endif
 
                     @if($canManageCategories)
                     <li>
-                        <a><i class="fa fa-table"></i> {{ __('messages.category_management') }} <span class="fa fa-chevron-down"></span></a>
+                        <a><i class="fa fa-table"></i> {{ 'Quản Lý Danh Mục' }} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('admin.categories.index') }}">{{ __('messages.manage_category') }}</a></li>
+                            <li><a href="{{ route('admin.categories.index') }}">{{ 'Quản lý danh mục' }}</a></li>
                         </ul>
                     </li>
                     @endif
 
                     @if($canManageProducts)
                     <li>
-                        <a><i class="fa fa-cube"></i> {{ __('messages.product_management') }} <span class="fa fa-chevron-down"></span></a>
+                        <a><i class="fa fa-cube"></i> {{ 'Quản lý sản phẩm' }} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">{{ __('messages.add_product') }}</a></li>
-                            <li><a href="{{ route('admin.products.list') }}">{{ __('messages.product_list') }}</a></li>
+                            <li><a href="#">{{ 'Thêm sản phẩm' }}</a></li>
+                            <li><a href="{{ route('admin.products.list') }}">{{ 'Danh sách sản phẩm' }}</a></li>
                         </ul>
                     </li>
                     @endif
 
                     @if($canManageCoupons)
                     <li>
-                        <a><i class="fa fa-tags"></i> {{ __('messages.coupon_management') }} <span class="fa fa-chevron-down"></span></a>
+                        <a><i class="fa fa-tags"></i> {{ 'Quản lý mã giảm giá' }} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('admin.coupons.index') }}">{{ __('messages.coupon_list') }}</a></li>
+                            <li><a href="{{ route('admin.coupons.index') }}">{{ 'Danh Sách Mã Giảm Giá' }}</a></li>
                         </ul>
                     </li>
                     @endif
 
                     @if($canManageOrders)
                     <li>
-                        <a><i class="fa fa-shopping-cart"></i> {{ __('messages.order_management') }} <span class="fa fa-chevron-down"></span></a>
+                        <a><i class="fa fa-shopping-cart"></i> {{ 'Quản lý đơn hàng' }} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('admin.orders.list') }}">{{ __('messages.order_list') }}</a></li>
+                            <li><a href="{{ route('admin.orders.list') }}">{{ 'Danh sách đơn hàng' }}</a></li>
                         </ul>
                     </li>
                     @endif
 
                     @if($canManageContacts)
                     <li>
-                        <a><i class="fa fa-envelope"></i> {{ __('messages.contact_management') }} <span class="fa fa-chevron-down"></span></a>
+                        <a><i class="fa fa-envelope"></i> {{ 'Liên hệ' }} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('admin.contacts.index') }}">{{ __('messages.contact_inbox') }}</a></li>
+                            <li><a href="{{ route('admin.contacts.index') }}">{{ 'Hộp thư liên hệ' }}</a></li>
                         </ul>
                     </li>
                     @endif
@@ -108,10 +108,10 @@
                     
                     @if($canManagePermissions)
                     <li>
-                        <a><i class="fa fa-key"></i> {{ __('messages.permission_management') }} <span class="fa fa-chevron-down"></span></a>
+                        <a><i class="fa fa-key"></i> {{ 'Quản lý quyền' }} <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('admin.roles.index') }}">{{ __('messages.role_management') }}</a></li>
-                            <li><a href="{{ route('admin.permissions') }}">{{ __('messages.permission_by_role') }}</a></li>
+                            <li><a href="{{ route('admin.roles.index') }}">{{ 'Quản lý vai trò' }}</a></li>
+                            <li><a href="{{ route('admin.permissions') }}">{{ 'Phân quyền theo vai trò' }}</a></li>
                         </ul>
                     </li>
                     @endif
@@ -121,8 +121,8 @@
         <!-- /sidebar menu -->
 
         <div class="sidebar-footer hidden-small">
-            @php $confirmMsg = __('messages.confirm_logout'); @endphp
-            <a data-toggle="tooltip" data-placement="top" title="{{ __('messages.logout') }}" href="{{ route('admin.logout') }}" onclick="return confirm('{{ $confirmMsg }}');">
+            @php $confirmMsg = 'Bạn có muốn đăng xuất không?'; @endphp
+            <a data-toggle="tooltip" data-placement="top" title="{{ 'Đăng xuất' }}" href="{{ route('admin.logout') }}" onclick="return confirm('{{ $confirmMsg }}');">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
         </div>

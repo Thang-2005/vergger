@@ -29,8 +29,8 @@ class VnpayService
         $vnp_Amount = $vnp_Amount * 100; // VNPAY tính bằng đồng (nhân 100)
         
         $createDate = date('YmdHis');
-        // Thời gian hết hạn: 120 phút (2 tiếng) để đủ thời gian user thanh toán
-        $expireDate = date('YmdHis', strtotime('+120 minutes'));
+        // Thời gian hết hạn: 20 phút để đủ thời gian user thanh toán
+        $expireDate = date('YmdHis', strtotime('+20 minutes'));
 
         $inputData = array(
             "vnp_Version" => "2.1.0",

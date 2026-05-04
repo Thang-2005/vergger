@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', __('messages.user_management'))
+@section('title', 'Quản lý người dùng')
 @section('content')
 
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>{{ __('messages.user_management') }}</h3>
+                <h3>{{ 'Quản lý người dùng' }}</h3>
             </div>
         </div>
 

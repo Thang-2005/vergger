@@ -24,7 +24,7 @@
                             </ul>
                         </li>
                         <li><a href="{{ route('shop') }}">Cửa hàng</a></li>
-                        <li><a href="{{ route('contact') }}">{{ __('messages.contact_management') }}</a></li>
+                        <li><a href="{{ route('contact') }}">{{ 'Liên hệ' }}</a></li>
                     </ul>
                 </div>
                 <div class="ltn__utilize-buttons ltn__utilize-buttons-2">

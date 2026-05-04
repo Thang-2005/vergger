@@ -104,7 +104,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- pdfMake JS for PDF generation -->
+    <script src="{{ asset('asset/admin/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('asset/admin/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+
     <script src="{{ asset('asset/admin/js/admin.js') }}?v={{ filemtime(public_path('asset/admin/js/admin.js')) }}"></script>
 
 

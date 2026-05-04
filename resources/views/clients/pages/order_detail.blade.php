@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
-@section('title', __('messages.view_details') . ' ' . __('messages.order'))
-@section('breadcrumb', __('messages.view_details') . ' ' . __('messages.order'))
+@section('title', 'Xem chi tiết' . ' ' . 'Đơn Hàng')
+@section('breadcrumb', 'Xem chi tiết' . ' ' . 'Đơn Hàng')
 
 @section ('content')
 <div class="ltn__checkout-area pt-100 pb-100">
@@ -32,7 +32,7 @@
 
 							<div class="col-md-3">
 								<div class="p-3 border rounded bg-light h-100">
-									<small class="text-muted d-block mb-1">{{ __('messages.status') }}</small>
+									<small class="text-muted d-block mb-1">{{ 'Trạng thái' }}</small>
 									@if ($order->status == 'pending')
 										<span class="badge bg-warning text-dark">Chờ xác nhận</span>
 									@elseif ($order->status == 'processing' || $order->status == 'confirmed')
@@ -74,7 +74,7 @@
 
 						<div class="card border-0 bg-light mb-4">
 							<div class="card-body">
-								<h6 class="mb-3">{{ __('messages.address') }} nhận hàng</h6>
+								<h6 class="mb-3">{{ 'Địa chỉ' }} nhận hàng</h6>
 								@if($order->shippingAddress)
 									<p class="mb-1"><strong>{{ $order->shippingAddress->full_name }}</strong></p>
 									<p class="mb-1">{{ $order->shippingAddress->phone }}</p>
@@ -85,7 +85,7 @@
 							</div>
 						</div>
 
-						<h6 class="mb-3">{{ __('messages.view_details') }} đơn hàng</h6>
+						<h6 class="mb-3">{{ 'Xem chi tiết' }} đơn hàng</h6>
 						<div class="table-responsive mb-4">
 							<table class="table table-bordered align-middle mb-0">
 								<thead class="table-light">
@@ -145,7 +145,7 @@
 
 						<div class="d-flex gap-2 flex-wrap">
 							@if ($order->status === 'pending')
-								<button type="button" class="btn btn-outline-danger cancel-order-btn" data-order-id="{{ $order->id }}">{{ __('messages.cancel') }} đơn hàng</button>
+								<button type="button" class="btn btn-outline-danger cancel-order-btn" data-order-id="{{ $order->id }}">{{ 'Hủy' }} đơn hàng</button>
 							@endif
 							<button type="button" class="btn btn-outline-primary" id="downloadInvoiceBtn">Xuất hóa đơn PDF</button>
 							<a href="{{ route('account.orders') }}" class="btn btn-outline-secondary">Quay lại danh sách đơn hàng</a>

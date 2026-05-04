@@ -160,13 +160,13 @@
         <div class="col-md-8 col-sm-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>{{ __('messages.recent_orders') }} <small>{{ __('messages.latest_10_orders') }}</small></h2>
+                    <h2>{{ 'Đơn hàng gần đây' }} <small>{{ '10 đơn hàng mới nhất' }}</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('admin.orders.list') }}">{{ __('messages.view_all_orders') }}</a>
+                                <a class="dropdown-item" href="{{ route('admin.orders.list') }}">{{ 'Xem tất cả đơn hàng' }}</a>
                             </div>
                         </li>
                         <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -178,12 +178,12 @@
                     <table class="table table-hover recent-table">
                         <thead>
                             <tr>
-                                <th>{{ __('messages.order_id') }}</th>
-                                <th>{{ __('messages.customer') }}</th>
-                                <th>{{ __('messages.amount') }}</th>
-                                <th>{{ __('messages.status') }}</th>
-                                <th>{{ __('messages.date') }}</th>
-                                <th>{{ __('messages.action') }}</th>
+                                <th>{{ 'Mã đơn hàng' }}</th>
+                                <th>{{ 'Khách hàng' }}</th>
+                                <th>{{ 'Số tiền' }}</th>
+                                <th>{{ 'Trạng thái' }}</th>
+                                <th>{{ 'Ngày Tháng' }}</th>
+                                <th>{{ 'Hành động' }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -200,7 +200,7 @@
                                 <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                                 <td>
                                     <a href="{{ route('admin.orders.detail', $order->id) }}" class="btn btn-xs btn-primary">
-                                        <i class="fa fa-eye"></i> {{ __('messages.view') }}
+                                        <i class="fa fa-eye"></i> {{ 'Xem' }}
                                     </a>
                                 </td>
                             </tr>
@@ -208,7 +208,7 @@
                         </tbody>
                     </table>
                     @else
-                    <p class="text-center text-muted mt-3">{{ __('messages.no_orders_yet') }}</p>
+                    <p class="text-center text-muted mt-3">{{ 'Chưa có đơn hàng nào' }}</p>
                     @endif
                 </div>
             </div>
@@ -218,7 +218,7 @@
         <div class="col-md-4 col-sm-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>{{ __('messages.order_status_distribution') }} <small>{{ __('messages.distribution') }}</small></h2>
+                    <h2>{{ 'Trạng Thái Đơn Hàng' }} <small>{{ 'Phân Phối' }}</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -260,7 +260,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('admin.products.list') }}">{{ __('messages.view_all_products') }}</a>
+                                <a class="dropdown-item" href="{{ route('admin.products.list') }}">{{ 'Xem Tất Cả Sản Phẩm' }}</a>
                             </div>
                         </li>
                         <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -300,7 +300,7 @@
         <div class="col-md-6 col-sm-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>{{ __('messages.system_overview') }}</h2>
+                    <h2>{{ 'Tổng Quan Hệ Thống' }}</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>

@@ -1,7 +1,7 @@
 <!-- Language Switcher -->
 <div class="language-switcher">
     <div class="dropdown" style="display: inline-block;">
-        <a href="#" class="dropdown-toggle language-toggle" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Chuyển đổi ngôn ngữ">
+        <a href="javascript:void(0);" class="dropdown-toggle language-toggle" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Chuyển đổi ngôn ngữ">
             <i class="fa fa-globe"></i>
             <span class="language-text">
                 @if(app()->getLocale() == 'vi')
@@ -33,6 +33,10 @@
     display: inline-block;
 }
 
+.language-switcher .dropdown {
+    position: relative !important;
+}
+
 .language-switcher .dropdown-toggle {
     display: flex;
     align-items: center;
@@ -41,6 +45,9 @@
     text-decoration: none;
     border-radius: 4px;
     transition: all 0.3s ease;
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }
 
 .language-switcher .dropdown-toggle:hover {
@@ -57,6 +64,20 @@
     min-width: 180px;
     border: 1px solid #e3e3e3;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: absolute !important;
+    z-index: 9999 !important;
+    display: none !important;
+    left: 0;
+    top: 100%;
+}
+
+.language-switcher .dropdown-menu.show,
+.language-switcher .dropdown-menu.open {
+    display: block !important;
+}
+
+.language-switcher .dropdown.open .dropdown-menu {
+    display: block !important;
 }
 
 .language-switcher .language-option {

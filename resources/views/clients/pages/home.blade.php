@@ -82,7 +82,7 @@ $bannerCategory3 = $categories->get(2);
                 <div class="ltn__banner-item">
                     <div class="ltn__banner-img">
                         <a href="{{ $bannerCategory1 ? route('category', $bannerCategory1->id) : route('product') }}">
-                            <img src="{{ asset('asset/client/img/banner/13.png') }}" alt="{{ __('messages.product_image') }} Banner">
+                            <img src="{{ asset('asset/client/img/banner/13.png') }}" alt="{{ 'Ảnh sản phẩm' }} Banner">
                         </a>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ $bannerCategory3 = $categories->get(2);
                         <div class="ltn__banner-item">
                             <div class="ltn__banner-img">
                                 <a href="{{ $bannerCategory2 ? route('category', $bannerCategory2->id) : route('product') }}">
-                                    <img src="{{ asset('asset/client/img/banner/14.png') }}" alt="{{ __('messages.product_image') }} Banner">
+                                    <img src="{{ asset('asset/client/img/banner/14.png') }}" alt="{{ 'Ảnh sản phẩm' }} Banner">
                                 </a>
                             </div>
                         </div>
@@ -102,7 +102,7 @@ $bannerCategory3 = $categories->get(2);
                         <div class="ltn__banner-item">
                             <div class="ltn__banner-img">
                                 <a href="{{ $bannerCategory3 ? route('category', $bannerCategory3->id) : route('product') }}">
-                                    <img src="{{ asset('asset/client/img/banner/15.png') }}" alt="{{ __('messages.product_image') }} Banner">
+                                    <img src="{{ asset('asset/client/img/banner/15.png') }}" alt="{{ 'Ảnh sản phẩm' }} Banner">
                                 </a>
                             </div>
                         </div>
@@ -121,7 +121,7 @@ $bannerCategory3 = $categories->get(2);
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title-area ltn__section-title-2 text-center">
-                    <h1 class="section-title white-color">{{ __('messages.category') }} sản phẩm</h1>
+                    <h1 class="section-title white-color">{{ 'Danh mục' }} sản phẩm</h1>
                 </div>
             </div>
         </div>
@@ -195,7 +195,7 @@ $bannerCategory3 = $categories->get(2);
                                                     </li>
                                                     <li>
                                                         <a href="#" class="theme-btn-add-to-cart"
-                                                            title="{{ __('messages.add_product') }} vào giỏ hàng"
+                                                            title="{{ 'Thêm sản phẩm' }} vào giỏ hàng"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#add_to_cart_modal-{{ $product->id }}">
                                                             <i class="fas fa-shopping-cart"></i>
@@ -341,7 +341,7 @@ $bannerCategory3 = $categories->get(2);
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" title="{{ __('messages.add_product') }} vào giỏ hàng"
+                                    <a href="javascript:void(0)" title="{{ 'Thêm sản phẩm' }} vào giỏ hàng"
                                         data-bs-toggle="modal"
                                         data-bs-target="#add_to_cart_modal-{{ $product->id }}"
                                         data-product-id="{{ $product->id }}">

@@ -85,7 +85,7 @@
                         <div class="card">
                             <h6 class="collapsed ltn__card-title" data-bs-toggle="collapse"
                                 data-bs-target="#faq-item-2-5">
-                                {{ __('messages.account_info') }} của tôi có được bảo mật không?
+                                {{ 'Thông tin tài khoản' }} của tôi có được bảo mật không?
                             </h6>
                             <div id="faq-item-2-5" class="collapse" data-parent="#accordion_2">
                                 <div class="card-body">
@@ -134,7 +134,7 @@
                     <div class="need-support text-center mt-100">
                         <h2>Bạn vẫn cần hỗ trợ thêm?</h2>
                         <div class="btn-wrapper mb-30">
-                            <a href="/contact" class="theme-btn-1 btn">{{ __('messages.contact_management') }} với chúng tôi</a>
+                            <a href="/contact" class="theme-btn-1 btn">{{ 'Liên hệ' }} với chúng tôi</a>
                         </div>
                         <h3><i class="fas fa-phone"></i> 0900 123 456</h3>
                     </div>
