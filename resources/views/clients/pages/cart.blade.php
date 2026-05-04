@@ -25,7 +25,7 @@
                                 @forelse ($cartItems as $item)
                                 <tr class="align-middle">
                                     <td class="cart-product-remove" style="width:40px;">
-                                        <a href="#" class="btn-remove-cart" data-cart-id="{{ $item->id }}" title="{{ __('messages.delete') }}">
+                                        <a href="#" class="btn-remove-cart" data-cart-id="{{ $item->id }}" title="{{ 'Xóa' }}">
                                             <i class="fas fa-trash-alt" style="color:#d9534f;"></i>
                                         </a>
                                     </td>
@@ -78,7 +78,7 @@
                         
                         @if(count($cartItems) > 0)
                         <button type="button" id="btn-clear-cart" class="btn theme-btn-2 btn-effect-2">
-                            <i class="fas fa-trash me-2"></i>{{ __('messages.delete') }} giỏ hàng
+                            <i class="fas fa-trash me-2"></i>{{ 'Xóa' }} giỏ hàng
                         </button>
                         @endif
                     </div>
@@ -129,12 +129,12 @@
                             type="text"
                             id="cart-coupon-code-input"
                             name="cart-coupon"
-                            placeholder="{{ __('messages.enter_coupon_code') }}"
+                            placeholder="{{ 'Nhập mã giảm giá' }}"
                             value="{{ $appliedCoupon['code'] ?? '' }}"
                             class="form-control"
                             style="border-radius:4px 4px 0 0;">
                         <button type="button" id="apply-cart-coupon-btn" class="btn theme-btn-2 btn-effect-2 w-100" style="border-radius:0; margin-top:0;">Áp dụng</button>
-                        <button type="button" id="remove-cart-coupon-btn" class="btn btn-light w-100" style="border-radius:0; margin-top:0; border:1px solid #dee2e6;" {{ empty($appliedCoupon) ? 'hidden' : '' }}>{{ __('messages.delete') }} mã</button>
+                        <button type="button" id="remove-cart-coupon-btn" class="btn btn-light w-100" style="border-radius:0; margin-top:0; border:1px solid #dee2e6;" {{ empty($appliedCoupon) ? 'hidden' : '' }}>{{ 'Xóa' }} mã</button>
                         <small id="cart-coupon-message" style="display:block; padding:8px; background:#f8f9fa; border-radius:0 0 4px 4px; color:#666; text-align:center;">
                             @if(!empty($appliedCoupon))
                             Đã áp dụng mã: {{ $appliedCoupon['code'] }}

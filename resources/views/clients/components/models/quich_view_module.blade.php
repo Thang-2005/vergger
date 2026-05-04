@@ -37,7 +37,7 @@
                                          <div class="modal-product-meta ltn__product-details-menu-1">
                                              <ul>
                                                  <li>
-                                                     <strong>{{ __('messages.category') }}:</strong>
+                                                     <strong>{{ 'Danh mục' }}:</strong>
                                                      <span>
                                                          <a href="javascript:void(0)">{{ $product->category->name }}</a>
                                                      </span>
@@ -59,10 +59,10 @@
 
                                                  <li>
                                                      <a href="#" class="theme-btn-1 btn btn-effect-1"
-                                                         title="{{ __('messages.add_product') }} vào giỏ hàng" data-bs-toggle="modal"
+                                                         title="{{ 'Thêm sản phẩm' }} vào giỏ hàng" data-bs-toggle="modal"
                                                          data-bs-target="#add_to_cart_modal-{{ $product->id }}">
                                                          <i class="fas fa-shopping-cart"></i>
-                                                         <span>{{ __('messages.add_product') }} vào giỏ hàng</span>
+                                                         <span>{{ 'Thêm sản phẩm' }} vào giỏ hàng</span>
                                                      </a>
                                                  </li>
                                              </ul>
@@ -73,7 +73,7 @@
                                                      <a href="#" class="btn-add-wishlist" title="Wishlist" data-bs-toggle="modal"
                                                          data-bs-target="#liton_wishlist_modal-{{ $product->id }}" data-product-id="{{ $product->id }}">
                                                          <i class="far fa-heart"></i>
-                                                         <span>{{ __('messages.add_product') }} vào danh sách yêu thích</span>
+                                                         <span>{{ 'Thêm sản phẩm' }} vào danh sách yêu thích</span>
                                                      </a>
                                                  </li>
                                              </ul>

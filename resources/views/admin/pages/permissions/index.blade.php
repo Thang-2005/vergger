@@ -1,42 +1,42 @@
 @extends('layouts.admin')
 
-@section('title', __('messages.role_management'))
+@section('title', 'Quản lý vai trò')
 
 @section('content')
 @php
     $roleDisplayMap = [
-        'admin' => __('messages.admin'),
-        'staff' => __('messages.staff'),
-        'customer' => __('messages.customer'),
-        'accountant' => __('messages.accountant'),
+        'admin' => 'Quản trị viên',
+        'staff' => 'Nhân Viên',
+        'customer' => 'Khách hàng',
+        'accountant' => 'Kế Toán',
     ];
 
     $permissionDisplayMap = [
-        'users.view' => __('messages.users_view'),
-        'users.manage' => __('messages.users_manage'),
-        'categories.view' => __('messages.categories_view'),
-        'categories.create' => __('messages.categories_module') . ': ' . __('messages.add_product'),
-        'categories.update' => __('messages.categories_module') . ': ' . __('messages.edit'),
-        'categories.delete' => __('messages.categories_module') . ': ' . __('messages.delete'),
-        'categories.toggle_status' => __('messages.categories_module') . ': ' . __('messages.show') . '/' . __('messages.hide'),
-        'products.view' => __('messages.products_view'),
-        'products.create' => __('messages.products_module') . ': ' . __('messages.add_product'),
-        'products.update' => __('messages.products_module') . ': ' . __('messages.edit'),
-        'products.delete' => __('messages.products_module') . ': ' . __('messages.delete'),
-        'orders.view' => __('messages.orders_view'),
-        'orders.manage' => __('messages.orders_manage'),
-        'contacts.view' => __('messages.contacts_view'),
-        'contacts.manage' => __('messages.contacts_manage'),
-        'permissions.view' => __('messages.permissions_view'),
-        'permissions.manage' => __('messages.permissions_manage'),
-        'permissions.assign' => __('messages.permissions_assign'),
-        'permissions.create' => __('messages.permissions_create'),
+        'users.view' => 'Người Dùng: Xem danh sách',
+        'users.manage' => 'Người Dùng: Quản lý (nâng/hạ quyền, trạng thái)',
+        'categories.view' => 'Danh Mục: Xem',
+        'categories.create' => 'Danh Mục' . ': ' . 'Thêm sản phẩm',
+        'categories.update' => 'Danh Mục' . ': ' . 'Sửa',
+        'categories.delete' => 'Danh Mục' . ': ' . 'Xóa',
+        'categories.toggle_status' => 'Danh Mục' . ': ' . 'Hiển Thị' . '/' . 'Ẩn',
+        'products.view' => 'Sản Phẩm: Xem',
+        'products.create' => 'Sản Phẩm' . ': ' . 'Thêm sản phẩm',
+        'products.update' => 'Sản Phẩm' . ': ' . 'Sửa',
+        'products.delete' => 'Sản Phẩm' . ': ' . 'Xóa',
+        'orders.view' => 'Đơn Hàng: Xem',
+        'orders.manage' => 'Đơn Hàng: Quản Lý',
+        'contacts.view' => 'Liên Hệ: Xem',
+        'contacts.manage' => 'Liên Hệ: Quản Lý',
+        'permissions.view' => 'Phân Quyền: Xem',
+        'permissions.manage' => 'Phân Quyền: Quản Lý',
+        'permissions.assign' => 'Phân Quyền: Gán quyền cho vai trò',
+        'permissions.create' => 'Phân Quyền: Tạo quyền mới',
     ];
 @endphp
 <div class="right_col" role="main">
     <div class="page-title">
         <div class="title_left">
-            <h3>{{ __('messages.permission_by_role') }}</h3>
+            <h3>{{ 'Phân quyền theo vai trò' }}</h3>
         </div>
     </div>
 
@@ -46,14 +46,14 @@
         <div class="col-md-3">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>{{ __('messages.role_list') }}</h2>
+                    <h2>{{ 'Danh Sách Vai Trò' }}</h2>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="x_content">
                     @if($roles->isEmpty())
                         <div class="alert alert-info">
-                            {{ __('messages.no_role_message') }}
+                            {{ 'Không có vai trò nào.' }}
                         </div>
                     @else
                         <div class="list-group role-list" style="margin-bottom:0;">
@@ -64,7 +64,7 @@
                                 >
                                     <strong>{{ $roleDisplayMap[strtolower($role->name)] ?? $role->name }}</strong>
                                     @if(strtolower($role->name) === 'admin')
-                                        <small style="display:block; opacity:0.8;">{{ __('messages.full_permission') }}</small>
+                                        <small style="display:block; opacity:0.8;">{{ 'Quyền đầy đủ' }}</small>
                                     @endif
                                 </a>
                             @endforeach
@@ -79,19 +79,19 @@
                 <div class="x_title" style="display:flex; justify-content:space-between; align-items:center;">
                     <h2>
                         @if($selectedRole)
-                            {{ __('messages.role_permissions') }}: {{ $roleDisplayMap[strtolower($selectedRole->name)] ?? $selectedRole->name }}
+                            {{ 'Quyền của vai trò' }}: {{ $roleDisplayMap[strtolower($selectedRole->name)] ?? $selectedRole->name }}
                         @else
-                            {{ __('messages.no_role_selected') }}
+                            {{ 'Chưa Chọn Vai Trò' }}
                         @endif
                     </h2>
                     <a href="{{ route('admin.roles.index') }}" class="btn btn-default btn-sm">
-                        <i class="fa fa-users"></i> {{ __('messages.role_management') }}
+                        <i class="fa fa-users"></i> {{ 'Quản lý vai trò' }}
                     </a>
                 </div>
 
                 <div class="x_content">
                     @if(!$selectedRole)
-                        <div class="alert alert-info">{{ __('messages.no_role_for_permissions') }}</div>
+                        <div class="alert alert-info">{{ 'Vui lòng chọn vai trò để xem quyền.' }}</div>
                     @else
                         <form id="role-permissions-form" data-update-url="{{ route('admin.permissions.update-role', $selectedRole) }}">
                             @php
@@ -110,24 +110,24 @@
                                 });
 
                                 $groupLabelMap = [
-                                    'USERS' => __('messages.users_module'),
-                                    'CATEGORIES' => __('messages.categories_module'),
-                                    'PRODUCTS' => __('messages.products_module'),
-                                    'ORDERS' => __('messages.orders_module'),
-                                    'CONTACTS' => __('messages.contacts_module'),
-                                    'PERMISSIONS' => __('messages.permissions_module'),
-                                    'KHÁC' => __('messages.other_module'),
+                                    'USERS' => 'Người Dùng',
+                                    'CATEGORIES' => 'Danh Mục',
+                                    'PRODUCTS' => 'Sản Phẩm',
+                                    'ORDERS' => 'Đơn Hàng',
+                                    'CONTACTS' => 'Liên Hệ',
+                                    'PERMISSIONS' => 'Phân Quyền',
+                                    'KHÁC' => 'Khác',
                                 ];
                             @endphp
 
                             <div class="permission-toolbar">
                                 <div class="permission-search-wrap">
                                     <i class="fa fa-search"></i>
-                                    <input type="text" id="permission-search" class="form-control" placeholder="{{ __('messages.permission_search') }}">
+                                    <input type="text" id="permission-search" class="form-control" placeholder="{{ 'Tìm quyền theo tên hoặc mô tả...' }}">
                                 </div>
                                 <div class="permission-toolbar-actions">
-                                    <button type="button" class="btn btn-default btn-sm" id="expand-all-groups">{{ __('messages.expand_all') }}</button>
-                                    <button type="button" class="btn btn-default btn-sm" id="collapse-all-groups">{{ __('messages.collapse_all') }}</button>
+                                    <button type="button" class="btn btn-default btn-sm" id="expand-all-groups">{{ 'Mở Tất Cả' }}</button>
+                                    <button type="button" class="btn btn-default btn-sm" id="collapse-all-groups">{{ 'Thu Gọn' }}</button>
                                 </div>
                             </div>
 
@@ -135,9 +135,9 @@
                                 <div class="permission-group-block" data-group-block="group-{{ $loop->index }}">
                                     <div class="permission-group-title" data-toggle-group="group-{{ $loop->index }}">
                                         <i class="fa fa-folder-open"></i>
-                                        <strong class="permission-group-name">{{ __('messages.group_label') }} {{ $groupLabelMap[$groupKey] ?? $groupKey }}</strong>
-                                        <span class="label label-info">{{ $groupPermissions->count() }} {{ __('messages.permissions_count') }}</span>
-                                        <span class="label label-success group-selected-count" data-group-id="group-{{ $loop->index }}">0 {{ __('messages.selected') }}</span>
+                                        <strong class="permission-group-name">{{ 'Nhóm:' }} {{ $groupLabelMap[$groupKey] ?? $groupKey }}</strong>
+                                        <span class="label label-info">{{ $groupPermissions->count() }} {{ 'quyền' }}</span>
+                                        <span class="label label-success group-selected-count" data-group-id="group-{{ $loop->index }}">0 {{ 'đã chọn' }}</span>
                                         <i class="fa fa-chevron-up permission-toggle-icon"></i>
                                     </div>
 
@@ -145,9 +145,9 @@
                                         <table class="table table-bordered table-hover permission-table">
                                             <thead>
                                                 <tr>
-                                                    <th style="width:70px;">{{ __('messages.seq_no') }}</th>
-                                                    <th>{{ __('messages.permission_name') }}</th>
-                                                    <th style="width:130px; text-align:center;">{{ __('messages.assign_permission') }}</th>
+                                                    <th style="width:70px;">{{ 'STT' }}</th>
+                                                    <th>{{ 'Tên Quyền' }}</th>
+                                                    <th style="width:130px; text-align:center;">{{ 'Gán Quyền' }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -178,10 +178,10 @@
                             <div class="permission-save-bar text-right" style="margin-top:16px;">
                                 @if(strtolower($selectedRole->name) !== 'admin')
                                     <button type="button" class="btn btn-primary" id="save-role-permissions" disabled>
-                                        <i class="fa fa-save"></i> {{ __('messages.save_changes') }}
+                                        <i class="fa fa-save"></i> {{ 'Lưu thay đổi' }}
                                     </button>
                                 @else
-                                    <small style="color:#999;">{{ __('messages.role') }} {{ __('messages.admin') }} {{ __('messages.admin_no_edit') }}</small>
+                                    <small style="color:#999;">{{ 'Vai trò' }} {{ 'Quản trị viên' }} {{ 'Vai trò Admin không chỉnh sửa.' }}</small>
                                 @endif
                             </div>
                         </form>

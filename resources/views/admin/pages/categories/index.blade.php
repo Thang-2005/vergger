@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', __('messages.category_management'))
+@section('title', 'Quản Lý Danh Mục')
 
 @section('content')
 <div class="right_col" role="main">
     <div class="page-title">
         <div class="title_left">
-            <h3>{{ __('messages.category_management') }}</h3>
+            <h3>{{ 'Quản Lý Danh Mục' }}</h3>
         </div>
     </div>
 
@@ -18,7 +18,7 @@
                 <div class="x_content">
                     <div style="display:flex; align-items:center; justify-content:space-between;">
                         <div>
-                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ __('messages.total_categories') }}</p>
+                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ 'Tổng Danh Mục' }}</p>
                             <h2 style="margin:0;">{{ $totalCategories }}</h2>
                         </div>
                         <i class="fa fa-folder-open fa-2x" style="color:#2a6edb;"></i>
@@ -31,7 +31,7 @@
                 <div class="x_content">
                     <div style="display:flex; align-items:center; justify-content:space-between;">
                         <div>
-                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ __('messages.active_categories') }}</p>
+                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ 'Đang Hoạt Động' }}</p>
                             <h2 style="margin:0;">{{ $activeCategories }}</h2>
                         </div>
                         <i class="fa fa-check-circle fa-2x" style="color:#1abb9c;"></i>
@@ -44,7 +44,7 @@
                 <div class="x_content">
                     <div style="display:flex; align-items:center; justify-content:space-between;">
                         <div>
-                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ __('messages.inactive_categories') }}</p>
+                            <p style="margin:0 0 4px; color:#7a7a7a;">{{ 'Đang Ẩn' }}</p>
                             <h2 style="margin:0;">{{ $inactiveCategories }}</h2>
                         </div>
                         <i class="fa fa-eye-slash fa-2x" style="color:#f39c12;"></i>
@@ -59,12 +59,12 @@
             <div class="x_panel">
                 <div class="x_title d-flex align-items-center justify-content-between">
                     <div>
-                        <h2>{{ __('messages.category_list') }}</h2>
+                        <h2>{{ 'Danh Sách Danh Mục' }}</h2>
                         <div class="clearfix"></div>
                     </div>
                     @if($canCreateCategory)
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#createCategoryModal">
-                            <i class="fa fa-plus"></i> {{ __('messages.add_category') }}
+                            <i class="fa fa-plus"></i> {{ 'Thêm Danh Mục' }}
                         </button>
                     @endif
                 </div>
@@ -75,12 +75,12 @@
                             <thead>
                                 <tr>
                                     <th style="width:70px;">#</th>
-                                    <th style="width:90px;">{{ __('messages.category_image') }}</th>
-                                    <th>{{ __('messages.category_name') }}</th>
-                                    <th>{{ __('messages.category_slug') }}</th>
-                                    <th>{{ __('messages.products_count') }}</th>
-                                    <th>{{ __('messages.status') }}</th>
-                                    <th style="width:280px;">{{ __('messages.action') }}</th>
+                                    <th style="width:90px;">{{ 'Ảnh' }}</th>
+                                    <th>{{ 'Tên Danh Mục' }}</th>
+                                    <th>{{ 'Slug' }}</th>
+                                    <th>{{ 'Sản Phẩm' }}</th>
+                                    <th>{{ 'Trạng thái' }}</th>
+                                    <th style="width:280px;">{{ 'Hành động' }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,7 +91,7 @@
                                             @if($category->image)
                                                 <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" style="width:60px; height:60px; object-fit:cover; border-radius:10px; border:1px solid #e5e5e5;">
                                             @else
-                                                <div style="width:60px; height:60px; border-radius:10px; border:1px dashed #d9d9d9; display:flex; align-items:center; justify-content:center; color:#999; font-size:12px; text-align:center; padding:4px;">{{ __('messages.no_image') }}</div>
+                                                <div style="width:60px; height:60px; border-radius:10px; border:1px dashed #d9d9d9; display:flex; align-items:center; justify-content:center; color:#999; font-size:12px; text-align:center; padding:4px;">{{ 'Không có ảnh' }}</div>
                                             @endif
                                         </td>
                                         <td>
@@ -106,9 +106,9 @@
                                         <td><span class="label label-info">{{ $category->products_count }}</span></td>
                                         <td>
                                             @if($category->status)
-                                                <span class="label label-success">{{ __('messages.active') }}</span>
+                                                <span class="label label-success">{{ 'Hoạt Động' }}</span>
                                             @else
-                                                <span class="label label-default">{{ __('messages.hidden') }}</span>
+                                                <span class="label label-default">{{ 'Đã Ẩn' }}</span>
                                             @endif
                                         </td>
                                         <td>
@@ -117,10 +117,10 @@
                                                     <form action="{{ route('admin.categories.toggle-status', $category) }}" method="POST" class="toggle-status-form" style="display:inline-block;">
                                                         @csrf
                                                         <button type="submit" class="btn {{ $category->status ? 'btn-warning' : 'btn-success' }} toggle-status-btn"
-                                                            data-label=\"{{ $category->status ? __('messages.hide') : __('messages.activate') }}\"
+                                                            data-label=\"{{ $category->status ? 'Ẩn' : 'Kích Hoạt' }}\"
                                                             data-name="{{ $category->name }}">
                                                             <i class="fa {{ $category->status ? 'fa-eye-slash' : 'fa-check' }}"></i>
-                                                            {{ $category->status ? __('messages.hide') : __('messages.activate') }}
+                                                            {{ $category->status ? 'Ẩn' : 'Kích Hoạt' }}
                                                         </button>
                                                     </form>
                                                 @endif
@@ -138,7 +138,7 @@
                                                         data-image-url="{{ $category->image ? asset('storage/' . $category->image) : '' }}"
                                                         data-status="{{ $category->status ? 1 : 0 }}"
                                                     >
-                                                        <i class="fa fa-edit"></i> {{ __('messages.edit') }}
+                                                        <i class="fa fa-edit"></i> {{ 'Sửa' }}
                                                     </button>
                                                 @endif
 
@@ -147,7 +147,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger delete-category-btn" data-name="{{ $category->name }}">
-                                                            <i class="fa fa-trash"></i> {{ __('messages.delete') }}
+                                                            <i class="fa fa-trash"></i> {{ 'Xóa' }}
                                                         </button>
                                                     </form>
                                                 @endif
@@ -191,7 +191,7 @@
                             <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="slug">{{ __('messages.product_slug') }} (tu dong neu de trong)</label>
+                            <label for="slug">{{ 'Slug sản phẩm' }} (tu dong neu de trong)</label>
                             <input type="text" id="slug" name="slug" class="form-control" value="{{ old('slug') }}">
                         </div>
                         <div class="form-group">
@@ -245,7 +245,7 @@
                             <input type="text" id="edit_name" name="name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="edit_slug">{{ __('messages.product_slug') }}</label>
+                            <label for="edit_slug">{{ 'Slug sản phẩm' }}</label>
                             <input type="text" id="edit_slug" name="slug" class="form-control">
                         </div>
                         <div class="form-group">

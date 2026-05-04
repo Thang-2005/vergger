@@ -46,7 +46,7 @@
             <div class="text-center p-4">
                 <img src="{{ asset('asset/client/img/logo.png') }}"
                     width="80">
-                <p class="mt-2">{{ __('messages.empty_cart') }}</p>
+                <p class="mt-2">{{ 'Giỏ hàng đang trống' }}</p>
             </div>
 
             @endforelse
@@ -156,7 +156,7 @@
                                     </li>
                                     <li class="menu-icon"><a href="{{ route('product') }}">Cửa hàng</a>
                                     </li>
-                                    <li><a href="{{ route('contact') }}">{{ __('messages.contact_management') }}</a></li>
+                                    <li><a href="{{ route('contact') }}">{{ 'Liên hệ' }}</a></li>
                                     <li class="special-link"><a href="{{ route('contact') }}">GET A QUOTE</a></li>
                                 </ul>
                             </div>

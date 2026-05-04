@@ -45,7 +45,7 @@
                                     <td class="cart-product-add-cart">
                                         <button class="submit-button-1 btn-add-to-cart"
                                             data-product-id="{{ $item->product->id }}">
-                                            {{ __('messages.add_product') }} vào giỏ hàng
+                                            {{ 'Thêm sản phẩm' }} vào giỏ hàng
                                         </button>
                                     </td>
                                 </tr>
@@ -68,7 +68,7 @@
                         @if ($wishlist->count())
                         <div class="text-end mt-3" >
                             <button id="btn-clear-wishlist" class="btn btn-outline-danger">
-                                <i class="far fa-trash-alt me-1"></i> {{ __('messages.delete') }} tất cả
+                                <i class="far fa-trash-alt me-1"></i> {{ 'Xóa' }} tất cả
                             </button>
                         </div>
                         @endif

@@ -58,7 +58,7 @@
                                         <li><a href="about.html">Về chúng tôi</a></li>
                                         <li><a href="shop.html">Sản phẩm</a></li>
                                         <li><a href="faq.html">FAQ</a></li>
-                                        <li><a href="contact.html">{{ __('messages.contact_management') }}</a></li>
+                                        <li><a href="contact.html">{{ 'Liên hệ' }}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="col-xl-2 col-md-6 col-sm-6 col-12">
                             <div class="footer-widget footer-menu-widget clearfix">
-                                <h4 class="footer-title">{{ __('messages.customer_support') }}</h4>
+                                <h4 class="footer-title">{{ 'Hỗ trợ khách hàng' }}</h4>
                                 <div class="footer-menu">
                                     <ul>
                                         <li><a href="{{ route('login') }}">Đăng nhập</a></li>
@@ -88,7 +88,7 @@
                                         <li><a href="{{ route('wishlist') }}">Danh sách yêu thích</a></li>
                                         <li><a href="#">Theo dõi đơn hàng</a></li>
                                         <li><a href="{{ route('faq') }}">FAQ</a></li>
-                                        <li><a href="{{ route('contact') }}">{{ __('messages.contact_management') }}</a></li>
+                                        <li><a href="{{ route('contact') }}">{{ 'Liên hệ' }}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -107,8 +107,8 @@
                                             novalidate>
                                             <div id="mc_embed_signup_scroll">
                                                 <div class="mc-field-group">
-                                                    <input type="email" value="" name="{{ __('messages.email') }}" class="required email"
-                                                        id="mce-{{ __('messages.email') }}" placeholder="Email*">
+                                                    <input type="email" value="" name="{{ 'Email' }}" class="required email"
+                                                        id="mce-{{ 'Email' }}" placeholder="Email*">
                                                 </div>
                                                 <div id="mce-responses" class="clear">
                                                     <div class="response" id="mce-error-response" style="display:none">

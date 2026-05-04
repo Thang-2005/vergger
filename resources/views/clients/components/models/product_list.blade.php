@@ -24,7 +24,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)" title="{{ __('messages.add_product') }} vào giỏ hàng"
+                            <a href="javascript:void(0)" title="{{ 'Thêm sản phẩm' }} vào giỏ hàng"
                                 data-bs-toggle="modal"
                                 data-bs-target="#add_to_cart_modal-{{ $product->id }}">
                                 <i class="fas fa-shopping-cart"></i>

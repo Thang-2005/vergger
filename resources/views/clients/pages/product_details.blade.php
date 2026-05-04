@@ -14,40 +14,113 @@
 
                         {{-- ẢNH SẢN PHẨM --}}
                         <div class="col-md-6">
-                            <div class="ltn__shop-details-img-gallery">
-                                <div class="ltn__shop-details-large-img">
-                                    @forelse($product->image as $image)
-                                    <div class="single-large-img">
-                                        <a href="{{ asset('storage/uploads/product/'.$image->image) }}"
-                                            data-rel="lightcase:myCollection">
-                                            <img src="{{ asset('storage/uploads/product/'.$image->image) }}"
-                                                alt="{{ $product->name }}">
-                                        </a>
+                            <div class="ltn__shop-details-img-gallery" style="display:flex; flex-direction:column; gap:12px;">
+                                <!-- Large Image Display -->
+                                <div class="ltn__shop-details-large-img" style="position:relative; border-radius:14px; overflow:hidden; background:#f5f5f5;">
+                                    <div id="mainProductImage" style="width:100%; height:450px; display:flex; align-items:center; justify-content:center;">
+                                        @forelse($product->image as $image)
+                                            @if($loop->first)
+                                            <a href="{{ asset('storage/uploads/product/'.$image->image) }}" data-rel="lightcase:myCollection" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+                                                <img src="{{ asset('storage/uploads/product/'.$image->image) }}" alt="{{ $product->name }}" style="width:100%; height:100%; object-fit:cover;">
+                                            </a>
+                                            @endif
+                                        @empty
+                                            <img src="{{ asset('storage/uploads/product/default_product.jpg') }}" alt="{{ $product->name }}" style="width:100%; height:100%; object-fit:cover;">
+                                        @endforelse
                                     </div>
-                                    @empty
-                                    <div class="single-large-img">
-                                        <a href="{{ asset('storage/uploads/product/default_product.jpg') }}"
-                                            data-rel="lightcase:myCollection">
-                                            <img src="{{ asset('storage/uploads/product/default_product.jpg') }}"
-                                                alt="{{ $product->name }}">
-                                        </a>
-                                    </div>
-                                    @endforelse
                                 </div>
-                                <div class="ltn__shop-details-small-img slick-arrow-2">
-                                    @forelse($product->image as $image)
-                                    <div class="single-small-img">
-                                        <img src="{{ asset('storage/uploads/product/'.$image->image) }}"
-                                            alt="{{ $product->name }}">
+
+                                <!-- Thumbnails Gallery -->
+                                <div class="product-thumbnails" style="display:flex; gap:8px; overflow-x:auto; padding:8px 0;">
+                                    @php
+                                        $images = $product->image->take(5);
+                                        if($images->isEmpty()) {
+                                            $images = collect([
+                                                (object)['image' => 'default_product.jpg', 'id' => 0]
+                                            ]);
+                                        }
+                                    @endphp
+                                    @foreach($images as $index => $image)
+                                    <div class="thumbnail-item" style="position:relative; min-width:80px; width:80px; height:80px; border-radius:8px; overflow:hidden; border:2px solid {{ $index === 0 ? '#007bff' : '#ddd' }}; cursor:pointer; transition:all 0.3s ease;" 
+                                        data-image="{{ asset('storage/uploads/product/'.$image->image) }}"
+                                        data-index="{{ $index }}"
+                                        onclick="changeMainImage(this)">
+                                        <img src="{{ asset('storage/uploads/product/'.$image->image) }}" alt="Thumbnail {{ $index + 1 }}" style="width:100%; height:100%; object-fit:cover;">
                                     </div>
-                                    @empty
-                                    <div class="single-small-img">
-                                        <img src="{{ asset('storage/uploads/product/default_product.jpg') }}"
-                                            alt="{{ $product->name }}">
-                                    </div>
-                                    @endforelse
+                                    @endforeach
+                                </div>
+
+                                <!-- Info -->
+                                <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; font-size:13px; color:#666;">
+                                    <span id="imageCounter">1 / {{ count($product->image) > 0 ? count($product->image) : 1 }}</span>
+                                    <a href="javascript:void(0)" title="Mở lightbox" onclick="document.querySelector('[data-rel=\"lightcase:myCollection\"]:first-of-type')?.click();" style="color:#007bff; text-decoration:none;">
+                                        <i class="fas fa-expand-alt"></i> Phóng to
+                                    </a>
                                 </div>
                             </div>
+
+                            <style>
+                                .thumbnail-item:hover {
+                                    border-color: #007bff !important;
+                                }
+                                .thumbnail-item.active {
+                                    border-color: #007bff !important;
+                                    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+                                }
+                                .product-thumbnails {
+                                    scroll-behavior: smooth;
+                                }
+                                .product-thumbnails::-webkit-scrollbar {
+                                    height: 6px;
+                                }
+                                .product-thumbnails::-webkit-scrollbar-track {
+                                    background: #f1f1f1;
+                                    border-radius: 10px;
+                                }
+                                .product-thumbnails::-webkit-scrollbar-thumb {
+                                    background: #888;
+                                    border-radius: 10px;
+                                }
+                                .product-thumbnails::-webkit-scrollbar-thumb:hover {
+                                    background: #555;
+                                }
+                            </style>
+
+                            <script>
+                                function changeMainImage(thumbnail) {
+                                    const imageUrl = thumbnail.dataset.image;
+                                    const index = parseInt(thumbnail.dataset.index) + 1;
+                                    const totalImages = document.querySelectorAll('.thumbnail-item').length;
+                                    
+                                    // Update main image
+                                    document.getElementById('mainProductImage').innerHTML = `
+                                        <a href="${imageUrl}" data-rel="lightcase:myCollection" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+                                            <img src="${imageUrl}" alt="Product" style="width:100%; height:100%; object-fit:cover;">
+                                        </a>
+                                    `;
+                                    
+                                    // Update counter
+                                    document.getElementById('imageCounter').textContent = index + ' / ' + totalImages;
+                                    
+                                    // Update active thumbnail
+                                    document.querySelectorAll('.thumbnail-item').forEach(t => {
+                                        t.classList.remove('active');
+                                        t.style.borderColor = '#ddd';
+                                    });
+                                    thumbnail.classList.add('active');
+                                    thumbnail.style.borderColor = '#007bff';
+                                }
+
+                                // Initialize lightbox for all images
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    if (typeof lc !== 'undefined' && lc.init) {
+                                        lc.init('a[data-rel="lightcase:myCollection"]', {
+                                            maxWidth: 800,
+                                            maxHeight: 600
+                                        });
+                                    }
+                                });
+                            </script>
                         </div>
 
                         {{-- THÔNG TIN SẢN PHẨM --}}
@@ -71,7 +144,7 @@
                                 <div class="modal-product-meta ltn__product-details-menu-1">
                                     <ul>
                                         <li>
-                                            <strong>{{ __('messages.category') }}:</strong>
+                                            <strong>{{ 'Danh mục' }}:</strong>
                                             <span>
                                                 <a href="{{ route('category', $product->category->slug) }}">{{ $product->category->name }}</a>
                                             </span>
@@ -88,11 +161,11 @@
                                         </li>
                                         <li>
                                             <a href="#" class="theme-btn-1 btn btn-effect-1"
-                                                title="{{ __('messages.add_product') }} vào giỏ hàng"
+                                                title="{{ 'Thêm sản phẩm' }} vào giỏ hàng"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#add_to_cart_modal-{{ $product->id }}">
                                                 <i class="fas fa-shopping-cart"></i>
-                                                <span>{{ __('messages.add_product') }} vào giỏ hàng</span>
+                                                <span>{{ 'Thêm sản phẩm' }} vào giỏ hàng</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -137,7 +210,7 @@
                     <div class="ltn__shop-details-tab-menu">
                         <div class="nav">
                             <a class="active show" data-bs-toggle="tab"
-                                href="#liton_tab_details_decription">{{ __('messages.description') }} sản phẩm</a>
+                                href="#liton_tab_details_decription">{{ 'Mô tả' }} sản phẩm</a>
                             <a data-bs-toggle="tab" href="#liton_tab_details_review">Đánh giá</a>
                         </div>
                     </div>
@@ -254,7 +327,7 @@
                                                                                         data-review-id="{{ $review->id }}"
                                                                                         data-rating="{{ $review->rating }}"
                                                                                         data-comment="{{ htmlspecialchars($review->comment) }}">
-                                                                                    <i class="fas fa-edit"></i> {{ __('messages.edit') }}
+                                                                                    <i class="fas fa-edit"></i> {{ 'Sửa' }}
                                                                                 </button>
                                                                                 <form action="{{ route('review.destroy', $review->id) }}"
                                                                                       method="POST"
@@ -262,7 +335,7 @@
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button type="submit" class="review-action-menu-item review-action-menu-item-danger">
-                                                                                        <i class="fas fa-trash"></i> {{ __('messages.delete') }}
+                                                                                        <i class="fas fa-trash"></i> {{ 'Xóa' }}
                                                                                     </button>
                                                                                 </form>
                                                                             </div>
@@ -293,7 +366,7 @@
                                     @if($userReview && !$showReviewForm)
                                         <div class="review-alert review-alert-info" id="review-edit-hint" role="alert">
                                             <i class="fas fa-pen review-alert-icon"></i>
-                                            Nhấn nút <strong>{{ __('messages.edit') }}</strong> ở đánh giá của bạn để chỉnh sửa nội dung.
+                                            Nhấn nút <strong>{{ 'Sửa' }}</strong> ở đánh giá của bạn để chỉnh sửa nội dung.
                                         </div>
                                     @endif
                                     <div class="add-review-section {{ $showReviewForm ? '' : 'd-none' }}" id="review-form-section">
@@ -340,7 +413,7 @@
                                                 <textarea class="form-control review-form-textarea @error('comment') is-invalid @enderror" 
                                                           id="comment" 
                                                           name="comment" 
-                                                          placeholder="{{ __('messages.share_experience') }}"
+                                                          placeholder="{{ 'Chia sẻ trải nghiệm' }}"
                                                           required>{{ $userReview->comment ?? '' }}</textarea>
                                                 <small class="review-form-help-text">Tối thiểu 10 ký tự</small>
                                                 @error('comment')
@@ -352,11 +425,11 @@
                                             <div class="btn-wrapper">
                                                 <button class="review-form-submit-btn" type="submit" id="submit-btn">
                                                     <i class="fas fa-paper-plane"></i> 
-                                                    <span id="submit-text">{{ $userReview ? 'Cập nhật đánh giá' : '{{ __('messages.send') }} đánh giá' }}</span>
+                                                    <span id="submit-text">{{ $userReview ? 'Cập nhật đánh giá' : 'Gửi' . ' đánh giá' }}</span>
                                                 </button>
                                                 @if($userReview)
                                                     <button class="review-form-cancel-btn" type="button" onclick="cancelEdit()">
-                                                        <i class="fas fa-times"></i> {{ __('messages.cancel') }}
+                                                        <i class="fas fa-times"></i> {{ 'Hủy' }}
                                                     </button>
                                                 @endif
                                             </div>
@@ -412,7 +485,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" title="{{ __('messages.add_product') }} vào giỏ hàng"
+                                <a href="javascript:void(0)" title="{{ 'Thêm sản phẩm' }} vào giỏ hàng"
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_to_cart_modal-{{ $related->id }}">
                                     <i class="fas fa-shopping-cart"></i>

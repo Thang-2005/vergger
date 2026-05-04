@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', __('messages.view_details') . ' liên hệ')
+@section('title', 'Xem chi tiết' . ' liên hệ')
 @section('content')
 
 <div class="right_col" role="main">
     <div class="page-title">
         <div class="title_left">
-            <h3>{{ __('messages.view_details') }} liên hệ</h3>
+            <h3>{{ 'Xem chi tiết' }} liên hệ</h3>
         </div>
         <div class="title_right">
             <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary">
@@ -41,7 +41,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <i class="fa fa-envelope"></i> {{ __('messages.customer_message') }}
+                                <i class="fa fa-envelope"></i> {{ 'Tin nhắn từ khách hàng' }}
                                 @if($contact->is_Reply == 1)
                                     <span class="badge badge-success">Đã phản hồi</span>
                                 @else
@@ -66,7 +66,7 @@
                                 <div style="margin-bottom: 15px;">
                                     <small class="text-muted">
                                         <i class="fa fa-calendar"></i> 
-                                        {{ __('messages.send') }} vào: {{ $contact->updated_at->format('d/m/Y H:i:s') }}
+                                        {{ 'Gửi' }} vào: {{ $contact->updated_at->format('d/m/Y H:i:s') }}
                                     </small>
                                 </div>
                                 <div class="contact-message-body">
@@ -80,7 +80,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <i class="fa fa-reply"></i> {{ __('messages.reply_to_customer') }}
+                                <i class="fa fa-reply"></i> {{ 'Phản hồi cho khách hàng' }}
                             </h4>
                         </div>
                         <div class="panel-body">
@@ -88,16 +88,16 @@
                                 @csrf
 
                                 <div class="form-group">
-                                    <label><strong>{{ __('messages.send') }} tới:</strong> {{ $contact->email }}</label>
+                                    <label><strong>{{ 'Gửi' }} tới:</strong> {{ $contact->email }}</label>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="reply_content"><strong>Nội dung phản hồi:</strong></label>
                                     <small class="form-text text-muted d-block mb-3">
-                                        {{ __('messages.customer_will_receive_email') }}
+                                        {{ '💡 Khách hàng sẽ nhận được email chứa nội dung này' }}
                                     </small>
                                     <textarea id="reply_content" name="reply_content" class="form-control" rows="10" 
-                                        placeholder="{{ __('messages.reply_placeholder') }}" required>{{ $contact->reply_content ?? '' }}</textarea>
+                                        placeholder="{{ 'Nhập phản hồi của bạn ở đây...' }}" required>{{ $contact->reply_content ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -107,11 +107,11 @@
                                         </button>
                                     @else
                                         <button type="submit" class="btn btn-success btn-lg">
-                                            <i class="fa fa-send"></i> {{ __('messages.send') }} phản hồi
+                                            <i class="fa fa-send"></i> {{ 'Gửi' }} phản hồi
                                         </button>
                                     @endif
                                     <button type="reset" class="btn btn-secondary btn-lg">
-                                        <i class="fa fa-refresh"></i> {{ __('messages.refresh') }}
+                                        <i class="fa fa-refresh"></i> {{ 'Làm mới' }}
                                     </button>
                                    
                                 </div>
@@ -152,7 +152,7 @@
                             {{ $contact->created_at->format('d/m/Y') }}
                         </li>
                         <li>
-                            <strong>✉️ {{ __('messages.status') }}:</strong><br>
+                            <strong>✉️ {{ 'Trạng thái' }}:</strong><br>
                             @if($contact->is_Reply == 1)
                                 <span class="label label-success">Đã phản hồi</span>
                             @else
@@ -171,7 +171,7 @@
                 </div>
                 <div class="x_content contact-actions">
                     <a href="mailto:{{ $contact->email }}" class="btn btn-info btn-block mb-2">
-                        <i class="fa fa-envelope"></i> {{ __('messages.send') }} email trực tiếp
+                        <i class="fa fa-envelope"></i> {{ 'Gửi' }} email trực tiếp
                     </a>
                     <a href="tel:{{ $contact->phone_number }}" class="btn btn-primary btn-block">
                         <i class="fa fa-phone"></i> Gọi

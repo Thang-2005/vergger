@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminProfileController extends Controller
 {
@@ -39,8 +40,12 @@ class AdminProfileController extends Controller
         // Xử lý upload avatar
         if ($request->hasFile('avatar')) {
             // Xóa avatar cũ nếu tồn tại
-            if ($user->avatar && file_exists(public_path($user->avatar))) {
-                unlink(public_path($user->avatar));
+            if ($user->avatar) {
+                // Chuyển đổi đường dẫn public sang đường dẫn storage
+                $oldPath = str_replace('/storage/', '', $user->avatar);
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
             }
 
             // Upload avatar mới

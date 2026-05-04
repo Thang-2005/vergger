@@ -74,7 +74,7 @@
                     <div class="info-value">{{ $order->created_at?->format('H:i d/m/Y') }}</div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">{{ __('messages.status') }}:</div>
+                    <div class="info-label">{{ 'Trạng thái' }}:</div>
                     <div class="info-value">{{ $orderStatus }}</div>
                 </div>
                 <div class="info-row">
@@ -96,31 +96,31 @@
                     <div class="info-value">{{ $paymentMethod }}</div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">{{ __('messages.status') }}:</div>
+                    <div class="info-label">{{ 'Trạng thái' }}:</div>
                     <div class="info-value"><strong>{{ $paymentStatus }}</strong></div>
                 </div>
             </div>
 
             @if ($shipping)
                 <div class="section">
-                    <div class="section-title">{{ __('messages.address') }} nhận hàng</div>
+                    <div class="section-title">{{ 'Địa chỉ' }} nhận hàng</div>
                     <div class="info-row">
                         <div class="info-label">Tên người nhận:</div>
                         <div class="info-value">{{ $shipping->full_name }}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">{{ __('messages.phone_number') }}:</div>
+                        <div class="info-label">{{ 'Số điện thoại' }}:</div>
                         <div class="info-value">{{ $shipping->phone }}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">{{ __('messages.address') }}:</div>
+                        <div class="info-label">{{ 'Địa chỉ' }}:</div>
                         <div class="info-value">{{ $shipping->address }}, {{ $shipping->city }}</div>
                     </div>
                 </div>
             @endif
 
             <div class="section">
-                <div class="section-title">{{ __('messages.view_details') }} sản phẩm</div>
+                <div class="section-title">{{ 'Xem chi tiết' }} sản phẩm</div>
                 <table>
                     <thead>
                         <tr>
