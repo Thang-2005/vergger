@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
-@section('title', __('messages.contact_management'))
-@section('breadcrumb', __('messages.contact_management'))
+@section('title', 'Liên hệ')
+@section('breadcrumb', 'Liên hệ')
 
 @section('content')
 
@@ -13,7 +13,7 @@
                             <div class="ltn__contact-address-icon">
                                 <img src="{{ asset('asset/client/img/icons/10.png') }}" alt="Icon Image">
                             </div>
-                            <h3>{{ __('messages.address') }} Email</h3>
+                            <h3> Email</h3>
                             <p>veggie@example.com <br>
                                 jobs@webexample.com</p>
                         </div>
@@ -23,7 +23,7 @@
                             <div class="ltn__contact-address-icon">
                                 <img src="{{ asset('asset/client/img/icons/11.png') }}" alt="Icon Image">
                             </div>
-                            <h3>{{ __('messages.phone_number') }}</h3>
+                            <h3> Số điện thoại</h3>
                             <p>+0123-456789 <br> +987-6543210</p>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                             <div class="ltn__contact-address-icon">
                                 <img src="{{ asset('asset/client/img/icons/12.png') }}" alt="Icon Image">
                             </div>
-                            <h3>{{ __('messages.address') }} văn phòng</h3>
+                            <h3> Địa chỉ văn phòng</h3>
                             <p>Thien Đình, Hà Nội <br>
                                 Việt Nam</p>
                         </div>

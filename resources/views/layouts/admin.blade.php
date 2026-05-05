@@ -36,8 +36,7 @@
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    <style>
-    </style>
+    
   </head>
 
   <body class="nav-md">
@@ -72,27 +71,8 @@
     <!-- iCheck -->
     <script src="{{asset('asset/admin/vendors/iCheck/icheck.min.js')}}"></script>
     <!-- Skycons -->
-    <script src="{{asset('asset/admin/vendors/skycons/skycons.js')}}"></script>
-    <!-- Flot -->
-    <script src="{{asset('asset/admin/vendors/Flot/jquery.flot.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/Flot/jquery.flot.pie.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/Flot/jquery.flot.time.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/Flot/jquery.flot.stack.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/Flot/jquery.flot.resize.js')}}"></script>
-    <!-- Flot plugins -->
-    <script src="{{asset('asset/admin/vendors/flot.orderbars/js/jquery.flot.orderBars.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/flot-spline/js/jquery.flot.spline.min.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/flot.curvedlines/curvedLines.js')}}"></script>
-    <!-- DateJS -->
-    <script src="{{asset('asset/admin/vendors/DateJS/build/date.js')}}"></script>
-    <!-- JQVMap -->
-    <script src="{{asset('asset/admin/vendors/jqvmap/dist/jquery.vmap.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js')}}"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="{{asset('asset/admin/vendors/moment/min/moment.min.js')}}"></script>
-    <script src="{{asset('asset/admin/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-
+    <script src="{{asset('asset/admin/vendors/skycons/skycons.js')}}"></script> -->
+    
     <!-- Custom Theme Scripts -->
     <script src="{{asset('asset/admin/build/js/custom.min.js')}}"></script>
 
@@ -104,7 +84,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('asset/admin/js/admin.js') }}?v={{ filemtime(public_path('asset/admin/js/admin.js')) }}"></script>
 
 

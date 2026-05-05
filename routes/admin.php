@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\AdminProfileController;
 
 
 
+
 Route::prefix('admin')->group(function () {
    
 
@@ -115,6 +116,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/contacts/{contact}/reply', [ContactController::class, 'reply'])->name('admin.contacts.reply');
         Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
     });
+
+
 
     
 });

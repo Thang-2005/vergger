@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ __('messages.admin_login_page') }}</title>
+    <title>Trang Đăng Nhập Admin</title>
 
     <link rel="shortcut icon" href="{{ asset('asset/client/img/favicon.png') }}" type="image/x-icon" />
     <link href="{{ asset('asset/admin/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -25,16 +25,16 @@
                 <section class="login_content">
                     <form action="{{ route('admin.login.submit') }}" method="POST">
                         @csrf
-                        <h1>{{ __('messages.admin_login') }}</h1>
+                        <h1>Đăng Nhập Admin</h1>
 
                         <div>
-                            <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="{{ __('messages.email') }}" required>
+                            <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Nhập Email...." required>
                         </div>
                         <div>
-                            <input type="password" class="form-control" name="password" placeholder="{{ __('messages.password') }}" required>
+                            <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu...." required>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-default submit">{{ __('messages.login') }}</button>
+                            <button type="submit" class="btn btn-default submit">Đăng Nhập</button>
                         </div>
 
                         <div class="clearfix"></div>
@@ -44,7 +44,7 @@
                             <br>
                             <div>
                                 <h1><i class="fa fa-leaf"></i> Veggie Admin</h1>
-                                <p>©{{ date('Y') }} All Rights Reserved.</p>
+                                <p>©{{ date('Y') }}</p>
                             </div>
                         </div>
                     </form>

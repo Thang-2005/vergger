@@ -5,9 +5,7 @@
          </div>
          <nav class="nav navbar-nav">
              <ul class=" navbar-right">
-                 <li class="nav-item" style="padding-left: 10px; padding-right: 10px;">
-                     @include('components.language-switcher')
-                 </li>
+                
 
                  <li class="nav-item dropdown open" style="padding-left: 15px;">
                      <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
@@ -75,6 +73,20 @@
                          @endif
                      </ul>
                  </li>
+
+                 <!-- Notification Bell Icon -->
+                 <li role="presentation" class="nav-item dropdown open">
+                     <a href="javascript:;" class="dropdown-toggle info-number" id="notificationDropdown" data-toggle="dropdown" aria-expanded="false" title="Thông báo">
+                         <i class="fa fa-bell-o"></i>
+                         <span class="badge bg-red notification-badge" style="display: none;">0</span>
+                     </a>
+                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="notificationDropdown" id="notificationList">
+                         <li>
+                             <span class="msg_item p-3" style="text-align: center; color: #999;">{{ __('messages.no_messages') }}</span>
+                         </li>
+                     </ul>
+                 </li>
+                 
 
              </ul>
          </nav>

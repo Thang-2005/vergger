@@ -872,3 +872,4 @@ $(document).ready(function() {
 });
 
 
+//--------------------- Admin Chat Polling --

@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('asset/client/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/client/css/customer.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/client/css/review.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/client/css/images/chat_ai.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
@@ -38,6 +39,7 @@
         </main>
 
         @include('clients.partials.fearture')
+      
         @include('clients.partials.footer')
     </div>
 
@@ -74,6 +76,7 @@
     {{-- 5. Main + Custom --}}
     <script src="{{ asset('asset/client/js/main.js') }}"></script>
     <script src="{{ asset('asset/client/js/custom.js') }}"></script>
+    <script src="{{ asset('asset/client/js/chat_ai.js') }}"></script>
     
 
     {{-- 6. Global config - CSRF + Toastr --}}

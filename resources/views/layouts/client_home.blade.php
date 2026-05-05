@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{asset('asset/client/css/responsive.css')}}">
     <!-- customer css -->
     <link rel="stylesheet" href="{{asset('asset/client/css/customer.css')}}">
+    <!-- chat css -->
+    <link rel="stylesheet" href="{{ asset('asset/client/css/images/chat_ai.css') }}">
 
 </head>
 
@@ -34,8 +36,9 @@
     <main>
         @yield('content')
     </main>
-
+        
     @include('clients.partials.footer')
+
 
         
     </div>
@@ -61,6 +64,7 @@
 
 <!-- 4. Bootstrap Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <!-- 5. Toastr -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

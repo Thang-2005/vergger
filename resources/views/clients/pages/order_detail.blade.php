@@ -1,7 +1,7 @@
 @extends('layouts.client')
 
-@section('title', __('messages.view_details') . ' ' . __('messages.order'))
-@section('breadcrumb', __('messages.view_details') . ' ' . __('messages.order'))
+@section('title', 'Chi tiết đơn hàng')
+@section('breadcrumb', 'Chi tiết đơn hàng')
 
 @section ('content')
 <div class="ltn__checkout-area pt-100 pb-100">

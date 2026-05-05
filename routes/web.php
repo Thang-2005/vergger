@@ -21,6 +21,7 @@ use App\Http\Controllers\Client\PaymentController;
 
 
 
+
 // Language Switcher Route
 Route::get('/locale/{locale}', [LocaleController::class, 'change'])->name('locale.change');
 
@@ -147,6 +148,12 @@ Route::prefix('review')->name('review.')->middleware('auth.customer')->group(fun
 // VNPAY Payment Routes (Return callback and IPN)
 Route::get('/payment/vnpay/return', [PaymentController::class, 'vnpayReturn'])->name('payment.vnpay.return');
 Route::post('/vnpay-ipn', [PaymentController::class, 'vnpayIpn'])->name('vnpay.ipn');
+
+
+
+
+
+
 
 
 
