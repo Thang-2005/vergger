@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', __('messages.order_management'))
+@section('title', 'Quản lý đơn hàng')
 
 @section('content')
 @php
     $statusOptions = [
-        '' => __('messages.all_status'),
-        'pending' => __('messages.pending'),
-        'processing' => __('messages.processing'),
-        'shipped' => __('messages.shipped'),
-        'completed' => __('messages.completed'),
-        'cancelled' => __('messages.cancelled'),
+        '' => 'Tất cả trạng thái',
+        'pending' => 'Chờ Xác Nhận',
+        'processing' => 'Đang Xử Lý',
+        'shipped' => 'Đang Giao',
+        'completed' => 'Hoàn Thành',
+        'cancelled' => 'Đã Hủy',
     ];
 
     $formatPrice = function ($value) {
@@ -96,8 +96,8 @@
 <div class="right_col orders-page" role="main">
     <div class="page-title">
         <div class="title_left">
-            <h3>{{ __('messages.order_management') }}</h3>
-            <p style="margin:6px 0 0; color:#7a7a7a;">{{ __('messages.order_tracking_description') }}</p>
+            <h3>{{ 'Quản lý đơn hàng' }}</h3>
+            <p style="margin:6px 0 0; color:#7a7a7a;">{{ 'Theo dõi trạng thái, xem chi tiết và cập nhật đơn hàng nhanh chóng.' }}</p>
         </div>
     </div>
 
@@ -105,22 +105,22 @@
 
     <div class="row mb-3">
         <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ __('messages.total_orders') }}</p><h3 style="margin:6px 0 0;">{{ $totalOrders }}</h3></div></div>
+            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ 'Tổng' }}</p><h3 style="margin:6px 0 0;">{{ $totalOrders }}</h3></div></div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ __('messages.pending') }}</p><h3 style="margin:6px 0 0;">{{ $pendingOrders }}</h3></div></div>
+            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ 'Chờ Xác Nhận' }}</p><h3 style="margin:6px 0 0;">{{ $pendingOrders }}</h3></div></div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ __('messages.processing') }}</p><h3 style="margin:6px 0 0;">{{ $processingOrders }}</h3></div></div>
+            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ 'Đang Xử Lý' }}</p><h3 style="margin:6px 0 0;">{{ $processingOrders }}</h3></div></div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ __('messages.shipped') }}</p><h3 style="margin:6px 0 0;">{{ $shippedOrders }}</h3></div></div>
+            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ 'Đang Giao' }}</p><h3 style="margin:6px 0 0;">{{ $shippedOrders }}</h3></div></div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ __('messages.completed') }}</p><h3 style="margin:6px 0 0;">{{ $completedOrders }}</h3></div></div>
+            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ 'Hoàn Thành' }}</p><h3 style="margin:6px 0 0;">{{ $completedOrders }}</h3></div></div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ __('messages.cancelled') }}</p><h3 style="margin:6px 0 0;">{{ $cancelledOrders }}</h3></div></div>
+            <div class="x_panel"><div class="x_content"><p style="margin:0;color:#7a7a7a;">{{ 'Đã Hủy' }}</p><h3 style="margin:6px 0 0;">{{ $cancelledOrders }}</h3></div></div>
         </div>
     </div>
 
@@ -128,8 +128,8 @@
         <div class="col-md-12 col-sm-12">
             <div class="x_panel">
                 <div class="x_title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-                    <h2>{{ __('messages.order_list') }}</h2>
-                    <span class="label label-default" style="font-size:11px;padding:4px 8px;">{{ __('messages.filter_results') }} {{ $filteredOrdersCount }}</span>
+                    <h2>{{ 'Danh sách đơn hàng' }}</h2>
+                    <span class="label label-default" style="font-size:11px;padding:4px 8px;">{{ 'Kết Quả Lọc:' }} {{ $filteredOrdersCount }}</span>
                     <div class="clearfix"></div>
                 </div>
 
@@ -137,13 +137,13 @@
                     <form method="GET" action="{{ route('admin.orders.list') }}" class="row" style="margin-bottom:18px;">
                         <div class="col-md-6 col-sm-6">
                             <div class="form-group">
-                                <label for="keyword">{{ __('messages.keyword') }}</label>
-                                <input type="text" id="keyword" name="keyword" class="form-control" value="{{ request('keyword') }}" placeholder="{{ __('messages.search_orders') }}">
+                                <label for="keyword">{{ 'Từ Khóa' }}</label>
+                                <input type="text" id="keyword" name="keyword" class="form-control" value="{{ request('keyword') }}" placeholder="{{ 'Tìm mã đơn, tên khách, số điện thoại...' }}">
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label for="status">{{ __('messages.status') }}</label>
+                                <label for="status">{{ 'Trạng thái' }}</label>
                                 <select id="status" name="status" class="form-control">
                                     @foreach($statusOptions as $value => $label)
                                         <option value="{{ $value }}" {{ request('status', '') === $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -153,7 +153,7 @@
                         </div>
                         <div class="col-md-2 col-sm-2">
                             <div class="form-group" style="margin-top:25px;display:flex;gap:8px;">
-                                <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fa fa-search"></i> {{ __('messages.filter') }}</button>
+                                <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fa fa-search"></i> {{ 'Lọc' }}</button>
                                 <a href="{{ route('admin.orders.list') }}" class="btn btn-default" style="width:100%;"><i class="fa fa-refresh"></i></a>
                             </div>
                         </div>
@@ -163,16 +163,16 @@
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>{{ __('messages.seq_no') }}</th>
-                                    <th style="width:80px;">{{ __('messages.order_code') }}</th>
-                                    <th>{{ __('messages.customer') }}</th>
-                                    <th style="width:150px;">{{ __('messages.total_amount') }}</th>
-                                    <th style="width:150px;">{{ __('messages.payment_method') }}</th>
-                                    <th style="width:140px;">{{ __('messages.status') }}</th>
-                                    <th style="width:180px;">{{ __('messages.created_date') }}</th>
-                                    <th style="width:180px;">{{ __('messages.view_details') }} {{ __('messages.order') }}</th>
+                                    <th>{{ 'STT' }}</th>
+                                    <th style="width:80px;">{{ 'Mã Đơn' }}</th>
+                                    <th>{{ 'Khách hàng' }}</th>
+                                    <th style="width:150px;">{{ 'Tổng tiền' }}</th>
+                                    <th style="width:150px;">{{ 'Thanh Toán' }}</th>
+                                    <th style="width:140px;">{{ 'Trạng thái' }}</th>
+                                    <th style="width:180px;">{{ 'Ngày tạo' }}</th>
+                                    <th style="width:180px;">{{ 'Xem chi tiết' }} {{ 'Đơn Hàng' }}</th>
 
-                                    <th style="width:260px;">{{ __('messages.action') }}</th>
+                                    <th style="width:260px;">{{ 'Hành động' }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,17 +180,17 @@
                                     @php
                                         $currentStatus = $order->status;
                                         $statusInfo = $statusMeta[$currentStatus] ?? ['label' => ucfirst($currentStatus), 'class' => 'default'];
-                                        $shippingName = $order->shippingAddress?->full_name ?? $order->user?->name ?? __('messages.not_determined');
+                                        $shippingName = $order->shippingAddress?->full_name ?? $order->user?->name ?? 'Không xác định';
                                         $shippingPhone = $order->shippingAddress?->phone ?? '-';
                                         $paymentLabel = match($order->payment?->payment_method) {
                                             'cash', 'cod' => 'COD',
                                             'vnpay' => 'VNPAY',
                                             'paypal' => 'PayPal',
-                                            default => __('messages.not_updated'),
+                                            default => 'Chưa Cập Nhật',
                                         };
 
                                         $itemLines = $order->orderItems->map(function ($item) {
-                                            return ($item->product?->name ?? __('messages.product_deleted')) . ' x' . $item->quantity;
+                                            return ($item->product?->name ?? 'Sản phẩm đã xóa') . ' x' . $item->quantity;
                                         })->values();
                                     @endphp
                                     <tr>
@@ -199,7 +199,7 @@
                                         <td>
                                             <strong>{{ $shippingName }}</strong>
                                             <div><small>{{ $shippingPhone }}</small></div>
-                                            <div><small style="color:#777;">{{ $order->user?->email ?? __('messages.no_email') }}</small></div>
+                                            <div><small style="color:#777;">{{ $order->user?->email ?? 'Không có email' }}</small></div>
                                         </td>
                                         <td><strong style="color:#2a6edb;">{{ $formatPrice($order->total_price) }}</strong></td>
                                         <td>
@@ -230,7 +230,7 @@
                                         <td>{{ $order->created_at?->format(' d/m/Y H:i') }}</td>
                                         <td>
                                             <a href="{{ route('admin.orders.detail', $order) }}" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-eye"></i> {{ __('messages.view_order') }}
+                                                    <i class="fa fa-eye"></i> {{ 'Xem Đơn Hàng' }}
                                                 </a>
                                         </td>
                                         <td>
@@ -254,7 +254,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="text-center" style="padding:30px 15px;">{{ __('messages.no_order_message') }}</td>
+                                        <td colspan="7" class="text-center" style="padding:30px 15px;">{{ 'Chưa có đơn hàng nào.' }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>

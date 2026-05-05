@@ -25,10 +25,10 @@
 
                 <form action="{{ route('password.email') }}" method="POST">
                     @csrf
-                    <input type="email" name="email" placeholder="{{ __('messages.email') }} *" value="{{ old('email') }}" required>
+                    <input type="email" name="email" placeholder="{{ 'Email' }} *" value="{{ old('email') }}" required>
                     <small class="text-danger" id="error_email"></small>
 
-                    <button class="theme-btn-1 btn btn-block" type="submit">{{ __('messages.send') }}</button>
+                    <button class="theme-btn-1 btn btn-block" type="submit">{{ 'Gửi' }}</button>
                 </form>
 
             </div>

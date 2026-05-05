@@ -1,51 +1,50 @@
 // Order Detail Page - PDF Invoice Functions
 document.addEventListener('DOMContentLoaded', function () {
 
-    let pdfMakeLoaded = false;
     const invoiceDataJsonElement = document.getElementById('invoiceDataJson');
     const invoiceDataJson = invoiceDataJsonElement ? JSON.parse(invoiceDataJsonElement.textContent) : {};
-
-    function loadPdfMake(callback) {
-        if (pdfMakeLoaded) {
-            callback();
-            return;
-        }
-        if (typeof pdfMake !== 'undefined') {
-            pdfMakeLoaded = true;
-            callback();
-            return;
-        }
-        const script1 = document.createElement('script');
-        script1.src = '/asset/admin/vendors/pdfmake/build/pdfmake.min.js';
-        script1.onload = function () {
-            const script2 = document.createElement('script');
-            script2.src = '/asset/admin/vendors/pdfmake/build/vfs_fonts.js';
-            script2.onload = function () {
-                pdfMakeLoaded = true;
-                callback();
-            };
-            document.head.appendChild(script2);
-        };
-        document.head.appendChild(script1);
-    }
 
     // Download Invoice Button
     const downloadBtn = document.getElementById('downloadInvoiceBtn');
     if (downloadBtn) {
-        downloadBtn.addEventListener('click', function () {
-            loadPdfMake(function () {
+        downloadBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            try {
+                if (typeof pdfMake === 'undefined') {
+                    alert('Lỗi: Thư viện PDF không sẵn sàng. Vui lòng tải lại trang.');
+                    return;
+                }
+                if (!invoiceDataJson || !invoiceDataJson.id) {
+                    alert('Lỗi: Không có dữ liệu hóa đơn.');
+                    return;
+                }
                 generateAndDownloadInvoice(invoiceDataJson);
-            });
+            } catch (error) {
+                console.error('Tải PDF thất bại:', error);
+                alert('Lỗi khi tải PDF: ' + error.message);
+            }
         });
     }
 
     // Print Invoice Button
     const printBtn = document.getElementById('printInvoiceBtn');
     if (printBtn) {
-        printBtn.addEventListener('click', function () {
-            loadPdfMake(function () {
+        printBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            try {
+                if (typeof pdfMake === 'undefined') {
+                    alert('Lỗi: Thư viện PDF không sẵn sàng. Vui lòng tải lại trang.');
+                    return;
+                }
+                if (!invoiceDataJson || !invoiceDataJson.id) {
+                    alert('Lỗi: Không có dữ liệu hóa đơn.');
+                    return;
+                }
                 generateAndPrintInvoice(invoiceDataJson);
-            });
+            } catch (error) {
+                console.error('In hóa đơn thất bại:', error);
+                alert('Lỗi khi in: ' + error.message);
+            }
         });
     }
 
@@ -375,6 +374,27 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.update-order-status-form').forEach(function (form) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
+
+            const select = form.querySelector('select[name="status"]');
+            const selectedLabel = select ? select.options[select.selectedIndex].text : 'trạng thái mới';
+
+            Swal.fire({
+                title: 'Cập nhật trạng thái đơn?',
+                text: 'Đơn hàng sẽ được đổi sang: ' + selectedLabel,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Cập nhật',
+                cancelButtonText: 'Hủy',
+                confirmButtonColor: '#2a6edb'
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+
+});
 
             const select = form.querySelector('select[name="status"]');
             const selectedLabel = select ? select.options[select.selectedIndex].text : 'trạng thái mới';

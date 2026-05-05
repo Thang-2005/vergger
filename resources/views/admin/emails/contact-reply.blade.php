@@ -195,7 +195,7 @@
             <div class="company-info">
                 <h4>📞 Thông tin liên hệ</h4>
                 <p><strong>{{ $companyName }}</strong></p>
-                <p>📧 {{ __('messages.email') }}: <a href="mailto:{{ $companyEmail }}">{{ $companyEmail }}</a></p>
+                <p>📧 {{ 'Email' }}: <a href="mailto:{{ $companyEmail }}">{{ $companyEmail }}</a></p>
                 <p>☎️ Điện thoại: {{ $companyPhone }}</p>
                 <p>🌐 Website: <a href="{{ url('/') }}">{{ url('/') }}</a></p>
             </div>

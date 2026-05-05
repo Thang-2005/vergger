@@ -159,20 +159,7 @@ class OrderController extends Controller
             $history->changed_at = now();
             $history->save();
 
-            // Trừ stock khi đơn hàng được xác nhận giao hàng thành công (completed)
-            if ($newStatus === 'completed' && $originalStatus !== 'completed') {
-                $order->loadMissing(['orderItems.product']);
-                foreach ($order->orderItems as $item) {
-                    if ($item->product) {
-                        $item->product->decrement('stock', $item->quantity);
-                        // Cập nhật trạng thái to out_of_stock
-                        if ($item->product->stock <= 0) {
-                            $item->product->status = 'out_of_stock';
-                            $item->product->save();
-                        }
-                    }
-                }
-            }
+            // Đã xóa logic trừ stock ở đây vì stock đã được trừ ngay lúc khách đặt hàng (CheckoutController)
 
             // Hoàn lại stock nếu đơn hàng bị hủy
             if ($newStatus === 'cancelled' && $originalStatus !== 'cancelled') {
@@ -192,7 +179,7 @@ class OrderController extends Controller
             if ($originalStatus === 'pending' && in_array($newStatus, ['processing', 'shipped', 'completed'], true)) {
                 try {
                     $order->loadMissing(['user', 'shippingAddress', 'payment', 'orderItems.product']);
-                    Mail::to($order->user?->email)->send(new OrderThankYouMail($order, 'confirmed'));
+                    Mail::to($order->user?->email)->queue(new OrderThankYouMail($order, 'confirmed'));
                 } catch (\Throwable $mailException) {
                     report($mailException);
                 }
@@ -215,7 +202,7 @@ class OrderController extends Controller
 
         try {
             $order->loadMissing(['user', 'shippingAddress', 'payment', 'orderItems.product']);
-            Mail::to($order->user?->email)->send(new OrderThankYouMail($order, 'invoice'));
+            Mail::to($order->user?->email)->queue(new OrderThankYouMail($order, 'invoice'));
             flash('Hóa đơn đã được gửi tới email: ' . $order->user?->email, 'success');
         } catch (\Throwable $mailException) {
             report($mailException);

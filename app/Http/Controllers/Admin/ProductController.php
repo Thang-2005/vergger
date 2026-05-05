@@ -52,7 +52,13 @@ class ProductController extends Controller
             'status' => ['required', Rule::in(['in_stock', 'out_of_stock'])],
             'unit' => ['nullable', 'string', 'max:255'],
             'image_file' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:4096'],
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:4096'],
         ]);
+
+        $additionalImagesCount = count($request->file('additional_images') ?? []);
+        if (1 + $additionalImagesCount > 5) {
+            return back()->withErrors(['additional_images' => 'Tối đa 5 ảnh (1 ảnh chính + 4 ảnh phụ)']);
+        }
 
         $validated['slug'] = $this->generateUniqueSlug($validated['name'], $validated['slug'] ?? null);
 
@@ -68,17 +74,24 @@ class ProductController extends Controller
         ]);
 
         $this->storeProductImage($product, $request);
+        $this->storeAdditionalImages($product, $request);
 
         flash('Thêm sản phẩm thành công.', 'success');
 
         return redirect()->route('admin.products.list');
     }
 
-    public function show(Product $product)
+    public function detail(Product $product)
     {
-        return $this->renderProductsPage(request(), [
-            'selectedProduct' => $product->load(['category', 'firstImage']),
-            'openShowModal' => true,
+        /** @var \App\Models\User|null $adminUser */
+        $adminUser = auth('admin')->user();
+
+        if (! $adminUser || ! $adminUser->hasPermission('products.view')) {
+            abort(403, 'Bạn không có quyền truy cập trang này.');
+        }
+
+        return view('admin.pages.products.detail', [
+            'product' => $product->load(['category', 'image']),
         ]);
     }
 
@@ -91,9 +104,19 @@ class ProductController extends Controller
             abort(403, 'Bạn không có quyền thực hiện thao tác này.');
         }
 
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.pages.products.edit', [
+            'product' => $product->load(['category', 'image']),
+            'categories' => $categories,
+        ]);
+    }
+
+    public function show(Product $product)
+    {
         return $this->renderProductsPage(request(), [
             'selectedProduct' => $product->load(['category', 'firstImage']),
-            'openEditModal' => true,
+            'openShowModal' => true,
         ]);
     }
 
@@ -116,7 +139,20 @@ class ProductController extends Controller
             'status' => ['required', Rule::in(['in_stock', 'out_of_stock'])],
             'unit' => ['nullable', 'string', 'max:255'],
             'image_file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:4096'],
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:4096'],
+            'deleted_images' => ['nullable', 'string'],
         ]);
+
+        $currentImages = $product->image()->count();
+        $newAdditionalCount = count($request->file('additional_images') ?? []);
+        $deletedImagesCount = count(array_filter(explode(',', $request->get('deleted_images'))));
+        $totalAfterUpdate = $currentImages - $deletedImagesCount + $newAdditionalCount;
+        if ($request->hasFile('image_file')) {
+            $totalAfterUpdate = $totalAfterUpdate - 1 + 1;
+        }
+        if ($totalAfterUpdate > 5) {
+            return back()->withErrors(['additional_images' => 'Tối đa 5 ảnh tổng cộng']);
+        }
 
         $validated['slug'] = $this->generateUniqueSlug($validated['name'], $validated['slug'] ?? null, $product->id);
 
@@ -131,12 +167,37 @@ class ProductController extends Controller
             'unit' => $validated['unit'] ?? null,
         ]);
 
+        // Handle deleted images
+        if ($request->has('deleted_images')) {
+            $deletedImages = array_filter(explode(',', $request->get('deleted_images')));
+            foreach ($deletedImages as $imageId) {
+                $this->deleteProductImage($imageId);
+            }
+        }
+
+        // Update main image if provided
         if ($request->hasFile('image_file')) {
-            $this->deleteProductImages($product);
+            // Get the first image before deletion to access its file path
+            $firstImage = $product->image()->first();
+            if ($firstImage) {
+                // Delete from storage first
+                if ($firstImage->image && Storage::disk('public')->exists('uploads/product/' . $firstImage->image)) {
+                    Storage::disk('public')->delete('uploads/product/' . $firstImage->image);
+                }
+                // Then delete from database
+                $firstImage->delete();
+            }
             $this->storeProductImage($product, $request);
         }
 
+        // Add additional images
+        if ($request->hasFile('additional_images')) {
+            $this->storeAdditionalImages($product, $request);
+        }
+
         flash('Cập nhật sản phẩm thành công.', 'success');
+
+        return redirect()->route('admin.products.list');
 
         return redirect()->route('admin.products.list');
     }
@@ -193,6 +254,41 @@ class ProductController extends Controller
             'product_id' => $product->id,
             'image' => $fileName,
         ]);
+    }
+
+    private function storeAdditionalImages(Product $product, Request $request): void
+    {
+        if (! $request->hasFile('additional_images')) {
+            return;
+        }
+
+        $files = $request->file('additional_images');
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
+        foreach ($files as $file) {
+            if ($file && $file->isValid()) {
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('uploads/product', $fileName, 'public');
+
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image' => $fileName,
+                ]);
+            }
+        }
+    }
+
+    private function deleteProductImage($imageId): void
+    {
+        $image = ProductImage::find($imageId);
+        if ($image) {
+            if ($image->image && Storage::disk('public')->exists('uploads/product/' . $image->image)) {
+                Storage::disk('public')->delete('uploads/product/' . $image->image);
+            }
+            $image->delete();
+        }
     }
 
     private function deleteProductImages(Product $product): void
@@ -259,5 +355,16 @@ class ProductController extends Controller
             'filteredProductsCount',
             'selectedProduct'
         ), $extraData));
+    }
+
+    public function getProductImages(Product $product)
+    {
+        $images = $product->image()->get();
+        return response()->json([
+            'images' => $images->map(fn($img) => [
+                'id' => $img->id,
+                'image' => $img->image,
+            ])->values(),
+        ]);
     }
 }

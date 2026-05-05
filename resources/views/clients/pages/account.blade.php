@@ -24,13 +24,13 @@
                                         </a>
 
                                         <a data-bs-toggle="tab" href="#liton_tab_1_4" class="{{ request('tab') == 'addresses' ? 'active show' : '' }}">
-                                            {{ __('messages.address') }} <i class="fas fa-map-marker-alt"></i>
+                                            {{ 'Địa chỉ' }} <i class="fas fa-map-marker-alt"></i>
                                         </a>
                                         <a data-bs-toggle="tab" href="#liton_tab_1_5">
-                                            {{ __('messages.account_info') }} <i class="fas fa-user"></i>
+                                            {{ 'Thông tin tài khoản' }} <i class="fas fa-user"></i>
                                         </a>
                                         <a data-bs-toggle="tab" href="#liton_tab_1_6">
-                                            {{ __('messages.change_password') }} <i class="fas fa-key"></i>
+                                            {{ 'Đổi mật khẩu' }} <i class="fas fa-key"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -39,7 +39,7 @@
                                 <div class="tab-content">
                                     <div class="tab-pane fade active show" id="liton_tab_1_1">
                                         <div class="ltn__myaccount-tab-content-inner">
-                                            <p>Xin chào <strong>{{ $user->name }}</strong> (không phải <strong>{{ $user->name }}</strong>? <small><a href="#" data-url="{{ route('logout.customer') }}" class="logoutBtn">{{ __('messages.logout') }}</a></small>)</p>
+                                            <p>Xin chào <strong>{{ $user->name }}</strong> (không phải <strong>{{ $user->name }}</strong>? <small><a href="#" data-url="{{ route('logout.customer') }}" class="logoutBtn">{{ 'Đăng xuất' }}</a></small>)</p>
                                             <p>Từ bảng điều khiển tài khoản của bạn, bạn có thể xem
                                                 <span>đơn hàng gần đây</span>, quản lý
                                                 <span>địa chỉ giao hàng và thanh toán</span>, và
@@ -59,7 +59,7 @@
                                                         <tr>
                                                             <th>Đơn hàng</th>
                                                             <th>Ngày</th>
-                                                            <th>{{ __('messages.status') }}</th>
+                                                            <th>{{ 'Trạng thái' }}</th>
                                                             <th>Tổng tiền</th>
                                                             <th>Hành động</th>
                                                         </tr>
@@ -106,7 +106,7 @@
 
                                     <div class="tab-pane fade" id="liton_tab_1_4">
                                         <div class="ltn__myaccount-tab-content-inner">
-                                            <h5 class="mb-4">{{ __('messages.address') }} giao hàng mặc định</h5>
+                                            <h5 class="mb-4">{{ 'Địa chỉ' }} giao hàng mặc định</h5>
 
                                             <!-- Hiển thị địa chỉ mặc định -->
                                             @if($defaultAddress = $address->firstWhere('default', 1))
@@ -140,7 +140,7 @@
                                                     <i class="fas fa-list me-2"></i>Xem tất cả địa chỉ
                                                 </button>
                                                 <button type="button" class="btn theme-btn-1" data-bs-toggle="modal" data-bs-target="#add_address">
-                                                    <i class="fas fa-plus-circle me-2"></i>{{ __('messages.add_product') }} địa chỉ mới
+                                                    <i class="fas fa-plus-circle me-2"></i>{{ 'Thêm sản phẩm' }} địa chỉ mới
                                                 </button>
                                             </div>
                                             <!-- Button trigger modal -->
@@ -204,8 +204,8 @@
                                                                                 class="btn btn-sm btn-outline-danger delete-address-btn flex-grow-1"
                                                                                 data-address-id="{{ $addr->id }}"
                                                                                 data-address-name="{{ $addr->address }}"
-                                                                                title="{{ __('messages.delete') }} địa chỉ này">
-                                                                                <i class="fas fa-trash me-1"></i>{{ __('messages.delete') }}
+                                                                                title="{{ 'Xóa' }} địa chỉ này">
+                                                                                <i class="fas fa-trash me-1"></i>{{ 'Xóa' }}
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -218,12 +218,12 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Modal: {{ __('messages.add_product') }} địa chỉ mới -->
+                                            <!-- Modal: {{ 'Thêm sản phẩm' }} địa chỉ mới -->
                                             <div class="modal fade" id="add_address" tabindex="-1" role="dialog" aria-labelledby="add_addressTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="add_addressTitle">{{ __('messages.add_product') }} địa chỉ mới</h5>
+                                                            <h5 class="modal-title" id="add_addressTitle">{{ 'Thêm sản phẩm' }} địa chỉ mới</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -240,7 +240,7 @@
                                                                 </div>
 
                                                                 <div class="mb-2">
-                                                                    <label>{{ __('messages.address') }}:</label>
+                                                                    <label>{{ 'Địa chỉ' }}:</label>
                                                                     <input type="text" class="form-control" name="address">
                                                                     <div class="invalid-feedback"></div>
                                                                 </div>
@@ -252,7 +252,7 @@
                                                                 </div>
 
                                                                 <div class="mb-2">
-                                                                    <label>{{ __('messages.phone_number') }}:</label>
+                                                                    <label>{{ 'Số điện thoại' }}:</label>
                                                                     <input type="text" class="form-control" name="phone">
                                                                     <div class="invalid-feedback"></div>
                                                                 </div>
@@ -307,7 +307,7 @@
                                                         </div>
 
                                                         <div class="col-md-6">
-                                                            <label>{{ __('messages.full_name') }}:</label>
+                                                            <label>{{ 'Họ và tên' }}:</label>
                                                             <input type="text" name="name" value="{{$user->name}}" required>
                                                         </div>
                                                         <div class="col-md-6">
@@ -316,11 +316,11 @@
                                                                 value="{{$user->email}}" readOnly>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label>{{ __('messages.phone_number') }}:</label>
+                                                            <label>{{ 'Số điện thoại' }}:</label>
                                                             <input type="number" name="phone" id="Itn_phone_number" value="{{$user->phone_number}}">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label>{{ __('messages.address') }}:</label>
+                                                            <label>{{ 'Địa chỉ' }}:</label>
                                                             <input type="text" name="address" value="{{$user->address}}">
                                                         </div>
                                                     </div>
@@ -328,7 +328,7 @@
                                                     <div class="btn-wrapper">
                                                         <button type="submit"
                                                             class="btn theme-btn-1 btn-effect-1 text-uppercase">
-                                                            {{ __('messages.save_changes') }}
+                                                            {{ 'Lưu thay đổi' }}
                                                         </button>
                                                     </div>
                                                 </form>
@@ -350,7 +350,7 @@
                                                     <div class="row">
 
                                                         <div class="col-md-6">
-                                                            <label>{{ __('messages.password') }} hiện tại</label>
+                                                            <label>{{ 'Mật khẩu' }} hiện tại</label>
                                                             <div class="password-wrapper">
                                                                 <input type="password" id="current_password_field" name="current_password" class="form-control">
                                                                 <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#current_password_field')">
@@ -361,7 +361,7 @@
                                                         </div>
 
                                                         <div class="col-md-6">
-                                                            <label>{{ __('messages.password') }} mới</label>
+                                                            <label>{{ 'Mật khẩu' }} mới</label>
                                                             <div class="password-wrapper">
                                                                 <input type="password" id="new_password_field" name="new_password" class="form-control">
                                                                 <button type="button" class="toggle-password-btn" onclick="window.togglePasswordVisibility('#new_password_field')">

@@ -119,7 +119,7 @@
                                     </li>
                                     <li class="menu-icon"><a href="{{ route('product') }}">Cửa hàng</a>
                                     </li>
-                                    <li><a href="{{ route('contact') }}">{{ __('messages.contact_management') }}</a></li>
+                                    <li><a href="{{ route('contact') }}">{{ 'Liên hệ' }}</a></li>
                                     <li class="special-link"><a href="{{ route('contact') }}">GET A QUOTE</a></li>
                                 </ul>
                             </div>
