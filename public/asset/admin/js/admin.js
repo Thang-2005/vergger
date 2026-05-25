@@ -871,5 +871,245 @@ $(document).ready(function() {
     }
 });
 
+//--------------------- Admin Chat Realtime ---------------------
+$(document).ready(function() {
+    const chatMessages = $('#chat-messages');
+    const chatInputArea = $('#chat-input-area');
+    const currentConversationInput = $('#current-conversation-id');
+    const chatTitle = $('#chat-title');
+    const chatStatus = $('#chat-status');
+    const adminChatForm = $('#admin-chat-form');
+    const adminChatInput = $('#admin-chat-input');
 
-//--------------------- Admin Chat Polling --
+    let activeConversationId = null;
+    let lastMessageId = 0;
+    let pollTimer = null;
+    let renderedMessageIds = new Set();
+
+    function escapeHtml(str) {
+        return String(str ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function formatMessage(str) {
+        return escapeHtml(str).replace(/\n/g, '<br>');
+    }
+
+    function updateLastMessageId(msg) {
+        const id = Number(msg?.id || 0);
+        if (id > lastMessageId) {
+            lastMessageId = id;
+        }
+    }
+
+    function toTimeString(isoValue) {
+        if (!isoValue) {
+            return '';
+        }
+
+        const dt = new Date(isoValue);
+        if (Number.isNaN(dt.getTime())) {
+            return '';
+        }
+
+        return dt.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function setChatStatus(text, mode = 'syncing') {
+        chatStatus.text(text);
+        chatStatus.removeClass('syncing error');
+        if (mode === 'syncing' || mode === 'error') {
+            chatStatus.addClass(mode);
+        }
+    }
+
+    function clearEmptyState() {
+        const emptyNode = chatMessages.find('.text-center.text-muted.mt-5');
+        if (emptyNode.length > 0) {
+            chatMessages.empty();
+        }
+    }
+
+    function stopPolling() {
+        if (pollTimer) {
+            clearInterval(pollTimer);
+            pollTimer = null;
+        }
+    }
+
+    function startPolling(conversationId) {
+        stopPolling();
+        setChatStatus('Đang đồng bộ tin nhắn...', 'syncing');
+
+        pollTimer = setInterval(function() {
+            if (!activeConversationId || document.hidden) {
+                return;
+            }
+
+            $.ajax({
+                url: `/admin/chat/conversations/${conversationId}/poll`,
+                type: 'GET',
+                data: { after_id: lastMessageId },
+                success: function(res) {
+                    setChatStatus('Đang hoạt động', 'syncing');
+                    clearEmptyState();
+                    (res.messages || []).forEach(msg => {
+                        appendMessageToAdmin(msg);
+                        updateLastMessageId(msg);
+                    });
+
+                    if ((res.messages || []).length > 0) {
+                        scrollToBottom();
+                    }
+                },
+                error: function() {
+                    setChatStatus('Mất kết nối, đang thử lại...', 'error');
+                }
+            });
+        }, 3000);
+    }
+
+    // 1. Mở một cuộc hội thoại
+    $('.conversation-item').on('click', function() {
+        $('.conversation-item').removeClass('active');
+        $(this).addClass('active');
+        
+        const conversationId = $(this).data('id');
+        const customerName = $(this).find('strong').text();
+        
+        activeConversationId = conversationId;
+        lastMessageId = 0;
+        renderedMessageIds = new Set();
+        currentConversationInput.val(conversationId);
+        chatTitle.html('<i class="fa fa-user-circle me-2"></i> Chat với: ' + customerName);
+        chatInputArea.removeClass('d-none');
+
+        loadMessages(conversationId);
+        startPolling(conversationId);
+    });
+
+    // 2. Tải tin nhắn qua AJAX
+    function loadMessages(conversationId) {
+        chatMessages.html('<div class="text-center mt-4"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i></div>');
+        
+        $.ajax({
+            url: `/admin/chat/conversations/${conversationId}/messages`,
+            type: 'GET',
+            success: function(res) {
+                chatMessages.empty();
+                lastMessageId = 0;
+                renderedMessageIds = new Set();
+                if (res.messages.length === 0) {
+                    chatMessages.html('<div class="text-center text-muted mt-5">Chưa có tin nhắn nào.</div>');
+                    return;
+                }
+
+                res.messages.forEach(msg => {
+                    appendMessageToAdmin(msg);
+                    updateLastMessageId(msg);
+                });
+                scrollToBottom();
+            },
+            error: function() {
+                chatMessages.html('<div class="text-center text-danger mt-5">Không thể tải hội thoại. Vui lòng thử lại.</div>');
+                setChatStatus('Lỗi tải hội thoại', 'error');
+            }
+        });
+    }
+
+    // 3. Render tin nhắn vào khung chat
+    function appendMessageToAdmin(msg) {
+        const messageId = Number(msg?.id || 0);
+        if (messageId && renderedMessageIds.has(messageId)) {
+            return;
+        }
+        if (messageId) {
+            renderedMessageIds.add(messageId);
+        }
+
+        let msgClass = msg.sender_type === 'admin' ? 'msg-admin' : (msg.sender_type === 'bot' ? 'msg-bot' : 'msg-user');
+        let rowClass = msg.sender_type === 'admin' ? 'admin' : (msg.sender_type === 'bot' ? 'bot' : 'user');
+        let senderName = msg.sender_type === 'admin' ? 'Bạn' : (msg.sender_type === 'bot' ? 'Bot' : 'Khách');
+        let sentAt = toTimeString(msg.created_at);
+
+        let html = `
+            <div class="msg-row ${rowClass}">
+                <div class="msg-bubble ${msgClass}">
+                    <small class="d-block" style="opacity:0.78; font-size:11px; margin-bottom: 3px;">${senderName}</small>
+                    ${formatMessage(msg.message)}
+                    ${sentAt ? `<div class="msg-meta">${sentAt}</div>` : ''}
+                </div>
+            </div>
+        `;
+        chatMessages.append(html);
+    }
+
+    function scrollToBottom() {
+        chatMessages.scrollTop(chatMessages[0].scrollHeight);
+    }
+
+    // 4. Gửi tin nhắn phản hồi
+    adminChatForm.on('submit', function(e) {
+        e.preventDefault();
+        
+        const conversationId = currentConversationInput.val();
+        const messageText = adminChatInput.val().trim();
+        
+        if(!messageText || !conversationId) return;
+
+        adminChatInput.prop('disabled', true);
+
+        $.ajax({
+            url: `/admin/chat/conversations/${conversationId}/reply`,
+            type: 'POST',
+            data: { message: messageText },
+            success: function(res) {
+                const msg = res.message;
+                if (msg) {
+                    clearEmptyState();
+                    appendMessageToAdmin(msg);
+                    updateLastMessageId(msg);
+                    scrollToBottom();
+                }
+                adminChatInput.val('');
+            },
+            error: function(xhr) {
+                toastr.error('Có lỗi xảy ra khi gửi tin nhắn!');
+            },
+            complete: function() {
+                adminChatInput.prop('disabled', false);
+                adminChatInput.focus();
+            }
+        });
+    });
+    
+    // 5. Lắng nghe Push Sự kiện từ Khách hàng
+    if (typeof window.Echo !== 'undefined') {
+        window.Echo.private('chat.admin')
+            .listen('MessageSentToAdmin', (e) => {
+                if(currentConversationInput.val() == e.conversationId) {
+                    appendMessageToAdmin({ sender_type: 'user', message: e.message, created_at: new Date().toISOString() });
+                    scrollToBottom();
+                }
+            });
+    }
+
+    const firstConversation = $('.conversation-item').first();
+    if (firstConversation.length > 0) {
+        firstConversation.trigger('click');
+    }
+
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && activeConversationId) {
+            startPolling(activeConversationId);
+        }
+    });
+
+    $(window).on('beforeunload', function() {
+        stopPolling();
+    });
+});

@@ -118,8 +118,6 @@ Route::prefix('admin')->group(function () {
         Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
     });
 
-
-
     
 });
 

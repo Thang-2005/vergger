@@ -51,7 +51,6 @@
                         </ul>
                     </li>
                     @endif
-
                     @if($canManageCategories)
                     <li>
                         <a><i class="fa fa-table"></i> Danh Mục<span class="fa fa-chevron-down"></span></a>

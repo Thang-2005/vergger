@@ -108,7 +108,6 @@
     {{-- 7. Page-specific scripts --}}
     @stack('scripts')
     @yield('scripts')
-
     
 </body>
 </html>
