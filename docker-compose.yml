@@ -1,0 +1,70 @@
+services:
+
+  app:
+    build: .
+    container_name: vergger_app
+
+    working_dir: /var/www
+
+    volumes:
+      - ./:/var/www
+
+    networks:
+      - vergger
+
+  nginx:
+    image: nginx:alpine
+    container_name: vergger_nginx
+
+    ports:
+      - "8000:80"
+
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    networks:
+      - vergger
+
+  mysql:
+    image: mysql:8.0
+    container_name: vergger_mysql
+
+    environment:
+      MYSQL_DATABASE: vergger
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: vergger
+      MYSQL_PASSWORD: root
+
+    ports:
+      - "3307:3306"
+
+    networks:
+      - vergger
+
+  redis:
+    image: redis:alpine
+    container_name: vergger_redis
+
+    ports:
+      - "6379:6379"
+
+    networks:
+      - vergger
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: vergger_phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql      # Trỏ đúng sang tên service database ở trên là 'mysql'
+      PMA_USER: root       # Khai báo thêm tài khoản đăng nhập
+      PMA_PASSWORD: root   # ĐỔI THÀNH BIẾN NÀY THÌ MỚI ĐÚNG CÚ PHÁP
+    depends_on:
+      - mysql              # Ép phpmyadmin đợi mysql bật xong thì mới lên
+    networks:
+      - vergger
+
+networks:
+  vergger:
