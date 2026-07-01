@@ -36,5 +36,7 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 RUN php artisan optimize:clear
 
 EXPOSE 10000
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo_pgsql pgsql
 
 CMD php artisan optimize:clear && php artisan serve --host=0.0.0.0 --port=10000
