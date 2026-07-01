@@ -127,16 +127,16 @@ $bannerCategory3 = $categories->get(2);
         </div>
         <div class="row ltn__category-slider-active slick-arrow-1">
             @foreach($categories as $category)
-            <div class="ltn__category-item-wrapper">
+            <div class="col-12">
                 <div class="ltn__category-item ltn__category-item-3 text-center">
                     <div class="ltn__category-item-img">
-                        <a href="{{ route('category', $category->id) }}">
-                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
+                        <a href="{{ route('product', $category->slug) }}">
+                            <img src="{{ asset('storage/'.$category->image) }}" alt="{{$category->name}}">
                         </a>
                     </div>
                     <div class="ltn__category-item-name">
-                        <h5><a href="{{ route('category', $category->id) }}">{{ $category->name }}</a></h5>
-                        <h6>{{ $category->products()->count() }} sản phẩm</h6>
+                        <h5><a href="{{ route('product', $category->slug) }}">{{$category->name}}</a></h5>
+                        <h6>{{ $category->products->count() }} sản phẩm</h6>
                     </div>
                 </div>
             </div>
