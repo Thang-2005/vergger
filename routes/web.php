@@ -21,7 +21,9 @@ use App\Http\Controllers\Client\PaymentController;
 
 
 
-
+Route::get('/', function () {
+    return 'OK';
+});
 // Language Switcher Route
 Route::get('/locale/{locale}', [LocaleController::class, 'change'])->name('locale.change');
 
