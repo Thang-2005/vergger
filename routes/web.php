@@ -21,8 +21,19 @@ use App\Http\Controllers\Client\PaymentController;
 
 
 
+// Test xem Laravel chạy bình thường không (không gọi DB)
 Route::get('/', function () {
-    return 'OK';
+    return 'Laravel đã chạy thành công trên Render!';
+});
+
+// Test xem kết nối được tới Neon DB chưa
+Route::get('/test-db', function () {
+    try {
+        \DB::connection()->getPdo();
+        return "Kết nối Database Neon thành công! Tên DB: " . \DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        return "Lỗi kết nối DB: " . $e->getMessage();
+    }
 });
 // Language Switcher Route
 Route::get('/locale/{locale}', [LocaleController::class, 'change'])->name('locale.change');
