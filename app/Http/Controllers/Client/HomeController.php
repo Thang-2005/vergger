@@ -12,41 +12,48 @@ class HomeController extends Controller
 {
     public function index()
 {
-    $categories = Category::with('products.firstImage')->get();
+    $categories = collect();
+    $bestSellingProduct = collect();
 
-    foreach ($categories as $category) {
-        foreach ($category->products as $product) {
+    try {
+        $categories = Category::with('products.firstImage')->get();
+
+        foreach ($categories as $category) {
+            foreach ($category->products as $product) {
+                $product->image_url =
+                    $product->firstImage && $product->firstImage->image
+                    ? asset('storage/uploads/product/'.$product->firstImage->image)
+                    : asset('storage/uploads/product/default_product.jpg');
+            }
+        }
+
+        $bestSellingProduct = Product::with('firstImage')
+            ->select(
+                'products.*',
+                DB::raw('SUM(order_items.quantity) as total_sold')
+            )
+            ->join('order_items', 'products.id', '=', 'order_items.product_id')
+            ->groupBy(
+                'products.id',
+                'products.name',
+                'products.price',
+                'products.description',
+                'products.category_id',
+                'products.stock',
+                'products.unit'
+            )
+            ->orderByDesc('total_sold')
+            ->limit(10)
+            ->get();
+
+        foreach ($bestSellingProduct as $product) {
             $product->image_url =
                 $product->firstImage && $product->firstImage->image
                 ? asset('storage/uploads/product/'.$product->firstImage->image)
                 : asset('storage/uploads/product/default_product.jpg');
         }
-    }
-
-    $bestSellingProduct = Product::with('firstImage')
-        ->select(
-            'products.*',
-            DB::raw('SUM(order_items.quantity) as total_sold')
-        )
-        ->join('order_items', 'products.id', '=', 'order_items.product_id')
-        ->groupBy(
-            'products.id',
-            'products.name',
-            'products.price',
-            'products.description',
-            'products.category_id',
-            'products.stock',
-            'products.unit'
-        )
-        ->orderByDesc('total_sold')
-        ->limit(10)
-        ->get();
-
-    foreach ($bestSellingProduct as $product) {
-        $product->image_url =
-            $product->firstImage && $product->firstImage->image
-            ? asset('storage/uploads/product/'.$product->firstImage->image)
-            : asset('storage/uploads/product/default_product.jpg');
+    } catch (\Throwable $exception) {
+        report($exception);
     }
 
     return view('clients.pages.home',
